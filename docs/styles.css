@@ -138,14 +138,14 @@ html.embed > body header, html.embed body > .wrap > header, html.embed footer{di
 .bk-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px 0 14px}
 .bk-tree{position:relative;display:flex;align-items:stretch;justify-content:safe center;width:max-content;margin:0 auto}
 .bk-half{display:flex}
-.bk-col{display:flex;flex-direction:column;min-width:100px;padding:0 8px}
-.bk-head{font-size:.7rem;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.04em;text-align:center;margin-bottom:6px}
+.bk-col{display:flex;flex-direction:column;min-width:90px;padding:0 5px}
+.bk-head{font-size:.66rem;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.03em;text-align:center;margin-bottom:6px}
 .bk-colinner{flex:1;display:flex;flex-direction:column;justify-content:space-around}
-.bk-m{position:relative;z-index:2;background:#fff;border:1px solid var(--line);border-radius:9px;padding:5px 8px;margin:5px 0;box-shadow:0 2px 6px rgba(2,6,23,.05);transition:box-shadow .12s,border-color .12s}
-.bk-t{font-size:.78rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:1px 2px;border-radius:4px}
+.bk-m{position:relative;z-index:2;background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 6px;margin:4px 0;box-shadow:0 2px 6px rgba(2,6,23,.05);transition:box-shadow .12s,border-color .12s}
+.bk-t{font-size:.73rem;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:1px 2px;border-radius:4px}
 .bk-t.win{color:#00355f;font-weight:700}
 .bk-t[data-team]{cursor:pointer}
-.bk-center{display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:160px;padding:0 6px;z-index:2}
+.bk-center{display:flex;flex-direction:column;justify-content:center;align-items:center;min-width:128px;padding:0 4px;z-index:2}
 .bk-champ-lab{font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--mut);margin-top:16px}
 .bk-champ{background:linear-gradient(135deg,#0073e6,#00355f);color:#fff;font-weight:800;border-radius:12px;padding:12px 16px;text-align:center;margin-top:6px;cursor:pointer;box-shadow:0 6px 18px rgba(0,53,95,.25)}
 svg.bk-lines{position:absolute;top:0;left:0;z-index:1;pointer-events:none;overflow:visible}
