@@ -62,7 +62,7 @@ python src/run_daily.py       # snapshot di oggi (100k simulazioni)
 
 ## Dati e licenza
 
-Solo dati sportivi pubblici. Nessun dato personale. Fonte risultati:
+Solo dati sportivi pubblici. Fonte risultati:
 martj42/international_results (licenza aperta). Struttura torneo: dati ufficiali FIFA.
 
 Simulazione a scopo informativo e divulgativo. Le probabilita non sono garanzie ne
