@@ -135,10 +135,10 @@ html.embed .wrap{padding-top:6px}
 html.embed > body header, html.embed body > .wrap > header, html.embed footer{display:none}
 
 /* tabellone ad albero simmetrico (stile bracket) */
-.bk-wrap{overflow-x:auto;padding:6px 0 14px}
-.bk-tree{position:relative;display:flex;align-items:stretch;justify-content:center;min-width:1060px}
+.bk-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:6px 0 14px}
+.bk-tree{position:relative;display:flex;align-items:stretch;justify-content:safe center;width:max-content;margin:0 auto}
 .bk-half{display:flex}
-.bk-col{display:flex;flex-direction:column;min-width:116px;padding:0 13px}
+.bk-col{display:flex;flex-direction:column;min-width:100px;padding:0 8px}
 .bk-head{font-size:.7rem;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.04em;text-align:center;margin-bottom:6px}
 .bk-colinner{flex:1;display:flex;flex-direction:column;justify-content:space-around}
 .bk-m{position:relative;z-index:2;background:#fff;border:1px solid var(--line);border-radius:9px;padding:5px 8px;margin:5px 0;box-shadow:0 2px 6px rgba(2,6,23,.05);transition:box-shadow .12s,border-color .12s}
@@ -154,3 +154,31 @@ svg.bk-lines{position:absolute;top:0;left:0;z-index:1;pointer-events:none;overfl
 .bk-m.bk-hl{border-color:#0073e6;box-shadow:0 0 0 2px rgba(0,115,230,.22)}
 .bk-m.bk-hl .bk-t.win{color:#0073e6}
 .bk-champ.bk-hl{filter:brightness(1.07)}
+
+/* ---- mobile / smartphone ---- */
+@media(max-width:640px){
+  .wrap{padding:14px 11px 50px}
+  header h1{font-size:1.25rem}
+  .sub{font-size:.84rem}
+  h2{font-size:1rem;margin:20px 0 8px}
+  .tab{padding:8px 9px;font-size:.84rem}
+  .contenders{padding:11px}
+  .bar-lab{flex:0 0 108px;font-size:.78rem}
+  .bar-val{flex:0 0 46px;font-size:.78rem}
+  .groups{grid-template-columns:1fr 1fr;gap:8px}
+  .gcard{font-size:.95em}
+  .matches{grid-template-columns:1fr;gap:8px}
+  .ktable,.bt-tbl{font-size:.78rem}
+  .ktable td,.ktable th{padding:6px 5px}
+  .method{padding:15px 14px}
+  .method p{font-size:.88rem}
+  .retro{grid-template-columns:1fr}
+  .bk-col{min-width:92px;padding:0 6px}
+  .bk-t{font-size:.74rem}
+  .bk-center{min-width:130px}
+  /* suggerimento scroll orizzontale tabelle/tabellone */
+  .ktable-wrap,.bk-wrap,.bt-wrap{position:relative}
+}
+@media(max-width:380px){
+  .groups{grid-template-columns:1fr}
+}

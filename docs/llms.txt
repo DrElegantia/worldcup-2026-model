@@ -1,0 +1,12 @@
+# Mondiale 2026 - simulazione probabilistica
+
+> Modello statistico open source che stima ogni giorno le probabilita di vittoria e qualificazione di ogni nazionale al Mondiale FIFA 2026, con 100.000 simulazioni Monte Carlo.
+
+Metodo: rating Elo (storia completa partite internazionali) -> modello Poisson bivariato con correzione Dixon-Coles per i gol attesi -> simulazione Monte Carlo dell'intero torneo (48 squadre, gironi + tabellone ufficiale FIFA dai sedicesimi alla finale). Aggiunge penalita di altitudine (sedi messicane) e forza-rosa dai rating EA FIFA. Validato point-in-time sui Mondiali 2002-2022.
+
+Pagina principale (italiano): https://www.umbertobertonelli.it/mondiali-2026/
+Dashboard interattiva: https://drelegantia.github.io/worldcup-2026-model/
+Dati (JSON, aggiornati ogni giorno): https://drelegantia.github.io/worldcup-2026-model/data/latest.json
+Codice e dataset aperti: https://github.com/DrElegantia/worldcup-2026-model
+
+Autore: Umberto Bertonelli (Data & Risk Analyst). Solo fonti dati aperte. A scopo informativo, non e un consiglio di scommessa.
