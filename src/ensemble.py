@@ -46,9 +46,11 @@ def _feat_vector(snap, h, a, neutral):
     ]]
 
 
-def ensemble_match_probs(h, a, neutral, params, clf, snap, w=ENSEMBLE_W):
+def ensemble_match_probs(h, a, neutral, params, clf, snap, w=ENSEMBLE_W,
+                         alt_pen_h=0.0, alt_pen_a=0.0):
     """Probabilita 1X2 ensemble + lambda Poisson (per il risultato modale)."""
-    (p1, px, p2), (lh, la), mat = match_probs(snap[h]["elo"], snap[a]["elo"], neutral, params)
+    (p1, px, p2), (lh, la), mat = match_probs(snap[h]["elo"], snap[a]["elo"], neutral,
+                                              params, alt_pen_h=alt_pen_h, alt_pen_a=alt_pen_a)
     if clf is not None and h in snap and a in snap:
         try:
             px_xgb = clf.predict_proba(np.array(_feat_vector(snap, h, a, neutral)))[0]

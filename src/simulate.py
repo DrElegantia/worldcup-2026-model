@@ -41,11 +41,27 @@ def simulate(elo: dict, params: dict, wc: dict, n: int = 100_000, seed: int = 0)
     # indice locale 0..3 dentro il girone
     local_idx = {t: groups[group_of[t]].index(t) for t in teams}
 
-    def lam(i, j, home_i=False, home_j=False):
+    k_alt = params.get("k_alt", 0.0)
+
+    # penalita altitudine per ogni fixture dei gironi 2026 (sede nota)
+    alt_by_fix = {}
+    try:
+        import geo
+        import pandas as _pd
+        gfx = [f for f in wc["fixtures"] if f["stage"] == "group"]
+        dfx = _pd.DataFrame([{"home_team": f["home"], "away_team": f["away"],
+                              "city": f["city"], "country": f["country"]} for f in gfx])
+        dfx, _ = geo.add_elevation(dfx)
+        for f, (_, r) in zip(gfx, dfx.iterrows()):
+            alt_by_fix[(f["home"], f["away"])] = (r["alt_pen_home"], r["alt_pen_away"])
+    except Exception:
+        pass
+
+    def lam(i, j, home_i=False, home_j=False, ap_i=0.0, ap_j=0.0):
         adv = (ELO_HOME_ADV if home_i else 0) - (ELO_HOME_ADV if home_j else 0)
         d = (elo_arr[i] + adv - elo_arr[j]) / 400.0
-        li = np.exp(c0 + c1 * d + (hg if home_i else 0))
-        lj = np.exp(c0 - c1 * d + (hg if home_j else 0))
+        li = np.exp(c0 + c1 * d + (hg if home_i else 0) - k_alt * ap_i / 1000.0)
+        lj = np.exp(c0 - c1 * d + (hg if home_j else 0) - k_alt * ap_j / 1000.0)
         return float(np.clip(li, 1e-3, 12)), float(np.clip(lj, 1e-3, 12))
 
     # standings per girone: pts/gd/gf shape (N,4)
@@ -65,7 +81,8 @@ def simulate(elo: dict, params: dict, wc: dict, n: int = 100_000, seed: int = 0)
         else:
             home_h = f["home"] in HOSTS and f["country"] == f["home"]
             home_a = f["away"] in HOSTS and f["country"] == f["away"]
-            lhl, lal = lam(hi, ai, home_h, home_a)
+            ap_h, ap_a = alt_by_fix.get((f["home"], f["away"]), (0.0, 0.0))
+            lhl, lal = lam(hi, ai, home_h, home_a, ap_h, ap_a)
             hsc = rng.poisson(lhl, n)
             asc = rng.poisson(lal, n)
         # punti

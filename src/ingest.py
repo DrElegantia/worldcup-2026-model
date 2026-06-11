@@ -50,6 +50,14 @@ def build_matches():
     cols = ["date", "home_team", "away_team", "home_score", "away_score",
             "tournament", "city", "country", "neutral", "weight", "is_wc"]
     out = played[cols]
+    # elevazione/altitudine sede + penalita acclimatamento (GeoNames, statico)
+    try:
+        import geo
+        out, _ = geo.add_elevation(out)
+    except Exception as e:
+        print(f"[ingest][WARN] altitudine non disponibile: {e}", file=sys.stderr)
+        for c in ["venue_alt", "alt_pen_home", "alt_pen_away", "d_alt_pen"]:
+            out[c] = 0.0
     out.to_parquet(DATA_PROC / "matches.parquet", index=False)
     print(f"[ingest] matches giocati: {len(out)}  "
           f"({out.date.min().date()} -> {out.date.max().date()})", file=sys.stderr)

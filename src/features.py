@@ -102,6 +102,7 @@ def build_match_features(mm: pd.DataFrame) -> pd.DataFrame:
 
 FEATURE_COLS = ["d_elo", "d_ppg", "d_gf", "d_ga", "d_rest", "d_m90", "d_mom",
                 "home_flag", "is_wc", "gf_h", "ga_h", "gf_a", "ga_a"]
+FEATURE_COLS_ALT = FEATURE_COLS + ["d_alt_pen", "venue_alt"]
 
 
 def team_snapshots(mm: pd.DataFrame, asof, elo_as_of: dict) -> dict:

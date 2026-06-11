@@ -47,33 +47,40 @@ def _weights(matches, cutoff, half_life_days=900.0):
 
 
 def fit(matches, cutoff, half_life_days=900.0):
-    """Stima MLE dei parametri (c0, c1, h_goal, rho) su dati < cutoff."""
+    """Stima MLE di (c0, c1, h_goal, rho) e, se disponibili le colonne di
+    altitudine, del coefficiente di penalita altitudine k_alt."""
     d, home_flag, h, a = _prep(matches)
     w = _weights(matches, cutoff, half_life_days)
+    has_alt = "alt_pen_home" in matches.columns and "alt_pen_away" in matches.columns
+    if has_alt:
+        aph = matches["alt_pen_home"].values / 1000.0
+        apa = matches["alt_pen_away"].values / 1000.0
+    else:
+        aph = apa = np.zeros(len(matches))
 
     def nll(params):
-        c0, c1, hg, rho = params
+        c0, c1, hg, rho, k = params
         rho = np.clip(rho, -0.2, 0.2)
-        lh = np.exp(c0 + c1 * d + hg * home_flag)
-        la = np.exp(c0 - c1 * d)
-        lh = np.clip(lh, 1e-3, 12)
-        la = np.clip(la, 1e-3, 12)
+        lh = np.clip(np.exp(c0 + c1 * d + hg * home_flag - k * aph), 1e-3, 12)
+        la = np.clip(np.exp(c0 - c1 * d - k * apa), 1e-3, 12)
         ll = (poisson_dist.logpmf(h, lh) + poisson_dist.logpmf(a, la)
               + np.log(_tau(h, a, lh, la, rho)))
         return -np.sum(w * ll)
 
-    res = minimize(nll, x0=[0.1, 1.0, 0.15, -0.05], method="Nelder-Mead",
-                   options={"maxiter": 4000, "xatol": 1e-5, "fatol": 1e-5})
-    c0, c1, hg, rho = res.x
+    res = minimize(nll, x0=[0.1, 1.0, 0.15, -0.05, 0.1], method="Nelder-Mead",
+                   options={"maxiter": 6000, "xatol": 1e-5, "fatol": 1e-5})
+    c0, c1, hg, rho, k = res.x
     return {"c0": float(c0), "c1": float(c1), "h_goal": float(hg),
-            "rho": float(np.clip(rho, -0.2, 0.2))}
+            "rho": float(np.clip(rho, -0.2, 0.2)),
+            "k_alt": float(k) if has_alt else 0.0}
 
 
-def lambdas(elo_home, elo_away, neutral, params):
+def lambdas(elo_home, elo_away, neutral, params, alt_pen_h=0.0, alt_pen_a=0.0):
     d = (elo_home + (0.0 if neutral else ELO_HOME_ADV) - elo_away) / 400.0
     home_flag = 0.0 if neutral else 1.0
-    lh = np.exp(params["c0"] + params["c1"] * d + params["h_goal"] * home_flag)
-    la = np.exp(params["c0"] - params["c1"] * d)
+    k = params.get("k_alt", 0.0)
+    lh = np.exp(params["c0"] + params["c1"] * d + params["h_goal"] * home_flag - k * alt_pen_h / 1000.0)
+    la = np.exp(params["c0"] - params["c1"] * d - k * alt_pen_a / 1000.0)
     return float(np.clip(lh, 1e-3, 12)), float(np.clip(la, 1e-3, 12))
 
 
@@ -97,7 +104,8 @@ def outcome_probs(mat):
     return float(p_home), float(p_draw), float(p_away)
 
 
-def match_probs(elo_home, elo_away, neutral, params, max_goals=10):
-    lh, la = lambdas(elo_home, elo_away, neutral, params)
+def match_probs(elo_home, elo_away, neutral, params, max_goals=10,
+                alt_pen_h=0.0, alt_pen_a=0.0):
+    lh, la = lambdas(elo_home, elo_away, neutral, params, alt_pen_h, alt_pen_a)
     mat = score_matrix(lh, la, params["rho"], max_goals)
     return outcome_probs(mat), (lh, la), mat

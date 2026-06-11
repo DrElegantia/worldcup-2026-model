@@ -77,8 +77,9 @@ def run():
     train_mask = df["year"].isin([2002, 2006, 2010, 2014]).values
     test_mask = df["year"].isin([2018, 2022]).values
 
-    # scegli il peso sul train (2002-2014)
-    weights = np.linspace(0, 1, 21)
+    # scegli il peso sul train (2002-2014). Cap conservativo a 0.40: l'Elo e' forte
+    # e il campione WC e' piccolo, evitiamo che il GB domini per overfit.
+    weights = np.linspace(0, 0.40, 9)  # cap conservativo
     best_w, best_ll = 0.0, 1e9
     for w in weights:
         b = blend(po[train_mask], xg[train_mask], w)

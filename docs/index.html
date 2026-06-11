@@ -108,6 +108,9 @@
         <div id="phase2Table" class="bt-wrap"><p class="muted small">Caricamento...</p></div>
         <p class="muted small">Disciplina seguita: ogni feature viene aggiunta solo se migliora log loss e RPS sul backtest. Cio che non migliora viene scartato.</p>
 
+        <h3>6b. Altitudine e acclimatamento (sedi 2026)</h3>
+        <p>Abbiamo collegato l'elevazione di ogni sede e di ogni nazionale (fonte aperta GeoNames) e aggiunto al modello dei gol una <strong>penalita di altitudine</strong>: chi gioca lontano e in quota piu alta rispetto a casa segna meno. Stimata per massima verosimiglianza su <strong>2.256 partite storiche d'altura</strong> (qualificazioni a La Paz, Quito, Citta del Messico, Bogota). Validazione sulle sole partite ad alta quota (>1500 m): <strong>log loss 0,968 → 0,952</strong> e RPS 0,191 → 0,186. Effetto nullo dove non serve (le partite sul livello del mare non sono toccate), reale dove conta: per il 2026 il Messico all'Azteca (2.240 m) e le sedi di Guadalajara e Denver ottengono un vantaggio quota concreto nella simulazione.</p>
+
         <h3>7. Limiti e prossimi passi</h3>
         <p>Predire il vincitore di un Mondiale e intrinsecamente incerto: la varianza dello sport e alta e le partite sono poche. Il valore del sistema sta nel fornire probabilita <strong>ben calibrate e tracciabili</strong>, non nell'indovinare il campione. Le feature piu promettenti ancora da integrare (qualita dei singoli via valore di mercato e xG, sinergia della rosa, clima e altitudine delle sedi 2026) richiedono fonti dati esterne non ancora collegate in modo point-in-time: verranno aggiunte solo quando reperibili senza inventare nulla, e solo se migliorano il backtest.</p>
 
