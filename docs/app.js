@@ -327,7 +327,7 @@
   function renderRetro(){
     var box=document.getElementById("retroBox"); if(!box) return; box.innerHTML="";
     if(!state.retro){ box.appendChild(el("p","muted","Verifica storica non disponibile.")); return; }
-    box.appendChild(el("p","muted","Per ogni Mondiale passato, le probabilita che il modello assegnava PRIMA del torneo (solo dati anteriori), confrontate con l'esito reale. Verifica leale: il favorito del modello non sempre vince, ma il campione reale era quasi sempre fra i primissimi."));
+    box.appendChild(el("p","muted","Per ogni Mondiale passato, le probabilita che lo <strong>stesso consenso di 3 modelli</strong> usato per il 2026 avrebbe assegnato PRIMA del torneo (solo dati anteriori a ogni Mondiale, i tre modelli rifittati point-in-time), confrontate con l'esito reale. Verifica leale: il favorito non sempre vince, ma il campione reale era quasi sempre fra i primissimi."));
     state.retro.tournaments.forEach(function(tn){
       var card=el("div","retro-card");
       var a=tn.actual;
