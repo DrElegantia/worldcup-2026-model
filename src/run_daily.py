@@ -23,7 +23,7 @@ from simulate import simulate
 import ingest
 import metrics as M
 
-MODEL_VERSION = "2.0.0-consensus"   # consenso Elo-Poisson + XGBoost + Attacco-Difesa
+MODEL_VERSION = "2.1.0-consensus5"   # consenso 5 modelli (Massey, Logistica, Elo, Forma, Att-Dif)
 
 
 def today_str():
