@@ -35,7 +35,7 @@
   function pct(x){ return (100*x).toFixed(1).replace(".",",")+"%"; }
   function pctShort(x){ return Math.round(100*x)+"%"; }
   function el(tag, cls, html){ var e=document.createElement(tag); if(cls)e.className=cls; if(html!=null)e.innerHTML=html; return e; }
-  function heat(x){ var a=Math.min(1,x*1.15); return "rgba("+Math.round(20+200*(1-a))+","+Math.round(90+120*a)+",80,"+(0.12+0.78*a)+")"; }
+  function heat(x){ var a=Math.min(1,x*1.1); return "rgba(0,115,230,"+(0.05+0.5*a).toFixed(3)+")"; }
   function getJSON(u){ return fetch(u,{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error(u+" "+r.status); return r.json(); }); }
 
   var state = { index:null, snap:null, history:null, retro:null };
@@ -275,10 +275,10 @@
     function Y(v){ return H-pad.b-v/maxV*(H-pad.t-pad.b); }
     var svg='<svg viewBox="0 0 '+W+' '+H+'" width="100%" preserveAspectRatio="xMidYMid meet">';
     for(var gy=0;gy<=4;gy++){ var v=maxV*gy/4,y=Y(v);
-      svg+='<line x1="'+pad.l+'" y1="'+y+'" x2="'+(W-pad.r)+'" y2="'+y+'" stroke="#26303a"/>';
-      svg+='<text x="'+(pad.l-6)+'" y="'+(y+4)+'" fill="#7d8b99" font-size="11" text-anchor="end">'+Math.round(100*v)+'%</text>'; }
+      svg+='<line x1="'+pad.l+'" y1="'+y+'" x2="'+(W-pad.r)+'" y2="'+y+'" stroke="#e2e8f0"/>';
+      svg+='<text x="'+(pad.l-6)+'" y="'+(y+4)+'" fill="#64748b" font-size="11" text-anchor="end">'+Math.round(100*v)+'%</text>'; }
     var step=Math.max(1,Math.ceil(n/6));
-    for(var i=0;i<n;i+=step){ var x=X(i); svg+='<text x="'+x+'" y="'+(H-pad.b+16)+'" fill="#7d8b99" font-size="10" text-anchor="middle">'+dates[i].slice(5)+'</text>'; }
+    for(var i=0;i<n;i+=step){ var x=X(i); svg+='<text x="'+x+'" y="'+(H-pad.b+16)+'" fill="#64748b" font-size="10" text-anchor="middle">'+dates[i].slice(5)+'</text>'; }
     teams.forEach(function(t,k){
       var col=PALETTE[k%PALETTE.length],d="";
       t[metric].forEach(function(v,i){ d+=(i?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1)+" "; });
