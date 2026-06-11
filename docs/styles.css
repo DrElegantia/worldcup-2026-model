@@ -128,3 +128,8 @@ footer{margin-top:30px;border-top:1px solid var(--line);padding-top:12px}
   header h1{font-size:1.3rem}
   .groups{grid-template-columns:1fr 1fr}
 }
+
+/* modalita embed: il sito fornisce gia titolo e chrome */
+html.embed body{background:transparent;background-image:none}
+html.embed .wrap{padding-top:6px}
+html.embed > body header, html.embed body > .wrap > header, html.embed footer{display:none}
