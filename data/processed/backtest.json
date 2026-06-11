@@ -116,6 +116,74 @@
       "accuracy": 0.5677
     }
   ],
+  "extra": {
+    "reliability": [
+      {
+        "bin": "34-45%",
+        "n": 129,
+        "avg_conf": 0.399,
+        "obs_acc": 0.45
+      },
+      {
+        "bin": "45-55%",
+        "n": 111,
+        "avg_conf": 0.495,
+        "obs_acc": 0.541
+      },
+      {
+        "bin": "55-65%",
+        "n": 87,
+        "avg_conf": 0.597,
+        "obs_acc": 0.701
+      },
+      {
+        "bin": "65-75%",
+        "n": 37,
+        "avg_conf": 0.688,
+        "obs_acc": 0.73
+      },
+      {
+        "bin": "75-100%",
+        "n": 20,
+        "avg_conf": 0.795,
+        "obs_acc": 0.6
+      }
+    ],
+    "by_favorite": [
+      {
+        "band": "equilibrata",
+        "n": 128,
+        "accuracy": 0.461,
+        "logloss": 1.063
+      },
+      {
+        "band": "lieve favorita",
+        "n": 104,
+        "accuracy": 0.529,
+        "logloss": 1.028
+      },
+      {
+        "band": "netta favorita",
+        "n": 126,
+        "accuracy": 0.69,
+        "logloss": 0.833
+      },
+      {
+        "band": "nettissima",
+        "n": 26,
+        "accuracy": 0.654,
+        "logloss": 1.033
+      }
+    ],
+    "draws": {
+      "share_real": 0.229,
+      "recall_argmax": 0.0,
+      "avg_p_draw_on_draws": 0.263,
+      "avg_p_draw_on_nondraws": 0.254
+    },
+    "sharpness_avg_conf": 0.52,
+    "logloss_skill_vs_uniform": 0.112
+  },
   "static_params": {
     "c0": 0.20104073667880362,
     "c1": 0.8826804345000958,

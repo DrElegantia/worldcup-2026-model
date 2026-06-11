@@ -47,10 +47,15 @@ GROUPS_2026 = {
 
 TEAM_TO_GROUP = {t: g for g, ts in GROUPS_2026.items() for t in ts}
 
-# Parametri Elo (World Football Elo style)
+# Parametri Elo (World Football Elo style).
+# Nota: tune.py ha esplorato home_adv/k_scale/half_life; la selezione corretta
+# (out-of-sample su train) NON trova un miglioramento robusto sul backtest pooled,
+# quindi si mantengono i default. Vedi data/processed/tune.csv.
 ELO_BASE = 1500.0
 ELO_K_BASE = 40.0            # K base, modulato da importanza torneo e scarto gol
+ELO_K_SCALE = 1.0           # scala K
 ELO_HOME_ADV = 65.0          # vantaggio campo in punti Elo (annullato su campo neutro)
+POISSON_HALF_LIFE = 900.0    # half-life decadimento temporale fit Poisson (giorni)
 ELO_INIT_BY_CONF = {}        # opzionale: init per confederazione
 
 # Peso importanza match per K (proxy World Football Elo)

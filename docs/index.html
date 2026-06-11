@@ -103,6 +103,11 @@
         <p class="muted small">Segno corretto (1, X o 2) sulle partite dei 6 Mondiali, diviso per fase. I quarti sono la fase piu difficile: squadre vicine, tanti episodi.</p>
         <div id="stageAccuracy" class="bt-wrap"><p class="muted small">Caricamento...</p></div>
 
+        <h3>5b. Dove il modello e affidabile (sfumature)</h3>
+        <p class="muted small">Accuratezza e log loss per quanto e netto il favorito (differenza di rating Elo). Il modello e molto affidabile quando c'e un favorito chiaro, vicino al testa-o-croce sulle gare equilibrate, dove nessuno puo fare meglio.</p>
+        <div id="favoriteTable" class="bt-wrap"></div>
+        <p id="drawNote" class="muted small"></p>
+
         <h3>6. Fase 2: ensemble con gradient boosting</h3>
         <p>Oltre all'Elo abbiamo aggiunto feature ingegnerizzate leakage-free (forma recente, attacco/difesa recenti, giorni di riposo, carico partite, momentum Elo) e un modello <strong>XGBoost</strong>, messo in <strong>ensemble</strong> con l'Elo-Poisson. Il peso dell'ensemble e stato scelto <strong>fuori campione</strong> (addestrato sui Mondiali 2002-2014, valutato su 2018-2022) e tenuto solo perche batte il baseline. Guadagno reale ma piccolo: l'Elo e gia molto forte.</p>
         <div id="phase2Table" class="bt-wrap"><p class="muted small">Caricamento...</p></div>

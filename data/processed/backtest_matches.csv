@@ -1,385 +1,385 @@
-year,home,away,p_home,p_draw,p_away,outcome,pred,stage
-2002,France,Senegal,0.772,0.159,0.069,2,0,Gironi
-2002,Republic of Ireland,Cameroon,0.384,0.292,0.325,1,0,Gironi
-2002,Uruguay,Denmark,0.294,0.288,0.418,2,2,Gironi
-2002,Germany,Saudi Arabia,0.45,0.284,0.267,0,0,Gironi
-2002,Argentina,Nigeria,0.599,0.242,0.159,0,0,Gironi
-2002,England,Sweden,0.431,0.287,0.282,1,0,Gironi
-2002,Paraguay,South Africa,0.404,0.29,0.306,1,0,Gironi
-2002,Spain,Slovenia,0.637,0.227,0.137,0,0,Gironi
-2002,Brazil,Turkey,0.546,0.26,0.194,0,0,Gironi
-2002,Croatia,Mexico,0.359,0.292,0.349,2,0,Gironi
-2002,Italy,Ecuador,0.674,0.21,0.116,0,0,Gironi
-2002,China,Costa Rica,0.326,0.292,0.383,2,2,Gironi
-2002,Japan,Belgium,0.381,0.292,0.327,1,0,Gironi
-2002,South Korea,Poland,0.453,0.283,0.264,0,0,Gironi
-2002,United States,Portugal,0.21,0.267,0.523,0,2,Gironi
-2002,Germany,Republic of Ireland,0.416,0.289,0.295,1,0,Gironi
-2002,Russia,Tunisia,0.446,0.284,0.269,0,0,Gironi
-2002,Cameroon,Saudi Arabia,0.517,0.269,0.214,0,0,Gironi
-2002,Denmark,Senegal,0.444,0.285,0.272,1,0,Gironi
-2002,France,Uruguay,0.687,0.204,0.109,1,0,Gironi
-2002,Argentina,England,0.5,0.273,0.227,2,0,Gironi
-2002,Spain,Paraguay,0.666,0.214,0.121,0,0,Gironi
-2002,Sweden,Nigeria,0.426,0.287,0.286,0,0,Gironi
-2002,Brazil,China,0.582,0.248,0.17,0,0,Gironi
-2002,Italy,Croatia,0.589,0.245,0.166,2,0,Gironi
-2002,South Africa,Slovenia,0.34,0.292,0.368,0,2,Gironi
-2002,Mexico,Ecuador,0.57,0.252,0.178,0,0,Gironi
-2002,Costa Rica,Turkey,0.515,0.269,0.216,1,0,Gironi
-2002,Japan,Russia,0.402,0.29,0.308,0,0,Gironi
-2002,Portugal,Poland,0.659,0.217,0.124,0,0,Gironi
-2002,Tunisia,Belgium,0.165,0.245,0.59,1,2,Gironi
-2002,South Korea,United States,0.292,0.288,0.42,1,2,Gironi
-2002,Cameroon,Germany,0.302,0.289,0.409,2,2,Gironi
-2002,Denmark,France,0.202,0.264,0.534,0,2,Gironi
-2002,Saudi Arabia,Republic of Ireland,0.173,0.25,0.577,2,2,Gironi
-2002,Senegal,Uruguay,0.38,0.292,0.328,1,0,Gironi
-2002,Nigeria,England,0.169,0.248,0.583,1,2,Gironi
-2002,Slovenia,Paraguay,0.313,0.291,0.396,2,2,Gironi
-2002,South Africa,Spain,0.107,0.202,0.691,2,2,Gironi
-2002,Sweden,Argentina,0.244,0.278,0.477,1,2,Gironi
-2002,Costa Rica,Brazil,0.234,0.275,0.491,2,2,Gironi
-2002,Ecuador,Croatia,0.174,0.25,0.576,0,2,Gironi
-2002,Mexico,Italy,0.288,0.288,0.425,1,2,Gironi
-2002,Turkey,China,0.393,0.291,0.316,0,0,Gironi
-2002,Poland,United States,0.137,0.227,0.636,0,2,Gironi
-2002,South Korea,Portugal,0.215,0.269,0.516,0,2,Gironi
-2002,Belgium,Russia,0.404,0.29,0.306,0,0,Gironi
-2002,Japan,Tunisia,0.609,0.238,0.153,0,0,Gironi
-2002,Denmark,England,0.373,0.292,0.335,2,0,Ottavi
-2002,Germany,Paraguay,0.634,0.228,0.138,0,0,Ottavi
-2002,Spain,Republic of Ireland,0.464,0.281,0.255,1,0,Ottavi
-2002,Sweden,Senegal,0.439,0.286,0.276,2,0,Ottavi
-2002,Brazil,Belgium,0.512,0.27,0.218,0,0,Ottavi
-2002,Mexico,United States,0.496,0.274,0.23,2,0,Ottavi
-2002,Japan,Turkey,0.497,0.274,0.229,2,0,Ottavi
-2002,South Korea,Italy,0.238,0.277,0.485,0,2,Ottavi
-2002,England,Brazil,0.329,0.292,0.379,2,2,Quarti
-2002,Germany,United States,0.496,0.274,0.23,0,0,Quarti
-2002,South Korea,Spain,0.245,0.278,0.477,1,2,Quarti
-2002,Senegal,Turkey,0.397,0.291,0.312,2,0,Quarti
-2002,South Korea,Germany,0.237,0.276,0.487,2,2,Semifinali
-2002,Brazil,Turkey,0.589,0.245,0.165,0,0,Semifinali
-2002,South Korea,Turkey,0.376,0.292,0.332,2,0,Finale
-2002,Germany,Brazil,0.31,0.29,0.399,2,2,Finale
-2006,Germany,Costa Rica,0.582,0.248,0.171,0,0,Gironi
-2006,Poland,Ecuador,0.468,0.28,0.253,2,0,Gironi
-2006,Argentina,Ivory Coast,0.482,0.277,0.241,0,0,Gironi
-2006,England,Paraguay,0.597,0.242,0.161,0,0,Gironi
-2006,Trinidad and Tobago,Sweden,0.146,0.232,0.622,1,2,Gironi
-2006,Serbia,Netherlands,0.16,0.241,0.599,2,2,Gironi
-2006,Angola,Portugal,0.11,0.204,0.686,2,2,Gironi
-2006,Mexico,Iran,0.346,0.291,0.362,0,2,Gironi
-2006,Australia,Japan,0.437,0.285,0.278,0,0,Gironi
-2006,Italy,Ghana,0.649,0.221,0.13,0,0,Gironi
-2006,United States,Czech Republic,0.271,0.284,0.446,2,2,Gironi
-2006,Brazil,Croatia,0.601,0.24,0.159,0,0,Gironi
-2006,France,Switzerland,0.577,0.249,0.174,1,0,Gironi
-2006,South Korea,Togo,0.595,0.243,0.162,0,0,Gironi
-2006,Germany,Poland,0.577,0.249,0.174,0,0,Gironi
-2006,Spain,Ukraine,0.575,0.25,0.175,0,0,Gironi
-2006,Tunisia,Saudi Arabia,0.509,0.27,0.221,1,0,Gironi
-2006,England,Trinidad and Tobago,0.75,0.171,0.079,0,0,Gironi
-2006,Sweden,Paraguay,0.455,0.282,0.263,0,0,Gironi
-2006,Ecuador,Costa Rica,0.433,0.286,0.282,0,0,Gironi
-2006,Argentina,Serbia,0.566,0.253,0.181,0,0,Gironi
-2006,Mexico,Angola,0.702,0.196,0.102,1,0,Gironi
-2006,Netherlands,Ivory Coast,0.611,0.237,0.152,0,0,Gironi
-2006,Czech Republic,Ghana,0.75,0.171,0.079,2,0,Gironi
-2006,Italy,United States,0.492,0.274,0.233,1,0,Gironi
-2006,Portugal,Iran,0.473,0.279,0.249,0,0,Gironi
-2006,Japan,Croatia,0.325,0.291,0.384,1,2,Gironi
-2006,Brazil,Australia,0.49,0.275,0.235,0,0,Gironi
-2006,France,South Korea,0.547,0.259,0.194,1,0,Gironi
-2006,Spain,Tunisia,0.637,0.226,0.137,0,0,Gironi
-2006,Togo,Switzerland,0.136,0.225,0.64,2,2,Gironi
-2006,Saudi Arabia,Ukraine,0.254,0.28,0.466,2,2,Gironi
-2006,Costa Rica,Poland,0.273,0.284,0.443,2,2,Gironi
-2006,Germany,Ecuador,0.506,0.271,0.223,0,0,Gironi
-2006,Paraguay,Trinidad and Tobago,0.462,0.281,0.257,0,0,Gironi
-2006,Sweden,England,0.214,0.268,0.518,1,2,Gironi
-2006,Iran,Angola,0.528,0.265,0.207,1,0,Gironi
-2006,Ivory Coast,Serbia,0.406,0.289,0.305,0,0,Gironi
-2006,Netherlands,Argentina,0.397,0.29,0.313,1,0,Gironi
-2006,Portugal,Mexico,0.431,0.286,0.283,0,0,Gironi
-2006,Croatia,Australia,0.258,0.281,0.462,1,2,Gironi
-2006,Czech Republic,Italy,0.33,0.291,0.38,2,2,Gironi
-2006,Ghana,United States,0.252,0.279,0.469,0,2,Gironi
-2006,Japan,Brazil,0.1,0.195,0.705,2,2,Gironi
-2006,Ukraine,Tunisia,0.415,0.288,0.297,0,0,Gironi
-2006,Togo,France,0.053,0.136,0.811,2,2,Gironi
-2006,Saudi Arabia,Spain,0.05,0.131,0.819,2,2,Gironi
-2006,Switzerland,South Korea,0.369,0.291,0.34,0,0,Gironi
-2006,Argentina,Mexico,0.49,0.275,0.235,0,0,Ottavi
-2006,Germany,Sweden,0.474,0.278,0.247,0,0,Ottavi
-2006,England,Ecuador,0.593,0.244,0.164,0,0,Ottavi
-2006,Portugal,Netherlands,0.325,0.291,0.384,0,2,Ottavi
-2006,Italy,Australia,0.465,0.28,0.255,0,0,Ottavi
-2006,Switzerland,Ukraine,0.416,0.288,0.296,1,0,Ottavi
-2006,Brazil,Ghana,0.725,0.184,0.09,0,0,Ottavi
-2006,Spain,France,0.431,0.286,0.283,2,0,Ottavi
-2006,Italy,Ukraine,0.586,0.246,0.168,0,0,Quarti
-2006,Germany,Argentina,0.344,0.291,0.364,1,2,Quarti
-2006,Brazil,France,0.485,0.276,0.239,2,0,Quarti
-2006,England,Portugal,0.328,0.291,0.381,1,2,Quarti
-2006,Germany,Italy,0.305,0.289,0.406,2,2,Semifinali
-2006,Portugal,France,0.325,0.291,0.384,2,2,Semifinali
-2006,Germany,Portugal,0.299,0.288,0.412,0,2,Finale
-2006,Italy,France,0.367,0.291,0.341,1,0,Finale
-2010,South Africa,Mexico,0.136,0.221,0.643,1,2,Gironi
-2010,Uruguay,France,0.334,0.288,0.379,1,2,Gironi
-2010,England,United States,0.561,0.252,0.187,1,0,Gironi
-2010,South Korea,Greece,0.467,0.277,0.256,0,0,Gironi
-2010,Argentina,Nigeria,0.479,0.274,0.247,0,0,Gironi
-2010,Serbia,Ghana,0.475,0.275,0.25,2,0,Gironi
-2010,Algeria,Slovenia,0.281,0.282,0.437,2,2,Gironi
-2010,Germany,Australia,0.492,0.271,0.237,0,0,Gironi
-2010,Japan,Cameroon,0.355,0.288,0.357,0,2,Gironi
-2010,Netherlands,Denmark,0.672,0.208,0.12,0,0,Gironi
-2010,Italy,Paraguay,0.547,0.257,0.197,1,0,Gironi
-2010,Brazil,North Korea,0.874,0.095,0.031,0,0,Gironi
-2010,Ivory Coast,Portugal,0.278,0.281,0.44,1,2,Gironi
-2010,New Zealand,Slovakia,0.337,0.288,0.375,1,2,Gironi
-2010,Spain,Switzerland,0.754,0.167,0.079,2,0,Gironi
-2010,Honduras,Chile,0.221,0.266,0.513,2,2,Gironi
-2010,South Africa,Uruguay,0.199,0.258,0.543,2,2,Gironi
-2010,Argentina,South Korea,0.425,0.284,0.292,0,0,Gironi
-2010,France,Mexico,0.313,0.286,0.401,2,2,Gironi
-2010,Greece,Nigeria,0.278,0.281,0.441,0,2,Gironi
-2010,Germany,Serbia,0.585,0.244,0.171,2,0,Gironi
-2010,England,Algeria,0.8,0.141,0.059,1,0,Gironi
-2010,Slovenia,United States,0.226,0.268,0.507,1,2,Gironi
-2010,Cameroon,Denmark,0.329,0.287,0.383,2,2,Gironi
-2010,Ghana,Australia,0.327,0.287,0.386,1,2,Gironi
-2010,Netherlands,Japan,0.668,0.21,0.122,0,0,Gironi
-2010,Brazil,Ivory Coast,0.692,0.199,0.109,0,0,Gironi
-2010,Italy,New Zealand,0.663,0.213,0.125,1,0,Gironi
-2010,Slovakia,Paraguay,0.242,0.273,0.485,2,2,Gironi
-2010,Portugal,North Korea,0.669,0.21,0.121,0,0,Gironi
-2010,Spain,Honduras,0.733,0.178,0.088,0,0,Gironi
-2010,Chile,Switzerland,0.456,0.279,0.265,0,0,Gironi
-2010,Greece,Argentina,0.146,0.228,0.626,2,2,Gironi
-2010,Mexico,Uruguay,0.422,0.284,0.294,2,0,Gironi
-2010,Nigeria,South Korea,0.271,0.28,0.449,1,2,Gironi
-2010,South Africa,France,0.186,0.252,0.562,0,2,Gironi
-2010,Ghana,Germany,0.189,0.253,0.558,2,2,Gironi
-2010,Australia,Serbia,0.306,0.285,0.408,0,2,Gironi
-2010,United States,Algeria,0.607,0.236,0.158,0,0,Gironi
-2010,Slovenia,England,0.138,0.223,0.639,2,2,Gironi
-2010,Cameroon,Netherlands,0.071,0.158,0.771,2,2,Gironi
-2010,Denmark,Japan,0.36,0.288,0.352,2,0,Gironi
-2010,Paraguay,New Zealand,0.516,0.265,0.218,1,0,Gironi
-2010,Slovakia,Italy,0.126,0.214,0.66,0,2,Gironi
-2010,Portugal,Brazil,0.154,0.234,0.612,1,2,Gironi
-2010,Switzerland,Honduras,0.442,0.281,0.277,1,0,Gironi
-2010,North Korea,Ivory Coast,0.155,0.234,0.61,2,2,Gironi
-2010,Chile,Spain,0.213,0.263,0.524,2,2,Gironi
-2010,Uruguay,South Korea,0.488,0.272,0.24,0,0,Ottavi
-2010,United States,Ghana,0.451,0.28,0.27,2,0,Ottavi
-2010,Argentina,Mexico,0.439,0.282,0.28,0,0,Ottavi
-2010,Germany,England,0.346,0.288,0.366,0,2,Ottavi
-2010,Brazil,Chile,0.57,0.249,0.181,0,0,Ottavi
-2010,Netherlands,Slovakia,0.788,0.148,0.064,0,0,Ottavi
-2010,Paraguay,Japan,0.333,0.288,0.379,1,2,Ottavi
-2010,Spain,Portugal,0.57,0.249,0.181,0,0,Ottavi
-2010,Netherlands,Brazil,0.309,0.286,0.405,0,2,Quarti
-2010,Uruguay,Ghana,0.519,0.265,0.217,1,0,Quarti
-2010,Argentina,Germany,0.348,0.288,0.364,2,2,Quarti
-2010,Paraguay,Spain,0.1,0.191,0.709,2,2,Quarti
-2010,Uruguay,Netherlands,0.179,0.248,0.573,2,2,Semifinali
-2010,Germany,Spain,0.312,0.286,0.402,2,2,Semifinali
-2010,Uruguay,Germany,0.218,0.265,0.517,2,2,Finale
-2010,Netherlands,Spain,0.338,0.288,0.374,2,2,Finale
-2014,Brazil,Croatia,0.749,0.169,0.082,0,0,Gironi
-2014,Mexico,Cameroon,0.538,0.258,0.205,0,0,Gironi
-2014,Spain,Netherlands,0.515,0.264,0.221,2,0,Gironi
-2014,Chile,Australia,0.55,0.254,0.196,0,0,Gironi
-2014,England,Italy,0.402,0.284,0.315,2,0,Gironi
-2014,Colombia,Greece,0.487,0.271,0.242,0,0,Gironi
-2014,Uruguay,Costa Rica,0.553,0.253,0.194,2,0,Gironi
-2014,Ivory Coast,Japan,0.365,0.286,0.349,0,0,Gironi
-2014,Argentina,Bosnia and Herzegovina,0.637,0.222,0.141,0,0,Gironi
-2014,France,Honduras,0.572,0.247,0.181,0,0,Gironi
-2014,Switzerland,Ecuador,0.361,0.286,0.353,0,0,Gironi
-2014,Germany,Portugal,0.501,0.267,0.231,0,0,Gironi
-2014,Ghana,United States,0.233,0.268,0.499,2,2,Gironi
-2014,Iran,Nigeria,0.357,0.286,0.357,1,2,Gironi
-2014,Belgium,Algeria,0.553,0.253,0.194,0,0,Gironi
-2014,Brazil,Mexico,0.678,0.205,0.117,1,0,Gironi
-2014,Russia,South Korea,0.502,0.267,0.231,1,0,Gironi
-2014,Cameroon,Croatia,0.247,0.272,0.481,2,2,Gironi
-2014,Australia,Netherlands,0.088,0.177,0.735,2,2,Gironi
-2014,Spain,Chile,0.458,0.276,0.266,2,0,Gironi
-2014,Colombia,Ivory Coast,0.478,0.273,0.25,0,0,Gironi
-2014,Japan,Greece,0.374,0.285,0.34,1,0,Gironi
-2014,Uruguay,England,0.315,0.284,0.401,0,2,Gironi
-2014,Honduras,Ecuador,0.229,0.266,0.505,2,2,Gironi
-2014,Italy,Costa Rica,0.475,0.273,0.252,2,0,Gironi
-2014,Switzerland,France,0.305,0.283,0.412,2,2,Gironi
-2014,Nigeria,Bosnia and Herzegovina,0.358,0.286,0.356,0,0,Gironi
-2014,Argentina,Iran,0.666,0.21,0.124,0,0,Gironi
-2014,Germany,Ghana,0.767,0.159,0.074,1,0,Gironi
-2014,South Korea,Algeria,0.434,0.28,0.286,2,0,Gironi
-2014,United States,Portugal,0.363,0.286,0.351,1,0,Gironi
-2014,Belgium,Russia,0.391,0.285,0.324,0,0,Gironi
-2014,Australia,Spain,0.129,0.214,0.657,2,2,Gironi
-2014,Brazil,Cameroon,0.871,0.096,0.033,0,0,Gironi
-2014,Croatia,Mexico,0.287,0.28,0.432,2,2,Gironi
-2014,Netherlands,Chile,0.427,0.281,0.292,0,0,Gironi
-2014,Costa Rica,England,0.359,0.286,0.356,1,0,Gironi
-2014,Greece,Ivory Coast,0.293,0.281,0.426,0,2,Gironi
-2014,Italy,Uruguay,0.351,0.286,0.364,2,2,Gironi
-2014,Japan,Colombia,0.171,0.242,0.587,2,2,Gironi
-2014,Bosnia and Herzegovina,Iran,0.335,0.285,0.379,0,2,Gironi
-2014,Ecuador,France,0.217,0.262,0.52,1,2,Gironi
-2014,Honduras,Switzerland,0.195,0.254,0.551,2,2,Gironi
-2014,Nigeria,Argentina,0.137,0.22,0.644,2,2,Gironi
-2014,United States,Germany,0.189,0.251,0.56,2,2,Gironi
-2014,Portugal,Ghana,0.515,0.264,0.221,0,0,Gironi
-2014,Algeria,Russia,0.265,0.276,0.458,1,2,Gironi
-2014,South Korea,Belgium,0.155,0.232,0.613,2,2,Gironi
-2014,Brazil,Chile,0.557,0.252,0.191,1,0,Ottavi
-2014,Colombia,Uruguay,0.467,0.275,0.258,0,0,Ottavi
-2014,Costa Rica,Greece,0.408,0.283,0.308,1,0,Ottavi
-2014,Netherlands,Mexico,0.549,0.254,0.197,0,0,Ottavi
-2014,France,Nigeria,0.563,0.25,0.187,0,0,Ottavi
-2014,Germany,Algeria,0.784,0.15,0.066,0,0,Ottavi
-2014,Argentina,Switzerland,0.585,0.242,0.172,0,0,Ottavi
-2014,Belgium,United States,0.369,0.286,0.345,0,0,Ottavi
-2014,Brazil,Colombia,0.443,0.279,0.278,0,0,Quarti
-2014,France,Germany,0.233,0.268,0.499,2,2,Quarti
-2014,Argentina,Belgium,0.515,0.264,0.221,0,0,Quarti
-2014,Netherlands,Costa Rica,0.673,0.207,0.12,1,0,Quarti
-2014,Brazil,Germany,0.368,0.286,0.346,2,0,Semifinali
-2014,Netherlands,Argentina,0.371,0.286,0.343,1,0,Semifinali
-2014,Brazil,Netherlands,0.311,0.284,0.406,2,2,Finale
-2014,Germany,Argentina,0.493,0.269,0.238,0,0,Finale
-2018,Russia,Saudi Arabia,0.416,0.286,0.298,0,0,Gironi
-2018,Egypt,Uruguay,0.17,0.245,0.586,2,2,Gironi
-2018,Morocco,Iran,0.288,0.284,0.428,2,2,Gironi
-2018,Portugal,Spain,0.277,0.283,0.44,1,2,Gironi
-2018,France,Australia,0.607,0.237,0.156,0,0,Gironi
-2018,Argentina,Iceland,0.6,0.239,0.161,1,0,Gironi
-2018,Peru,Denmark,0.468,0.278,0.254,2,0,Gironi
-2018,Croatia,Nigeria,0.542,0.259,0.199,0,0,Gironi
-2018,Costa Rica,Serbia,0.401,0.287,0.311,2,0,Gironi
-2018,Germany,Mexico,0.57,0.25,0.18,2,0,Gironi
-2018,Brazil,Switzerland,0.655,0.217,0.128,1,0,Gironi
-2018,Sweden,South Korea,0.417,0.286,0.298,0,0,Gironi
-2018,Belgium,Panama,0.629,0.228,0.143,0,0,Gironi
-2018,Tunisia,England,0.145,0.229,0.626,2,2,Gironi
-2018,Poland,Senegal,0.398,0.288,0.314,2,0,Gironi
-2018,Russia,Egypt,0.418,0.286,0.297,0,0,Gironi
-2018,Colombia,Japan,0.579,0.247,0.174,2,0,Gironi
-2018,Portugal,Morocco,0.627,0.229,0.145,0,0,Gironi
-2018,Uruguay,Saudi Arabia,0.713,0.189,0.097,0,0,Gironi
-2018,Iran,Spain,0.184,0.252,0.564,2,2,Gironi
-2018,Denmark,Australia,0.482,0.275,0.243,1,0,Gironi
-2018,France,Peru,0.486,0.274,0.24,0,0,Gironi
-2018,Argentina,Croatia,0.45,0.281,0.269,2,0,Gironi
-2018,Brazil,Costa Rica,0.764,0.162,0.073,0,0,Gironi
-2018,Nigeria,Iceland,0.234,0.272,0.494,0,2,Gironi
-2018,Serbia,Switzerland,0.24,0.274,0.486,2,2,Gironi
-2018,Germany,Sweden,0.601,0.239,0.16,0,0,Gironi
-2018,Belgium,Tunisia,0.675,0.208,0.117,0,0,Gironi
-2018,South Korea,Mexico,0.15,0.233,0.617,2,2,Gironi
-2018,Japan,Senegal,0.312,0.287,0.4,1,2,Gironi
-2018,Poland,Colombia,0.262,0.28,0.458,2,2,Gironi
-2018,England,Panama,0.663,0.213,0.124,0,0,Gironi
-2018,Russia,Uruguay,0.207,0.262,0.531,2,2,Gironi
-2018,Saudi Arabia,Egypt,0.291,0.285,0.424,0,2,Gironi
-2018,Spain,Morocco,0.728,0.182,0.09,1,0,Gironi
-2018,Iran,Portugal,0.21,0.264,0.526,1,2,Gironi
-2018,Australia,Peru,0.253,0.277,0.47,2,2,Gironi
-2018,Denmark,France,0.196,0.258,0.547,1,2,Gironi
-2018,Nigeria,Argentina,0.192,0.256,0.552,2,2,Gironi
-2018,Iceland,Croatia,0.152,0.234,0.615,2,2,Gironi
-2018,South Korea,Germany,0.08,0.17,0.75,0,2,Gironi
-2018,Mexico,Sweden,0.525,0.264,0.211,2,0,Gironi
-2018,Serbia,Brazil,0.072,0.16,0.769,2,2,Gironi
-2018,Switzerland,Costa Rica,0.558,0.254,0.188,1,0,Gironi
-2018,England,Belgium,0.342,0.289,0.369,2,2,Gironi
-2018,Panama,Tunisia,0.345,0.289,0.366,2,2,Gironi
-2018,Japan,Poland,0.394,0.288,0.318,2,0,Gironi
-2018,Senegal,Colombia,0.249,0.276,0.474,2,2,Gironi
-2018,France,Argentina,0.478,0.276,0.247,0,0,Ottavi
-2018,Uruguay,Portugal,0.339,0.289,0.372,0,2,Ottavi
-2018,Russia,Spain,0.1,0.192,0.707,1,2,Ottavi
-2018,Croatia,Denmark,0.444,0.282,0.274,1,0,Ottavi
-2018,Brazil,Mexico,0.679,0.206,0.115,0,0,Ottavi
-2018,Belgium,Japan,0.664,0.213,0.123,0,0,Ottavi
-2018,Sweden,Switzerland,0.311,0.287,0.401,0,2,Ottavi
-2018,Colombia,England,0.356,0.289,0.355,1,0,Ottavi
-2018,Uruguay,France,0.306,0.287,0.408,2,2,Quarti
-2018,Brazil,Belgium,0.508,0.269,0.224,2,0,Quarti
-2018,Sweden,England,0.312,0.287,0.401,2,2,Quarti
-2018,Russia,Croatia,0.162,0.24,0.597,1,2,Quarti
-2018,France,Belgium,0.363,0.289,0.348,0,0,Semifinali
-2018,Croatia,England,0.303,0.286,0.411,0,2,Semifinali
-2018,Belgium,England,0.457,0.28,0.263,0,0,Finale
-2018,France,Croatia,0.512,0.267,0.22,0,0,Finale
-2022,Qatar,Ecuador,0.236,0.271,0.493,2,2,Gironi
-2022,Senegal,Netherlands,0.115,0.203,0.682,2,2,Gironi
-2022,England,Iran,0.467,0.276,0.257,0,0,Gironi
-2022,United States,Wales,0.407,0.285,0.308,1,0,Gironi
-2022,Mexico,Poland,0.389,0.286,0.325,1,0,Gironi
-2022,Argentina,Saudi Arabia,0.819,0.129,0.052,2,0,Gironi
-2022,France,Australia,0.616,0.232,0.153,0,0,Gironi
-2022,Denmark,Tunisia,0.596,0.239,0.165,1,0,Gironi
-2022,Germany,Japan,0.487,0.272,0.241,2,0,Gironi
-2022,Spain,Costa Rica,0.638,0.223,0.139,0,0,Gironi
-2022,Morocco,Croatia,0.247,0.274,0.48,1,2,Gironi
-2022,Belgium,Canada,0.572,0.248,0.18,0,0,Gironi
-2022,Portugal,Ghana,0.775,0.155,0.07,0,0,Gironi
-2022,Uruguay,South Korea,0.467,0.276,0.257,1,0,Gironi
-2022,Switzerland,Cameroon,0.637,0.223,0.14,0,0,Gironi
-2022,Brazil,Serbia,0.701,0.194,0.105,0,0,Gironi
-2022,Qatar,Senegal,0.303,0.284,0.412,2,2,Gironi
-2022,Netherlands,Ecuador,0.547,0.256,0.197,1,0,Gironi
-2022,Wales,Iran,0.345,0.287,0.368,2,2,Gironi
-2022,England,United States,0.538,0.259,0.203,1,0,Gironi
-2022,Poland,Saudi Arabia,0.423,0.283,0.293,0,0,Gironi
-2022,Argentina,Mexico,0.615,0.232,0.153,0,0,Gironi
-2022,Tunisia,Australia,0.381,0.287,0.332,2,0,Gironi
-2022,France,Denmark,0.443,0.28,0.277,0,0,Gironi
-2022,Croatia,Canada,0.459,0.278,0.264,0,0,Gironi
-2022,Japan,Costa Rica,0.494,0.27,0.236,2,0,Gironi
-2022,Spain,Germany,0.529,0.261,0.209,1,0,Gironi
-2022,Belgium,Morocco,0.611,0.233,0.155,2,0,Gironi
-2022,South Korea,Ghana,0.621,0.23,0.149,2,0,Gironi
-2022,Portugal,Uruguay,0.446,0.28,0.274,0,0,Gironi
-2022,Cameroon,Serbia,0.155,0.233,0.612,1,2,Gironi
-2022,Brazil,Switzerland,0.682,0.203,0.115,0,0,Gironi
-2022,Ecuador,Senegal,0.487,0.272,0.241,2,0,Gironi
-2022,Qatar,Netherlands,0.059,0.14,0.801,2,2,Gironi
-2022,Wales,England,0.15,0.23,0.621,2,2,Gironi
-2022,Iran,United States,0.363,0.287,0.35,2,0,Gironi
-2022,Poland,Argentina,0.148,0.229,0.622,2,2,Gironi
-2022,Saudi Arabia,Mexico,0.252,0.275,0.473,2,2,Gironi
-2022,Australia,Denmark,0.219,0.265,0.516,0,2,Gironi
-2022,Tunisia,France,0.1,0.189,0.711,0,2,Gironi
-2022,Japan,Spain,0.161,0.237,0.601,0,2,Gironi
-2022,Costa Rica,Germany,0.233,0.27,0.497,2,2,Gironi
-2022,Croatia,Belgium,0.34,0.287,0.373,1,2,Gironi
-2022,Canada,Morocco,0.241,0.272,0.487,2,2,Gironi
-2022,South Korea,Portugal,0.138,0.222,0.641,0,2,Gironi
-2022,Ghana,Uruguay,0.153,0.232,0.615,2,2,Gironi
-2022,Serbia,Switzerland,0.299,0.284,0.417,2,2,Gironi
-2022,Cameroon,Brazil,0.022,0.073,0.906,0,2,Gironi
-2022,Netherlands,United States,0.558,0.252,0.19,0,0,Ottavi
-2022,Argentina,Australia,0.676,0.206,0.118,0,0,Ottavi
-2022,France,Poland,0.545,0.257,0.199,0,0,Ottavi
-2022,England,Senegal,0.559,0.252,0.189,0,0,Ottavi
-2022,Japan,Croatia,0.306,0.285,0.41,1,2,Ottavi
-2022,Brazil,South Korea,0.705,0.192,0.103,0,0,Ottavi
-2022,Portugal,Switzerland,0.423,0.283,0.294,0,0,Ottavi
-2022,Morocco,Spain,0.249,0.274,0.477,1,2,Ottavi
-2022,Croatia,Brazil,0.151,0.231,0.618,1,2,Quarti
-2022,Netherlands,Argentina,0.311,0.285,0.404,1,2,Quarti
-2022,Morocco,Portugal,0.228,0.268,0.504,0,2,Quarti
-2022,England,France,0.36,0.287,0.352,2,0,Quarti
-2022,Argentina,Croatia,0.53,0.261,0.209,0,0,Semifinali
-2022,France,Morocco,0.464,0.277,0.259,0,0,Semifinali
-2022,Croatia,Morocco,0.359,0.288,0.354,0,0,Finale
-2022,Argentina,France,0.418,0.284,0.298,1,0,Finale
+year,home,away,p_home,p_draw,p_away,outcome,pred,stage,elo_gap
+2002,France,Senegal,0.772,0.159,0.069,2,0,Gironi,313.6
+2002,Republic of Ireland,Cameroon,0.384,0.292,0.325,1,0,Gironi,22.8
+2002,Uruguay,Denmark,0.294,0.288,0.418,2,2,Gironi,47.9
+2002,Germany,Saudi Arabia,0.45,0.284,0.267,0,0,Gironi,71.2
+2002,Argentina,Nigeria,0.599,0.242,0.159,0,0,Gironi,178.2
+2002,England,Sweden,0.431,0.287,0.282,1,0,Gironi,57.9
+2002,Paraguay,South Africa,0.404,0.29,0.306,1,0,Gironi,37.6
+2002,Spain,Slovenia,0.637,0.227,0.137,0,0,Gironi,205.5
+2002,Brazil,Turkey,0.546,0.26,0.194,0,0,Gironi,140.3
+2002,Croatia,Mexico,0.359,0.292,0.349,2,0,Gironi,3.9
+2002,Italy,Ecuador,0.674,0.21,0.116,0,0,Gironi,234.0
+2002,China,Costa Rica,0.326,0.292,0.383,2,2,Gironi,21.9
+2002,Japan,Belgium,0.381,0.292,0.327,1,0,Gironi,20.7
+2002,South Korea,Poland,0.453,0.283,0.264,0,0,Gironi,73.7
+2002,United States,Portugal,0.21,0.267,0.523,0,2,Gironi,123.6
+2002,Germany,Republic of Ireland,0.416,0.289,0.295,1,0,Gironi,46.8
+2002,Russia,Tunisia,0.446,0.284,0.269,0,0,Gironi,68.7
+2002,Cameroon,Saudi Arabia,0.517,0.269,0.214,0,0,Gironi,119.3
+2002,Denmark,Senegal,0.444,0.285,0.272,1,0,Gironi,66.9
+2002,France,Uruguay,0.687,0.204,0.109,1,0,Gironi,243.3
+2002,Argentina,England,0.5,0.273,0.227,2,0,Gironi,107.5
+2002,Spain,Paraguay,0.666,0.214,0.121,0,0,Gironi,227.3
+2002,Sweden,Nigeria,0.426,0.287,0.286,0,0,Gironi,54.4
+2002,Brazil,China,0.582,0.248,0.17,0,0,Gironi,165.6
+2002,Italy,Croatia,0.589,0.245,0.166,2,0,Gironi,170.8
+2002,South Africa,Slovenia,0.34,0.292,0.368,0,2,Gironi,10.7
+2002,Mexico,Ecuador,0.57,0.252,0.178,0,0,Gironi,157.1
+2002,Costa Rica,Turkey,0.515,0.269,0.216,1,0,Gironi,117.9
+2002,Japan,Russia,0.402,0.29,0.308,0,0,Gironi,36.3
+2002,Portugal,Poland,0.659,0.217,0.124,0,0,Gironi,222.1
+2002,Tunisia,Belgium,0.165,0.245,0.59,1,2,Gironi,171.2
+2002,South Korea,United States,0.292,0.288,0.42,1,2,Gironi,49.4
+2002,Cameroon,Germany,0.302,0.289,0.409,2,2,Gironi,41.5
+2002,Denmark,France,0.202,0.264,0.534,0,2,Gironi,131.2
+2002,Saudi Arabia,Republic of Ireland,0.173,0.25,0.577,2,2,Gironi,162.2
+2002,Senegal,Uruguay,0.38,0.292,0.328,1,0,Gironi,20.3
+2002,Nigeria,England,0.169,0.248,0.583,1,2,Gironi,166.7
+2002,Slovenia,Paraguay,0.313,0.291,0.396,2,2,Gironi,32.2
+2002,South Africa,Spain,0.107,0.202,0.691,2,2,Gironi,246.6
+2002,Sweden,Argentina,0.244,0.278,0.477,1,2,Gironi,91.1
+2002,Costa Rica,Brazil,0.234,0.275,0.491,2,2,Gironi,100.5
+2002,Ecuador,Croatia,0.174,0.25,0.576,0,2,Gironi,161.3
+2002,Mexico,Italy,0.288,0.288,0.425,1,2,Gironi,53.1
+2002,Turkey,China,0.393,0.291,0.316,0,0,Gironi,29.4
+2002,Poland,United States,0.137,0.227,0.636,0,2,Gironi,204.8
+2002,South Korea,Portugal,0.215,0.269,0.516,0,2,Gironi,118.4
+2002,Belgium,Russia,0.404,0.29,0.306,0,0,Gironi,37.9
+2002,Japan,Tunisia,0.609,0.238,0.153,0,0,Gironi,185.2
+2002,Denmark,England,0.373,0.292,0.335,2,0,Ottavi,14.5
+2002,Germany,Paraguay,0.634,0.228,0.138,0,0,Ottavi,203.3
+2002,Spain,Republic of Ireland,0.464,0.281,0.255,1,0,Ottavi,81.8
+2002,Sweden,Senegal,0.439,0.286,0.276,2,0,Ottavi,63.4
+2002,Brazil,Belgium,0.512,0.27,0.218,0,0,Ottavi,115.4
+2002,Mexico,United States,0.496,0.274,0.23,2,0,Ottavi,104.2
+2002,Japan,Turkey,0.497,0.274,0.229,2,0,Ottavi,104.9
+2002,South Korea,Italy,0.238,0.277,0.485,0,2,Ottavi,96.9
+2002,England,Brazil,0.329,0.292,0.379,2,2,Quarti,19.4
+2002,Germany,United States,0.496,0.274,0.23,0,0,Quarti,104.6
+2002,South Korea,Spain,0.245,0.278,0.477,1,2,Quarti,90.6
+2002,Senegal,Turkey,0.397,0.291,0.312,2,0,Quarti,32.8
+2002,South Korea,Germany,0.237,0.276,0.487,2,2,Semifinali,97.7
+2002,Brazil,Turkey,0.589,0.245,0.165,0,0,Semifinali,170.9
+2002,South Korea,Turkey,0.376,0.292,0.332,2,0,Finale,17.0
+2002,Germany,Brazil,0.31,0.29,0.399,2,2,Finale,34.5
+2006,Germany,Costa Rica,0.582,0.248,0.171,0,0,Gironi,176.8
+2006,Poland,Ecuador,0.468,0.28,0.253,2,0,Gironi,89.7
+2006,Argentina,Ivory Coast,0.482,0.277,0.241,0,0,Gironi,100.9
+2006,England,Paraguay,0.597,0.242,0.161,0,0,Gironi,188.4
+2006,Trinidad and Tobago,Sweden,0.146,0.232,0.622,1,2,Gironi,208.2
+2006,Serbia,Netherlands,0.16,0.241,0.599,2,2,Gironi,190.4
+2006,Angola,Portugal,0.11,0.204,0.686,2,2,Gironi,260.0
+2006,Mexico,Iran,0.346,0.291,0.362,0,2,Gironi,6.5
+2006,Australia,Japan,0.437,0.285,0.278,0,0,Gironi,65.9
+2006,Italy,Ghana,0.649,0.221,0.13,0,0,Gironi,229.5
+2006,United States,Czech Republic,0.271,0.284,0.446,2,2,Gironi,72.9
+2006,Brazil,Croatia,0.601,0.24,0.159,0,0,Gironi,191.6
+2006,France,Switzerland,0.577,0.249,0.174,1,0,Gironi,173.1
+2006,South Korea,Togo,0.595,0.243,0.162,0,0,Gironi,187.1
+2006,Germany,Poland,0.577,0.249,0.174,0,0,Gironi,173.0
+2006,Spain,Ukraine,0.575,0.25,0.175,0,0,Gironi,172.0
+2006,Tunisia,Saudi Arabia,0.509,0.27,0.221,1,0,Gironi,121.2
+2006,England,Trinidad and Tobago,0.75,0.171,0.079,0,0,Gironi,314.6
+2006,Sweden,Paraguay,0.455,0.282,0.263,0,0,Gironi,80.1
+2006,Ecuador,Costa Rica,0.433,0.286,0.282,0,0,Gironi,62.6
+2006,Argentina,Serbia,0.566,0.253,0.181,0,0,Gironi,164.9
+2006,Mexico,Angola,0.702,0.196,0.102,1,0,Gironi,273.4
+2006,Netherlands,Ivory Coast,0.611,0.237,0.152,0,0,Gironi,199.5
+2006,Czech Republic,Ghana,0.75,0.171,0.079,2,0,Gironi,315.0
+2006,Italy,United States,0.492,0.274,0.233,1,0,Gironi,108.6
+2006,Portugal,Iran,0.473,0.279,0.249,0,0,Gironi,93.6
+2006,Japan,Croatia,0.325,0.291,0.384,1,2,Gironi,24.5
+2006,Brazil,Australia,0.49,0.275,0.235,0,0,Gironi,107.0
+2006,France,South Korea,0.547,0.259,0.194,1,0,Gironi,149.9
+2006,Spain,Tunisia,0.637,0.226,0.137,0,0,Gironi,220.0
+2006,Togo,Switzerland,0.136,0.225,0.64,2,2,Gironi,222.0
+2006,Saudi Arabia,Ukraine,0.254,0.28,0.466,2,2,Gironi,88.1
+2006,Costa Rica,Poland,0.273,0.284,0.443,2,2,Gironi,70.6
+2006,Germany,Ecuador,0.506,0.271,0.223,0,0,Gironi,119.0
+2006,Paraguay,Trinidad and Tobago,0.462,0.281,0.257,0,0,Gironi,85.3
+2006,Sweden,England,0.214,0.268,0.518,1,2,Gironi,128.1
+2006,Iran,Angola,0.528,0.265,0.207,1,0,Gironi,135.4
+2006,Ivory Coast,Serbia,0.406,0.289,0.305,0,0,Gironi,42.1
+2006,Netherlands,Argentina,0.397,0.29,0.313,1,0,Gironi,34.5
+2006,Portugal,Mexico,0.431,0.286,0.283,0,0,Gironi,61.3
+2006,Croatia,Australia,0.258,0.281,0.462,1,2,Gironi,85.1
+2006,Czech Republic,Italy,0.33,0.291,0.38,2,2,Gironi,20.7
+2006,Ghana,United States,0.252,0.279,0.469,0,2,Gironi,90.5
+2006,Japan,Brazil,0.1,0.195,0.705,2,2,Gironi,275.5
+2006,Ukraine,Tunisia,0.415,0.288,0.297,0,0,Gironi,49.1
+2006,Togo,France,0.053,0.136,0.811,2,2,Gironi,374.9
+2006,Saudi Arabia,Spain,0.05,0.131,0.819,2,2,Gironi,383.1
+2006,Switzerland,South Korea,0.369,0.291,0.34,0,0,Gironi,11.9
+2006,Argentina,Mexico,0.49,0.275,0.235,0,0,Ottavi,106.5
+2006,Germany,Sweden,0.474,0.278,0.247,0,0,Ottavi,94.8
+2006,England,Ecuador,0.593,0.244,0.164,0,0,Ottavi,185.2
+2006,Portugal,Netherlands,0.325,0.291,0.384,0,2,Ottavi,24.2
+2006,Italy,Australia,0.465,0.28,0.255,0,0,Ottavi,87.9
+2006,Switzerland,Ukraine,0.416,0.288,0.296,1,0,Ottavi,49.9
+2006,Brazil,Ghana,0.725,0.184,0.09,0,0,Ottavi,292.9
+2006,Spain,France,0.431,0.286,0.283,2,0,Ottavi,61.2
+2006,Italy,Ukraine,0.586,0.246,0.168,0,0,Quarti,179.7
+2006,Germany,Argentina,0.344,0.291,0.364,1,2,Quarti,8.3
+2006,Brazil,France,0.485,0.276,0.239,2,0,Quarti,102.9
+2006,England,Portugal,0.328,0.291,0.381,1,2,Quarti,21.8
+2006,Germany,Italy,0.305,0.289,0.406,2,2,Semifinali,41.5
+2006,Portugal,France,0.325,0.291,0.384,2,2,Semifinali,24.2
+2006,Germany,Portugal,0.299,0.288,0.412,0,2,Finale,46.7
+2006,Italy,France,0.367,0.291,0.341,1,0,Finale,10.8
+2010,South Africa,Mexico,0.136,0.221,0.643,1,2,Gironi,244.1
+2010,Uruguay,France,0.334,0.288,0.379,1,2,Gironi,20.3
+2010,England,United States,0.561,0.252,0.187,1,0,Gironi,174.3
+2010,South Korea,Greece,0.467,0.277,0.256,0,0,Gironi,95.8
+2010,Argentina,Nigeria,0.479,0.274,0.247,0,0,Gironi,105.7
+2010,Serbia,Ghana,0.475,0.275,0.25,2,0,Gironi,102.4
+2010,Algeria,Slovenia,0.281,0.282,0.437,2,2,Gironi,70.8
+2010,Germany,Australia,0.492,0.271,0.237,0,0,Gironi,116.3
+2010,Japan,Cameroon,0.355,0.288,0.357,0,2,Gironi,1.0
+2010,Netherlands,Denmark,0.672,0.208,0.12,0,0,Gironi,269.2
+2010,Italy,Paraguay,0.547,0.257,0.197,1,0,Gironi,162.3
+2010,Brazil,North Korea,0.874,0.095,0.031,0,0,Gironi,486.6
+2010,Ivory Coast,Portugal,0.278,0.281,0.44,1,2,Gironi,73.2
+2010,New Zealand,Slovakia,0.337,0.288,0.375,1,2,Gironi,17.1
+2010,Spain,Switzerland,0.754,0.167,0.079,2,0,Gironi,346.1
+2010,Honduras,Chile,0.221,0.266,0.513,2,2,Gironi,134.5
+2010,South Africa,Uruguay,0.199,0.258,0.543,2,2,Gironi,159.3
+2010,Argentina,South Korea,0.425,0.284,0.292,0,0,Gironi,60.0
+2010,France,Mexico,0.313,0.286,0.401,2,2,Gironi,39.6
+2010,Greece,Nigeria,0.278,0.281,0.441,0,2,Gironi,73.6
+2010,Germany,Serbia,0.585,0.244,0.171,2,0,Gironi,194.0
+2010,England,Algeria,0.8,0.141,0.059,1,0,Gironi,394.0
+2010,Slovenia,United States,0.226,0.268,0.507,1,2,Gironi,128.8
+2010,Cameroon,Denmark,0.329,0.287,0.383,2,2,Gironi,24.2
+2010,Ghana,Australia,0.327,0.287,0.386,1,2,Gironi,26.7
+2010,Netherlands,Japan,0.668,0.21,0.122,0,0,Gironi,265.8
+2010,Brazil,Ivory Coast,0.692,0.199,0.109,0,0,Gironi,287.3
+2010,Italy,New Zealand,0.663,0.213,0.125,1,0,Gironi,261.0
+2010,Slovakia,Paraguay,0.242,0.273,0.485,2,2,Gironi,110.7
+2010,Portugal,North Korea,0.669,0.21,0.121,0,0,Gironi,266.9
+2010,Spain,Honduras,0.733,0.178,0.088,0,0,Gironi,326.0
+2010,Chile,Switzerland,0.456,0.279,0.265,0,0,Gironi,86.8
+2010,Greece,Argentina,0.146,0.228,0.626,2,2,Gironi,228.9
+2010,Mexico,Uruguay,0.422,0.284,0.294,2,0,Gironi,57.6
+2010,Nigeria,South Korea,0.271,0.28,0.449,1,2,Gironi,80.7
+2010,South Africa,France,0.186,0.252,0.562,0,2,Gironi,174.7
+2010,Ghana,Germany,0.189,0.253,0.558,2,2,Gironi,171.7
+2010,Australia,Serbia,0.306,0.285,0.408,0,2,Gironi,46.0
+2010,United States,Algeria,0.607,0.236,0.158,0,0,Gironi,212.5
+2010,Slovenia,England,0.138,0.223,0.639,2,2,Gironi,240.3
+2010,Cameroon,Netherlands,0.071,0.158,0.771,2,2,Gironi,363.6
+2010,Denmark,Japan,0.36,0.288,0.352,2,0,Gironi,3.6
+2010,Paraguay,New Zealand,0.516,0.265,0.218,1,0,Gironi,136.9
+2010,Slovakia,Italy,0.126,0.214,0.66,0,2,Gironi,258.9
+2010,Portugal,Brazil,0.154,0.234,0.612,1,2,Gironi,217.1
+2010,Switzerland,Honduras,0.442,0.281,0.277,1,0,Gironi,74.8
+2010,North Korea,Ivory Coast,0.155,0.234,0.61,2,2,Gironi,215.6
+2010,Chile,Spain,0.213,0.263,0.524,2,2,Gironi,143.0
+2010,Uruguay,South Korea,0.488,0.272,0.24,0,0,Ottavi,113.1
+2010,United States,Ghana,0.451,0.28,0.27,2,0,Ottavi,82.0
+2010,Argentina,Mexico,0.439,0.282,0.28,0,0,Ottavi,72.1
+2010,Germany,England,0.346,0.288,0.366,0,2,Ottavi,8.9
+2010,Brazil,Chile,0.57,0.249,0.181,0,0,Ottavi,181.4
+2010,Netherlands,Slovakia,0.788,0.148,0.064,0,0,Ottavi,381.6
+2010,Paraguay,Japan,0.333,0.288,0.379,1,2,Ottavi,20.6
+2010,Spain,Portugal,0.57,0.249,0.181,0,0,Ottavi,182.0
+2010,Netherlands,Brazil,0.309,0.286,0.405,0,2,Quarti,43.3
+2010,Uruguay,Ghana,0.519,0.265,0.217,1,0,Quarti,139.1
+2010,Argentina,Germany,0.348,0.288,0.364,2,2,Quarti,7.0
+2010,Paraguay,Spain,0.1,0.191,0.709,2,2,Quarti,302.8
+2010,Uruguay,Netherlands,0.179,0.248,0.573,2,2,Semifinali,184.4
+2010,Germany,Spain,0.312,0.286,0.402,2,2,Semifinali,40.8
+2010,Uruguay,Germany,0.218,0.265,0.517,2,2,Finale,137.5
+2010,Netherlands,Spain,0.338,0.288,0.374,2,2,Finale,16.0
+2014,Brazil,Croatia,0.749,0.169,0.082,0,0,Gironi,331.4
+2014,Mexico,Cameroon,0.538,0.258,0.205,0,0,Gironi,149.8
+2014,Spain,Netherlands,0.515,0.264,0.221,2,0,Gironi,131.2
+2014,Chile,Australia,0.55,0.254,0.196,0,0,Gironi,159.8
+2014,England,Italy,0.402,0.284,0.315,2,0,Gironi,38.2
+2014,Colombia,Greece,0.487,0.271,0.242,0,0,Gironi,108.6
+2014,Uruguay,Costa Rica,0.553,0.253,0.194,2,0,Gironi,161.7
+2014,Ivory Coast,Japan,0.365,0.286,0.349,0,0,Gironi,7.2
+2014,Argentina,Bosnia and Herzegovina,0.637,0.222,0.141,0,0,Gironi,231.2
+2014,France,Honduras,0.572,0.247,0.181,0,0,Gironi,177.3
+2014,Switzerland,Ecuador,0.361,0.286,0.353,0,0,Gironi,3.5
+2014,Germany,Portugal,0.501,0.267,0.231,0,0,Gironi,120.3
+2014,Ghana,United States,0.233,0.268,0.499,2,2,Gironi,118.4
+2014,Iran,Nigeria,0.357,0.286,0.357,1,2,Gironi,0.3
+2014,Belgium,Algeria,0.553,0.253,0.194,0,0,Gironi,161.8
+2014,Brazil,Mexico,0.678,0.205,0.117,1,0,Gironi,266.4
+2014,Russia,South Korea,0.502,0.267,0.231,1,0,Gironi,121.0
+2014,Cameroon,Croatia,0.247,0.272,0.481,2,2,Gironi,103.8
+2014,Australia,Netherlands,0.088,0.177,0.735,2,2,Gironi,317.8
+2014,Spain,Chile,0.458,0.276,0.266,2,0,Gironi,84.8
+2014,Colombia,Ivory Coast,0.478,0.273,0.25,0,0,Gironi,100.8
+2014,Japan,Greece,0.374,0.285,0.34,1,0,Gironi,15.1
+2014,Uruguay,England,0.315,0.284,0.401,0,2,Gironi,37.5
+2014,Honduras,Ecuador,0.229,0.266,0.505,2,2,Gironi,123.1
+2014,Italy,Costa Rica,0.475,0.273,0.252,2,0,Gironi,98.5
+2014,Switzerland,France,0.305,0.283,0.412,2,2,Gironi,47.0
+2014,Nigeria,Bosnia and Herzegovina,0.358,0.286,0.356,0,0,Gironi,0.7
+2014,Argentina,Iran,0.666,0.21,0.124,0,0,Gironi,255.9
+2014,Germany,Ghana,0.767,0.159,0.074,1,0,Gironi,349.0
+2014,South Korea,Algeria,0.434,0.28,0.286,2,0,Gironi,65.2
+2014,United States,Portugal,0.363,0.286,0.351,1,0,Gironi,5.1
+2014,Belgium,Russia,0.391,0.285,0.324,0,0,Gironi,29.6
+2014,Australia,Spain,0.129,0.214,0.657,2,2,Gironi,248.5
+2014,Brazil,Cameroon,0.871,0.096,0.033,0,0,Gironi,469.5
+2014,Croatia,Mexico,0.287,0.28,0.432,2,2,Gironi,63.9
+2014,Netherlands,Chile,0.427,0.281,0.292,0,0,Gironi,59.3
+2014,Costa Rica,England,0.359,0.286,0.356,1,0,Gironi,1.4
+2014,Greece,Ivory Coast,0.293,0.281,0.426,0,2,Gironi,58.2
+2014,Italy,Uruguay,0.351,0.286,0.364,2,2,Gironi,5.6
+2014,Japan,Colombia,0.171,0.242,0.587,2,2,Gironi,189.6
+2014,Bosnia and Herzegovina,Iran,0.335,0.285,0.379,0,2,Gironi,19.2
+2014,Ecuador,France,0.217,0.262,0.52,1,2,Gironi,135.5
+2014,Honduras,Switzerland,0.195,0.254,0.551,2,2,Gironi,160.3
+2014,Nigeria,Argentina,0.137,0.22,0.644,2,2,Gironi,236.9
+2014,United States,Germany,0.189,0.251,0.56,2,2,Gironi,167.8
+2014,Portugal,Ghana,0.515,0.264,0.221,0,0,Gironi,131.2
+2014,Algeria,Russia,0.265,0.276,0.458,1,2,Gironi,85.3
+2014,South Korea,Belgium,0.155,0.232,0.613,2,2,Gironi,211.3
+2014,Brazil,Chile,0.557,0.252,0.191,1,0,Ottavi,165.3
+2014,Colombia,Uruguay,0.467,0.275,0.258,0,0,Ottavi,92.5
+2014,Costa Rica,Greece,0.408,0.283,0.308,1,0,Ottavi,43.8
+2014,Netherlands,Mexico,0.549,0.254,0.197,0,0,Ottavi,158.5
+2014,France,Nigeria,0.563,0.25,0.187,0,0,Ottavi,169.9
+2014,Germany,Algeria,0.784,0.15,0.066,0,0,Ottavi,366.6
+2014,Argentina,Switzerland,0.585,0.242,0.172,0,0,Ottavi,188.3
+2014,Belgium,United States,0.369,0.286,0.345,0,0,Ottavi,10.7
+2014,Brazil,Colombia,0.443,0.279,0.278,0,0,Quarti,72.4
+2014,France,Germany,0.233,0.268,0.499,2,2,Quarti,118.0
+2014,Argentina,Belgium,0.515,0.264,0.221,0,0,Quarti,131.6
+2014,Netherlands,Costa Rica,0.673,0.207,0.12,1,0,Quarti,262.4
+2014,Brazil,Germany,0.368,0.286,0.346,2,0,Semifinali,9.6
+2014,Netherlands,Argentina,0.371,0.286,0.343,1,0,Semifinali,12.1
+2014,Brazil,Netherlands,0.311,0.284,0.406,2,2,Finale,41.6
+2014,Germany,Argentina,0.493,0.269,0.238,0,0,Finale,113.2
+2018,Russia,Saudi Arabia,0.416,0.286,0.298,0,0,Gironi,52.2
+2018,Egypt,Uruguay,0.17,0.245,0.586,2,2,Gironi,191.1
+2018,Morocco,Iran,0.288,0.284,0.428,2,2,Gironi,62.1
+2018,Portugal,Spain,0.277,0.283,0.44,1,2,Gironi,72.2
+2018,France,Australia,0.607,0.237,0.156,0,0,Gironi,208.7
+2018,Argentina,Iceland,0.6,0.239,0.161,1,0,Gironi,203.1
+2018,Peru,Denmark,0.468,0.278,0.254,2,0,Gironi,95.4
+2018,Croatia,Nigeria,0.542,0.259,0.199,0,0,Gironi,155.7
+2018,Costa Rica,Serbia,0.401,0.287,0.311,2,0,Gironi,39.6
+2018,Germany,Mexico,0.57,0.25,0.18,2,0,Gironi,178.7
+2018,Brazil,Switzerland,0.655,0.217,0.128,1,0,Gironi,249.4
+2018,Sweden,South Korea,0.417,0.286,0.298,0,0,Gironi,52.6
+2018,Belgium,Panama,0.629,0.228,0.143,0,0,Gironi,227.3
+2018,Tunisia,England,0.145,0.229,0.626,2,2,Gironi,225.0
+2018,Poland,Senegal,0.398,0.288,0.314,2,0,Gironi,36.8
+2018,Russia,Egypt,0.418,0.286,0.297,0,0,Gironi,53.4
+2018,Colombia,Japan,0.579,0.247,0.174,2,0,Gironi,185.6
+2018,Portugal,Morocco,0.627,0.229,0.145,0,0,Gironi,225.2
+2018,Uruguay,Saudi Arabia,0.713,0.189,0.097,0,0,Gironi,300.9
+2018,Iran,Spain,0.184,0.252,0.564,2,2,Gironi,173.6
+2018,Denmark,Australia,0.482,0.275,0.243,1,0,Gironi,107.0
+2018,France,Peru,0.486,0.274,0.24,0,0,Gironi,110.2
+2018,Argentina,Croatia,0.45,0.281,0.269,2,0,Gironi,80.0
+2018,Brazil,Costa Rica,0.764,0.162,0.073,0,0,Gironi,349.5
+2018,Nigeria,Iceland,0.234,0.272,0.494,0,2,Gironi,116.4
+2018,Serbia,Switzerland,0.24,0.274,0.486,2,2,Gironi,109.9
+2018,Germany,Sweden,0.601,0.239,0.16,0,0,Gironi,204.2
+2018,Belgium,Tunisia,0.675,0.208,0.117,0,0,Gironi,266.7
+2018,South Korea,Mexico,0.15,0.233,0.617,2,2,Gironi,217.5
+2018,Japan,Senegal,0.312,0.287,0.4,1,2,Gironi,38.9
+2018,Poland,Colombia,0.262,0.28,0.458,2,2,Gironi,86.9
+2018,England,Panama,0.663,0.213,0.124,0,0,Gironi,256.1
+2018,Russia,Uruguay,0.207,0.262,0.531,2,2,Gironi,146.5
+2018,Saudi Arabia,Egypt,0.291,0.285,0.424,0,2,Gironi,58.6
+2018,Spain,Morocco,0.728,0.182,0.09,1,0,Gironi,314.1
+2018,Iran,Portugal,0.21,0.264,0.526,1,2,Gironi,142.8
+2018,Australia,Peru,0.253,0.277,0.47,2,2,Gironi,96.5
+2018,Denmark,France,0.196,0.258,0.547,1,2,Gironi,159.2
+2018,Nigeria,Argentina,0.192,0.256,0.552,2,2,Gironi,164.0
+2018,Iceland,Croatia,0.152,0.234,0.615,2,2,Gironi,215.4
+2018,South Korea,Germany,0.08,0.17,0.75,0,2,Gironi,335.3
+2018,Mexico,Sweden,0.525,0.264,0.211,2,0,Gironi,141.4
+2018,Serbia,Brazil,0.072,0.16,0.769,2,2,Gironi,353.8
+2018,Switzerland,Costa Rica,0.558,0.254,0.188,1,0,Gironi,168.5
+2018,England,Belgium,0.342,0.289,0.369,2,2,Gironi,12.1
+2018,Panama,Tunisia,0.345,0.289,0.366,2,2,Gironi,9.1
+2018,Japan,Poland,0.394,0.288,0.318,2,0,Gironi,33.6
+2018,Senegal,Colombia,0.249,0.276,0.474,2,2,Gironi,100.4
+2018,France,Argentina,0.478,0.276,0.247,0,0,Ottavi,103.2
+2018,Uruguay,Portugal,0.339,0.289,0.372,0,2,Ottavi,14.8
+2018,Russia,Spain,0.1,0.192,0.707,1,2,Ottavi,295.3
+2018,Croatia,Denmark,0.444,0.282,0.274,1,0,Ottavi,75.8
+2018,Brazil,Mexico,0.679,0.206,0.115,0,0,Ottavi,269.8
+2018,Belgium,Japan,0.664,0.213,0.123,0,0,Ottavi,256.9
+2018,Sweden,Switzerland,0.311,0.287,0.401,0,2,Ottavi,39.6
+2018,Colombia,England,0.356,0.289,0.355,1,0,Ottavi,0.2
+2018,Uruguay,France,0.306,0.287,0.408,2,2,Quarti,45.1
+2018,Brazil,Belgium,0.508,0.269,0.224,2,0,Quarti,127.7
+2018,Sweden,England,0.312,0.287,0.401,2,2,Quarti,39.2
+2018,Russia,Croatia,0.162,0.24,0.597,1,2,Quarti,200.7
+2018,France,Belgium,0.363,0.289,0.348,0,0,Semifinali,6.6
+2018,Croatia,England,0.303,0.286,0.411,0,2,Semifinali,47.6
+2018,Belgium,England,0.457,0.28,0.263,0,0,Finale,86.4
+2018,France,Croatia,0.512,0.267,0.22,0,0,Finale,131.2
+2022,Qatar,Ecuador,0.236,0.271,0.493,2,2,Gironi,113.7
+2022,Senegal,Netherlands,0.115,0.203,0.682,2,2,Gironi,269.3
+2022,England,Iran,0.467,0.276,0.257,0,0,Gironi,92.4
+2022,United States,Wales,0.407,0.285,0.308,1,0,Gironi,42.9
+2022,Mexico,Poland,0.389,0.286,0.325,1,0,Gironi,28.1
+2022,Argentina,Saudi Arabia,0.819,0.129,0.052,2,0,Gironi,402.1
+2022,France,Australia,0.616,0.232,0.153,0,0,Gironi,212.9
+2022,Denmark,Tunisia,0.596,0.239,0.165,1,0,Gironi,196.6
+2022,Germany,Japan,0.487,0.272,0.241,2,0,Gironi,108.7
+2022,Spain,Costa Rica,0.638,0.223,0.139,0,0,Gironi,231.7
+2022,Morocco,Croatia,0.247,0.274,0.48,1,2,Gironi,103.1
+2022,Belgium,Canada,0.572,0.248,0.18,0,0,Gironi,177.8
+2022,Portugal,Ghana,0.775,0.155,0.07,0,0,Gironi,355.8
+2022,Uruguay,South Korea,0.467,0.276,0.257,1,0,Gironi,92.3
+2022,Switzerland,Cameroon,0.637,0.223,0.14,0,0,Gironi,230.5
+2022,Brazil,Serbia,0.701,0.194,0.105,0,0,Gironi,285.6
+2022,Qatar,Senegal,0.303,0.284,0.412,2,2,Gironi,47.7
+2022,Netherlands,Ecuador,0.547,0.256,0.197,1,0,Gironi,157.4
+2022,Wales,Iran,0.345,0.287,0.368,2,2,Gironi,9.9
+2022,England,United States,0.538,0.259,0.203,1,0,Gironi,150.1
+2022,Poland,Saudi Arabia,0.423,0.283,0.293,0,0,Gironi,56.9
+2022,Argentina,Mexico,0.615,0.232,0.153,0,0,Gironi,212.7
+2022,Tunisia,Australia,0.381,0.287,0.332,2,0,Gironi,21.7
+2022,France,Denmark,0.443,0.28,0.277,0,0,Gironi,73.0
+2022,Croatia,Canada,0.459,0.278,0.264,0,0,Gironi,85.8
+2022,Japan,Costa Rica,0.494,0.27,0.236,2,0,Gironi,114.5
+2022,Spain,Germany,0.529,0.261,0.209,1,0,Gironi,143.0
+2022,Belgium,Morocco,0.611,0.233,0.155,2,0,Gironi,209.5
+2022,South Korea,Ghana,0.621,0.23,0.149,2,0,Gironi,217.5
+2022,Portugal,Uruguay,0.446,0.28,0.274,0,0,Gironi,75.2
+2022,Cameroon,Serbia,0.155,0.233,0.612,1,2,Gironi,209.7
+2022,Brazil,Switzerland,0.682,0.203,0.115,0,0,Gironi,268.8
+2022,Ecuador,Senegal,0.487,0.272,0.241,2,0,Gironi,108.9
+2022,Qatar,Netherlands,0.059,0.14,0.801,2,2,Gironi,383.0
+2022,Wales,England,0.15,0.23,0.621,2,2,Gironi,217.1
+2022,Iran,United States,0.363,0.287,0.35,2,0,Gironi,5.9
+2022,Poland,Argentina,0.148,0.229,0.622,2,2,Gironi,218.7
+2022,Saudi Arabia,Mexico,0.252,0.275,0.473,2,2,Gironi,97.4
+2022,Australia,Denmark,0.219,0.265,0.516,0,2,Gironi,131.9
+2022,Tunisia,France,0.1,0.189,0.711,0,2,Gironi,294.5
+2022,Japan,Spain,0.161,0.237,0.601,0,2,Gironi,201.4
+2022,Costa Rica,Germany,0.233,0.27,0.497,2,2,Gironi,117.2
+2022,Croatia,Belgium,0.34,0.287,0.373,1,2,Gironi,14.6
+2022,Canada,Morocco,0.241,0.272,0.487,2,2,Gironi,109.0
+2022,South Korea,Portugal,0.138,0.222,0.641,0,2,Gironi,234.0
+2022,Ghana,Uruguay,0.153,0.232,0.615,2,2,Gironi,212.2
+2022,Serbia,Switzerland,0.299,0.284,0.417,2,2,Gironi,51.6
+2022,Cameroon,Brazil,0.022,0.073,0.906,0,2,Gironi,518.8
+2022,Netherlands,United States,0.558,0.252,0.19,0,0,Ottavi,166.0
+2022,Argentina,Australia,0.676,0.206,0.118,0,0,Ottavi,264.0
+2022,France,Poland,0.545,0.257,0.199,0,0,Ottavi,155.4
+2022,England,Senegal,0.559,0.252,0.189,0,0,Ottavi,166.6
+2022,Japan,Croatia,0.306,0.285,0.41,1,2,Ottavi,45.6
+2022,Brazil,South Korea,0.705,0.192,0.103,0,0,Ottavi,289.3
+2022,Portugal,Switzerland,0.423,0.283,0.294,0,0,Ottavi,56.6
+2022,Morocco,Spain,0.249,0.274,0.477,1,2,Ottavi,101.1
+2022,Croatia,Brazil,0.151,0.231,0.618,1,2,Quarti,215.4
+2022,Netherlands,Argentina,0.311,0.285,0.404,1,2,Quarti,40.7
+2022,Morocco,Portugal,0.228,0.268,0.504,0,2,Quarti,122.7
+2022,England,France,0.36,0.287,0.352,2,0,Quarti,3.6
+2022,Argentina,Croatia,0.53,0.261,0.209,0,0,Semifinali,143.6
+2022,France,Morocco,0.464,0.277,0.259,0,0,Semifinali,90.3
+2022,Croatia,Morocco,0.359,0.288,0.354,0,0,Finale,2.3
+2022,Argentina,France,0.418,0.284,0.298,1,0,Finale,52.3

@@ -12,7 +12,7 @@ Formula:
 import numpy as np
 import pandas as pd
 
-from config import ELO_BASE, ELO_HOME_ADV
+from config import ELO_BASE, ELO_HOME_ADV, ELO_K_SCALE
 
 
 def goal_diff_multiplier(gd: int) -> float:
@@ -24,12 +24,12 @@ def goal_diff_multiplier(gd: int) -> float:
     return (11.0 + gd) / 8.0
 
 
-def expected(r_home, r_away, neutral):
-    adv = 0.0 if neutral else ELO_HOME_ADV
+def expected(r_home, r_away, neutral, home_adv=ELO_HOME_ADV):
+    adv = 0.0 if neutral else home_adv
     return 1.0 / (1.0 + 10 ** ((r_away - (r_home + adv)) / 400.0))
 
 
-def compute_elo(matches: pd.DataFrame, k_scale: float = 1.0):
+def compute_elo(matches: pd.DataFrame, k_scale: float = ELO_K_SCALE, home_adv: float = ELO_HOME_ADV):
     """Ritorna (matches_con_pre_elo, ratings_finali, timeline).
 
     timeline: dict team -> lista (timestamp, rating_after) ordinata, per as-of.
@@ -54,7 +54,7 @@ def compute_elo(matches: pd.DataFrame, k_scale: float = 1.0):
         ra = ratings.get(a, ELO_BASE)
         pre_h[i] = rh
         pre_a[i] = ra
-        eh = expected(rh, ra, neu[i])
+        eh = expected(rh, ra, neu[i], home_adv)
         gd = hs[i] - as_[i]
         if gd > 0:
             wh = 1.0

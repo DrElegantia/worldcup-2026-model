@@ -69,7 +69,8 @@ def run():
             per_match.append({"year": year, "home": r.home_team, "away": r.away_team,
                               "p_home": round(p1, 3), "p_draw": round(px, 3),
                               "p_away": round(p2, 3), "outcome": o,
-                              "pred": pred, "stage": _stage_of(i, len(wc))})
+                              "pred": pred, "stage": _stage_of(i, len(wc)),
+                              "elo_gap": round(abs(r.pre_elo_home - r.pre_elo_away), 1)})
         pm = np.array(probs_model)
         ps = np.array(probs_static)
         uni = np.full_like(pm, 1 / 3)
@@ -120,8 +121,49 @@ def run():
     for r in by_stage:
         print(f"  {r['stage']:14} {r['correct']:3}/{r['n']:3}  {100*r['accuracy']:.1f}%")
 
+    # --- metriche aggiuntive: affidabilita, fascia di favorito, pareggi ---
+    pmdf["conf"] = pmdf[["p_home", "p_draw", "p_away"]].max(axis=1)
+    # 1) reliability: la confidenza dichiarata corrisponde all'accuratezza osservata?
+    reliability = []
+    edges = [0.34, 0.45, 0.55, 0.65, 0.75, 1.01]
+    for lo, hi in zip(edges[:-1], edges[1:]):
+        sub = pmdf[(pmdf.conf >= lo) & (pmdf.conf < hi)]
+        if len(sub):
+            reliability.append({"bin": f"{int(lo*100)}-{min(int(hi*100),100)}%",
+                                "n": int(len(sub)),
+                                "avg_conf": round(float(sub.conf.mean()), 3),
+                                "obs_acc": round(float(sub.correct.mean()), 3)})
+    # 2) per fascia di favorito (gap Elo): quanto e' affidabile su gare nette vs equilibrate
+    by_favorite = []
+    bands = [(0, 75, "equilibrata"), (75, 150, "lieve favorita"),
+             (150, 300, "netta favorita"), (300, 9999, "nettissima")]
+    for lo, hi, lab in bands:
+        sub = pmdf[(pmdf.elo_gap >= lo) & (pmdf.elo_gap < hi)]
+        if len(sub):
+            P = sub[["p_home", "p_draw", "p_away"]].values; O = sub["outcome"].values
+            by_favorite.append({"band": lab, "n": int(len(sub)),
+                                 "accuracy": round(float(sub.correct.mean()), 3),
+                                 "logloss": round(M.log_loss(P, O), 3)})
+    # 3) pareggi: difficili. recall e prob media assegnata
+    draws = pmdf[pmdf.outcome == 1]; nondraws = pmdf[pmdf.outcome != 1]
+    draw_stats = {"share_real": round(float((pmdf.outcome == 1).mean()), 3),
+                  "recall_argmax": round(float((draws.pred == 1).mean()), 3) if len(draws) else 0,
+                  "avg_p_draw_on_draws": round(float(draws.p_draw.mean()), 3) if len(draws) else 0,
+                  "avg_p_draw_on_nondraws": round(float(nondraws.p_draw.mean()), 3) if len(nondraws) else 0}
+    # 4) sharpness e Brier skill score
+    uni_ll = float(np.log(3))
+    pooled_ll = M.log_loss(pmdf[["p_home", "p_draw", "p_away"]].values, pmdf["outcome"].values)
+    extra = {"reliability": reliability, "by_favorite": by_favorite,
+             "draws": draw_stats,
+             "sharpness_avg_conf": round(float(pmdf.conf.mean()), 3),
+             "logloss_skill_vs_uniform": round(1 - pooled_ll / uni_ll, 3)}
+    print("\nAffidabilita per fascia di favorito (gap Elo):")
+    for r in by_favorite:
+        print(f"  {r['band']:16} n={r['n']:3}  acc {100*r['accuracy']:.0f}%  logloss {r['logloss']}")
+
     out = {"summary": df.round(5).to_dict(orient="records"),
            "by_stage": by_stage,
+           "extra": extra,
            "static_params": static_params}
     with open(DATA_PROC / "backtest.json", "w") as f:
         json.dump(out, f, indent=2)

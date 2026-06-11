@@ -12,7 +12,7 @@ import numpy as np
 from scipy.optimize import minimize
 from scipy.stats import poisson as poisson_dist
 
-from config import ELO_HOME_ADV
+from config import ELO_HOME_ADV, POISSON_HALF_LIFE
 
 
 def _tau(h, a, lh, la, rho):
@@ -46,7 +46,7 @@ def _weights(matches, cutoff, half_life_days=900.0):
     return matches["weight"].values * decay
 
 
-def fit(matches, cutoff, half_life_days=900.0):
+def fit(matches, cutoff, half_life_days=POISSON_HALF_LIFE):
     """Stima MLE di (c0, c1, h_goal, rho) e, se disponibili le colonne di
     altitudine, del coefficiente di penalita altitudine k_alt."""
     d, home_flag, h, a = _prep(matches)

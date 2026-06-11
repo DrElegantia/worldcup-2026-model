@@ -299,6 +299,23 @@
         tbl.appendChild(tr);
       });
       box.innerHTML=""; box.appendChild(tbl);
+      var ex=bt.extra||{};
+      var ft=document.getElementById("favoriteTable");
+      if(ft && ex.by_favorite){
+        var t3=el("table","bt-tbl");
+        t3.innerHTML="<tr><th>Tipo di partita</th><th>Partite</th><th>Accuratezza</th><th>Log loss</th></tr>";
+        ex.by_favorite.forEach(function(r){
+          var tr=el("tr");
+          tr.innerHTML="<td style='text-align:left'>"+r.band+"</td><td>"+r.n+"</td><td>"+Math.round(100*r.accuracy)+"%</td><td>"+r.logloss.toFixed(3).replace(".",",")+"</td>";
+          t3.appendChild(tr);
+        });
+        ft.innerHTML=""; ft.appendChild(t3);
+      }
+      var dn=document.getElementById("drawNote");
+      if(dn && ex.draws){
+        var d=ex.draws;
+        dn.innerHTML="<strong>Pareggi:</strong> il "+Math.round(100*d.share_real)+"% delle partite dei Mondiali finisce in parita. Il modello assegna in media "+Math.round(100*d.avg_p_draw_on_draws)+"% di probabilita al pareggio quando poi succede, ma quasi mai il pareggio e l'esito singolo piu probabile: e una proprieta nota dei modelli di gol (la X resta divisa tra le due squadre). Per questo si valuta su probabilita (log loss, RPS), non solo sul segno secco.";
+      }
       var sa=document.getElementById("stageAccuracy");
       if(sa && bt.by_stage){
         var t2=el("table","bt-tbl");
