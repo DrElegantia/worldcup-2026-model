@@ -100,13 +100,16 @@ def simulate(elo: dict, params: dict, wc: dict, n: int = 100_000, seed: int = 0)
     runners = {g: slot_team(g, 1) for g in GROUPS}
     thirds = {g: slot_team(g, 2) for g in GROUPS}
 
-    # distribuzione posizione finale nel girone (1/2/3/4) per squadra
+    # distribuzione posizione finale nel girone (1/2/3/4) e punti attesi per squadra
     place = np.zeros((48, 4))
+    exp_pts = np.zeros(48)
     for g in GROUPS:
-        base = [tidx[t] for t in groups[g]]
+        base = np.array([tidx[t] for t in groups[g]])
         for r in range(4):
             local = np.where(pos[g] == r)[1].reshape(n)
-            np.add.at(place[:, r], np.array(base)[local], 1)
+            np.add.at(place[:, r], base[local], 1)
+        for li in range(4):
+            exp_pts[base[li]] = pts[g][:, li].mean()
 
     # chiave delle terze per selezionare le migliori 8
     third_key = np.zeros((n, 12))
@@ -216,6 +219,7 @@ def simulate(elo: dict, params: dict, wc: dict, n: int = 100_000, seed: int = 0)
     for i, t in enumerate(teams):
         out.append({
             "team": t, "group": group_of[t], "elo": round(float(elo_arr[i]), 1),
+            "exp_points": round(float(exp_pts[i]), 2),
             "p_first": round(place[i, 0] / n, 4),
             "p_second": round(place[i, 1] / n, 4),
             "p_third": round(place[i, 2] / n, 4),

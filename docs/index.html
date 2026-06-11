@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mondiale 2026, simulazione probabilistica</title>
-<meta name="description" content="Modello predittivo del Mondiale FIFA 2026: probabilita di vittoria, qualificazione e cammino di ogni nazionale, aggiornate ogni giorno con Monte Carlo.">
+<meta name="description" content="Modello predittivo del Mondiale FIFA 2026: probabilita di vittoria, qualificazione, classifiche dei gironi e tabellone simulato di ogni nazionale, aggiornati ogni giorno con 100.000 simulazioni Monte Carlo.">
 <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -17,7 +17,8 @@
   <nav class="tabs">
     <button class="tab on" data-view="vSim">Simulazione</button>
     <button class="tab" data-view="vTrend">Andamento giorno per giorno</button>
-    <button class="tab" data-view="vMethod">Metodo</button>
+    <button class="tab" data-view="vRetro">Verifica storica</button>
+    <button class="tab" data-view="vMethod">Nota metodologica</button>
   </nav>
 
   <div id="app">
@@ -31,15 +32,29 @@
       <h2>Favorite per il titolo</h2>
       <div id="contenders" class="contenders"></div>
 
-      <h2>Gironi · probabilita di posizione e qualificazione</h2>
+      <h2>Classifica prevista dei gironi</h2>
+      <p class="muted small">Ordine piu probabile di arrivo, punti attesi e probabilita di passare il turno. Le prime due di ogni girone piu le 8 migliori terze vanno ai sedicesimi.</p>
       <div id="groups" class="groups"></div>
 
-      <h2>Cammino verso la finale</h2>
-      <p class="muted small">Probabilita di raggiungere ciascuna fase. Top 24 per probabilita titolo.</p>
+      <h2>Tabellone simulato (fasi finali)</h2>
+      <div id="bracket" class="bracket"></div>
+
+      <h2>Probabilita per ogni fase</h2>
+      <p class="muted small">Probabilita di raggiungere ciascuna fase, top 24 per probabilita titolo.</p>
       <div id="knockout" class="ktable-wrap"></div>
 
-      <h2>Prossime partite · probabilita 1 / X / 2</h2>
-      <div id="upcoming" class="upcoming"></div>
+      <h2>Prossime 48 ore</h2>
+      <p class="muted small">Per ogni partita: risultato piu probabile secondo il modello e probabilita di vittoria 1 (prima squadra) / X (pareggio) / 2 (seconda squadra).</p>
+      <div id="next48" class="matches"></div>
+
+      <section id="playedSection" style="display:none">
+        <h2>Risultati e predizioni</h2>
+        <p class="muted small">Partite gia giocate: risultato reale, cosa aveva previsto il modello, e se ha indovinato il segno.</p>
+        <div id="playedBox" class="matches"></div>
+      </section>
+
+      <h2>Partite successive</h2>
+      <div id="nextBox" class="matches"></div>
     </section>
 
     <section id="vTrend" class="view">
@@ -58,16 +73,36 @@
       <div id="trendChart" class="trend"></div>
     </section>
 
+    <section id="vRetro" class="view">
+      <h2>Il modello, con i dati pre-torneo, azzeccava i Mondiali passati?</h2>
+      <div id="retroBox" class="retro"></div>
+    </section>
+
     <section id="vMethod" class="view">
       <div class="method">
-        <h2>Come funziona</h2>
-        <p>Ogni nazionale ha un rating <strong>Elo</strong> calcolato sull'intera storia delle partite internazionali (dal 1872, fonte aperta martj42/international_results), con vantaggio campo e moltiplicatore per lo scarto di gol. Dall'Elo, un modello <strong>Poisson bivariato con correzione Dixon-Coles</strong> stima i gol attesi di ogni partita e quindi le probabilita 1 / X / 2 e la distribuzione dei risultati.</p>
-        <p>Il torneo completo (48 squadre, nuovo formato a 12 gironi piu le 8 migliori terze, tabellone ufficiale FIFA con allocazione Annex C) viene simulato <strong>100.000 volte</strong> ogni giorno. Le partite gia giocate usano il risultato reale, le altre vengono simulate: cosi le probabilita si aggiornano col procedere del Mondiale.</p>
-        <h2>Validazione</h2>
-        <p>Il modello e stato testato in modalita <em>point-in-time</em> sui Mondiali 2002, 2006, 2010, 2014, 2018 e 2022, usando solo i dati disponibili prima di ogni torneo. Su 384 partite: <strong>log loss 0,98</strong>, <strong>RPS 0,20</strong>, accuratezza 57% (uniforme = log loss 1,10), valori in linea con lo stato dell'arte per il calcio internazionale.</p>
-        <h2>Limiti</h2>
-        <p>Predire il vincitore di un Mondiale e intrinsecamente incerto: la varianza dello sport e alta e le partite sono poche. Il valore del sistema sta nel fornire probabilita <strong>ben calibrate</strong> e tracciabili, non nell'indovinare il campione. Questa versione core usa forza storica, forma recente e fattore campo; clima, logistica, qualita dei singoli e sinergia della rosa sono in arrivo.</p>
-        <p class="muted small">Dataset e codice aperti. Nessun dato personale. Solo dati sportivi pubblici.</p>
+        <h2>Nota metodologica</h2>
+
+        <h3>1. Dati</h3>
+        <p>Fonte primaria: <strong>tutte le partite internazionali dal 1872</strong> (dataset aperto martj42/international_results), aggiornato in continuo: data, squadre, risultato, torneo, sede, campo neutro. La struttura del Mondiale 2026 (48 squadre, 12 gironi, calendario, sedi) e estratta dalle stesse fixture ufficiali e validata contro il sorteggio FIFA del 5 dicembre 2025.</p>
+
+        <h3>2. Forza delle squadre: Elo</h3>
+        <p>Ogni nazionale ha un rating <strong>Elo</strong> aggiornato partita per partita su tutta la storia, con vantaggio campo (annullato in campo neutro) e moltiplicatore per lo scarto di gol (una vittoria larga sposta piu rating di una di misura). E il punto-in-tempo: il rating usato per prevedere una partita e sempre quello precedente alla partita stessa.</p>
+
+        <h3>3. Gol attesi: Poisson Dixon-Coles</h3>
+        <p>Dalla differenza Elo fra le due squadre, un modello <strong>Poisson bivariato</strong> stima i gol attesi di ciascuna (lambda) e quindi la distribuzione dei risultati. La <strong>correzione Dixon-Coles</strong> sistema la dipendenza nei punteggi bassi (0-0, 1-0, 1-1). I parametri sono stimati per massima verosimiglianza con pesatura temporale (le partite recenti pesano di piu).</p>
+
+        <h3>4. Simulazione del torneo: Monte Carlo</h3>
+        <p>Il torneo completo viene simulato <strong>100.000 volte</strong>: gironi (con i criteri ufficiali di classifica), selezione delle 8 migliori terze con <strong>allocazione Annex C</strong> (tutte le 495 combinazioni), tabellone dai sedicesimi alla finale secondo la struttura ufficiale FIFA, con supplementari e rigori. Le partite gia giocate usano il risultato reale; cosi le probabilita si aggiornano ogni giorno.</p>
+
+        <h3>5. Validazione point-in-time (2002-2022)</h3>
+        <p>Il modello e stato testato sui 6 Mondiali usando <strong>solo i dati disponibili prima di ogni torneo</strong>. Su 384 partite:</p>
+        <div id="backtestTable" class="bt-wrap"><p class="muted small">Caricamento...</p></div>
+        <p class="muted small">Log loss e RPS piu bassi sono migliori. L'uniforme (1/3 a ogni esito) da log loss 1,099. Il modello la batte su tutti i tornei. Valori in linea con lo stato dell'arte per il calcio internazionale.</p>
+
+        <h3>6. Limiti</h3>
+        <p>Predire il vincitore di un Mondiale e intrinsecamente incerto: la varianza dello sport e alta e le partite sono poche. Il valore del sistema sta nel fornire probabilita <strong>ben calibrate e tracciabili</strong>, non nell'indovinare il campione. Questa versione core usa forza storica, forma recente e fattore campo. In arrivo (fase 2): qualita dei singoli (valore di mercato, xG), sinergia della rosa, clima e altitudine delle sedi 2026, logistica, ensemble con gradient boosting. Ogni feature verra aggiunta solo se migliora il backtest.</p>
+
+        <p class="muted small">Dataset e codice aperti: <a href="https://github.com/DrElegantia/worldcup-2026-model" target="_blank" rel="noopener">github.com/DrElegantia/worldcup-2026-model</a>. Solo dati sportivi pubblici. Simulazione a scopo informativo, non e un consiglio di scommessa.</p>
       </div>
     </section>
   </div>

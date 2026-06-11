@@ -71,3 +71,51 @@ footer{margin-top:30px;border-top:1px solid var(--line);padding-top:12px}
   header h1{font-size:1.25rem}
   .groups{grid-template-columns:1fr 1fr}
 }
+
+/* ---- v2 additions ---- */
+.method h3{font-size:.98rem;margin:18px 0 6px;color:var(--acc2)}
+.method a{color:var(--acc)}
+
+/* classifica prevista gironi */
+.gtable td.pos{color:var(--mut);font-weight:700;width:18px}
+.gtable tr.qual td.pos{color:var(--acc)}
+.gtable tr.out{opacity:.62}
+
+/* tabellone */
+.bracket-scroll{display:flex;gap:12px;overflow-x:auto;padding:6px 2px 12px}
+.brk-col{flex:0 0 auto;min-width:158px;display:flex;flex-direction:column;gap:8px;justify-content:center}
+.brk-head{font-size:.74rem;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.04em;text-align:center;margin-bottom:2px}
+.brk-match{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.brk-team{font-size:.8rem;padding:2px 0;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brk-team.win{color:var(--txt);font-weight:700}
+.brk-p{font-size:.66rem;color:#6b7783;margin-top:3px}
+.brk-champ{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#0e141b;font-weight:800;
+  border-radius:10px;padding:14px 10px;text-align:center;font-size:.95rem;margin-top:18px}
+
+/* match cards v2 */
+.matches{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px}
+.mscore{font-weight:800;font-size:1rem;font-variant-numeric:tabular-nums;color:var(--acc2)}
+.mpred{font-size:.78rem;margin:2px 0 7px;color:#cdd6df}
+.mpred .hit{color:var(--acc);font-weight:700}
+.mpred .miss{color:var(--s2);font-weight:700}
+.msplit span{padding:0 4px}
+
+/* verifica storica */
+.retro{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;margin-top:6px}
+.retro-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.retro-head{font-weight:800;font-size:1.05rem;margin-bottom:6px}
+.retro-actual{font-size:.86rem;margin-bottom:10px}
+.retro-actual .hl{color:var(--acc2)}
+.retro-tbl{width:100%;border-collapse:collapse;font-size:.82rem}
+.retro-tbl th{color:var(--mut);font-weight:600;text-align:left;padding:3px 6px;font-size:.72rem}
+.retro-tbl td{padding:4px 6px;border-top:1px solid var(--line)}
+.retro-tbl tr.champ{background:rgba(42,157,143,.18);font-weight:700}
+.retro-tbl td.tn{white-space:nowrap}
+
+/* backtest table */
+.bt-wrap{overflow-x:auto}
+.bt-tbl{width:100%;border-collapse:collapse;font-size:.84rem;margin:6px 0}
+.bt-tbl th{color:var(--mut);font-weight:600;padding:6px 8px;text-align:center;border-bottom:1px solid var(--line)}
+.bt-tbl td{padding:6px 8px;text-align:center;font-variant-numeric:tabular-nums;border-top:1px solid var(--line)}
+.bt-tbl tr.pooled{font-weight:800;background:rgba(233,196,106,.12)}
+.bt-tbl tr.pooled td{border-top:2px solid var(--acc2)}

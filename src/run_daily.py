@@ -30,35 +30,50 @@ def today_str():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
-def upcoming_predictions(mm, elo, params, wc, asof):
-    """Probabilita' 1X2 per le partite non ancora giocate (prossimi 10 giorni)."""
-    preds = []
+def all_match_predictions(tl, params, wc, asof):
+    """Per ogni partita 2026: predizione del modello (Elo pre-match, leakage-free)
+    e, se gia' giocata, il risultato reale. Cosi' si confronta predetto vs reale."""
+    import numpy as np
+    from config import HOSTS
+    from elo import ratings_as_of
     asof_ts = pd.Timestamp(asof)
+    out = []
     for f in wc["fixtures"]:
-        if f["played"]:
-            continue
-        fdate = pd.Timestamp(f["date"])
-        if fdate < asof_ts or fdate > asof_ts + pd.Timedelta(days=10):
-            continue
         h, a = f["home"], f["away"]
+        fdate = pd.Timestamp(f["date"])
+        elo = ratings_as_of(tl, fdate)              # rating prima della partita
         if h not in elo or a not in elo:
             continue
-        from config import HOSTS, ELO_HOME_ADV
         neutral = not ((h in HOSTS and f["country"] == h) or (a in HOSTS and f["country"] == a))
-        (p1, px, p2), (lh, la), _ = match_probs(elo[h], elo[a], neutral, params)
-        preds.append({"date": f["date"], "stage": f["stage"], "group": f["group"],
-                      "home": h, "away": a, "city": f["city"],
-                      "p_home": round(p1, 3), "p_draw": round(px, 3),
-                      "p_away": round(p2, 3),
-                      "xg_home": round(lh, 2), "xg_away": round(la, 2)})
-    return preds
-
-
-def played_results(wc):
-    return [{"date": f["date"], "group": f["group"], "home": f["home"],
-             "away": f["away"], "home_score": f["home_score"],
-             "away_score": f["away_score"]}
-            for f in wc["fixtures"] if f["played"] and f["stage"] == "group"]
+        (p1, px, p2), (lh, la), mat = match_probs(elo[h], elo[a], neutral, params)
+        gh, ga = np.unravel_index(int(np.argmax(mat)), mat.shape)
+        if p1 >= px and p1 >= p2:
+            pred = h
+        elif p2 >= px and p2 >= p1:
+            pred = a
+        else:
+            pred = "Pareggio"
+        hours = (fdate - asof_ts) / pd.Timedelta(hours=1)
+        rec = {"date": f["date"], "stage": f["stage"], "group": f["group"],
+               "home": h, "away": a, "city": f["city"],
+               "played": bool(f["played"]),
+               "within_48h": bool(0 <= hours <= 48),
+               "p_home": round(p1, 3), "p_draw": round(px, 3), "p_away": round(p2, 3),
+               "xg_home": round(lh, 2), "xg_away": round(la, 2),
+               "pred_winner": pred, "pred_score": f"{gh}-{ga}"}
+        if f["played"] and f["home_score"] is not None:
+            rec["home_score"] = f["home_score"]
+            rec["away_score"] = f["away_score"]
+            if f["home_score"] > f["away_score"]:
+                actual = h
+            elif f["home_score"] < f["away_score"]:
+                actual = a
+            else:
+                actual = "Pareggio"
+            rec["actual_winner"] = actual
+            rec["hit"] = bool(actual == pred)
+        out.append(rec)
+    return out
 
 
 def build_snapshot(asof=None, n=100_000, refresh=True):
@@ -69,13 +84,16 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
     m = pd.read_parquet(DATA_PROC / "matches.parquet")
     mm, _, tl = compute_elo(m)
     elo = ratings_as_of(tl, pd.Timestamp(asof) + pd.Timedelta(days=1))
+    _tl = tl
     train = mm[(mm.date < pd.Timestamp(asof) + pd.Timedelta(days=1))
                & (mm.date >= pd.Timestamp(asof) - pd.Timedelta(days=365 * 18))]
     params = fit(train, asof)
     wc = json.load(open(DATA_PROC / "wc2026.json"))
 
     sim = simulate(elo, params, wc, n=n, seed=42)
-    preds = upcoming_predictions(mm, elo, params, wc, asof)
+    matches = all_match_predictions(_tl, params, wc, asof)
+    from predicted import predicted_bracket
+    pred = predicted_bracket(sim["teams"], elo, params)
 
     n_played = sum(1 for f in wc["fixtures"] if f["played"])
     snap = {
@@ -87,8 +105,10 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
         "group_matches_played": n_played,
         "teams": sim["teams"],
         "groups": wc["groups"],
-        "upcoming": preds,
-        "results": played_results(wc),
+        "predicted_standings": pred["standings"],
+        "predicted_bracket": pred["bracket"],
+        "predicted_champion": pred["champion"],
+        "matches": matches,
     }
     return snap
 
@@ -144,6 +164,12 @@ def mirror_to_docs():
     ddir.mkdir(parents=True, exist_ok=True)
     for p in SIMS.glob("*.json"):
         shutil.copy(p, ddir / p.name)
+    bt = DATA_PROC / "backtest.json"
+    if bt.exists():
+        shutil.copy(bt, ddir / "backtest.json")
+    retro = DATA_PROC / "retro.json"
+    if retro.exists():
+        shutil.copy(retro, ddir / "retro.json")
 
 
 if __name__ == "__main__":
