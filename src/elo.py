@@ -29,10 +29,12 @@ def expected(r_home, r_away, neutral, home_adv=ELO_HOME_ADV):
     return 1.0 / (1.0 + 10 ** ((r_away - (r_home + adv)) / 400.0))
 
 
-def compute_elo(matches: pd.DataFrame, k_scale: float = ELO_K_SCALE, home_adv: float = ELO_HOME_ADV):
+def compute_elo(matches: pd.DataFrame, k_scale: float = ELO_K_SCALE, home_adv: float = ELO_HOME_ADV,
+                ignore_margin: bool = False):
     """Ritorna (matches_con_pre_elo, ratings_finali, timeline).
 
     timeline: dict team -> lista (timestamp, rating_after) ordinata, per as-of.
+    ignore_margin=True: il margine di vittoria non conta (solo W/D/L), ipotesi diversa.
     """
     matches = matches.sort_values("date").reset_index(drop=True)
     ratings = {}
@@ -62,7 +64,8 @@ def compute_elo(matches: pd.DataFrame, k_scale: float = ELO_K_SCALE, home_adv: f
             wh = 0.0
         else:
             wh = 0.5
-        k = wts[i] * goal_diff_multiplier(gd) * k_scale
+        mult = 1.0 if ignore_margin else goal_diff_multiplier(gd)
+        k = wts[i] * mult * k_scale
         delta = k * (wh - eh)
         ratings[h] = rh + delta
         ratings[a] = ra - delta
