@@ -23,22 +23,21 @@ from simulate import simulate
 import ingest
 import metrics as M
 
-MODEL_VERSION = "1.3.0-squad"   # + forza-rosa EA FIFA nelle predizioni per-match (validata WC18/22)
+MODEL_VERSION = "2.0.0-consensus"   # consenso Elo-Poisson + XGBoost + Attacco-Difesa
 
 
 def today_str():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
-def all_match_predictions(tl, params, wc, asof, clf=None, snap=None):
+def all_match_predictions(tl, params, wc, asof, cons_models=None, snap=None):
     """Per ogni partita 2026: predizione del modello (leakage-free) e, se gia'
-    giocata, il risultato reale. Le partite future usano l'ensemble Elo-Poisson+XGB."""
+    giocata, il risultato reale. Le future usano il CONSENSO di 3 modelli."""
     import numpy as np
     from config import HOSTS
     from elo import ratings_as_of
-    from ensemble import ensemble_match_probs
-    import squad as squadmod
-    strength = squadmod.load().get("2026", {})
+    from consensus import consensus_1x2
+    from poisson import score_matrix
     asof_ts = pd.Timestamp(asof)
     # penalita altitudine per ogni fixture (sede nota)
     alt_by_fix = {}
@@ -60,10 +59,9 @@ def all_match_predictions(tl, params, wc, asof, clf=None, snap=None):
             continue
         neutral = not ((h in HOSTS and f["country"] == h) or (a in HOSTS and f["country"] == a))
         ap_h, ap_a = alt_by_fix.get((h, a, f["date"]), (0.0, 0.0))
-        if (not f["played"]) and clf is not None and snap is not None and h in snap and a in snap:
-            (p1, px, p2), (lh, la), mat = ensemble_match_probs(h, a, neutral, params, clf, snap,
-                                                               alt_pen_h=ap_h, alt_pen_a=ap_a,
-                                                               sq_h=strength.get(h), sq_a=strength.get(a))
+        if (not f["played"]) and cons_models is not None and snap is not None and h in snap and a in snap:
+            (p1, px, p2), (lh, la) = consensus_1x2(h, a, neutral, params, cons_models, snap, ap_h, ap_a)
+            mat = score_matrix(lh, la, params["rho"])
         else:
             (p1, px, p2), (lh, la), mat = match_probs(elo[h], elo[a], neutral, params,
                                                       alt_pen_h=ap_h, alt_pen_a=ap_a)
@@ -111,17 +109,45 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
     params = fit(train, asof)
     wc = json.load(open(DATA_PROC / "wc2026.json"))
 
-    sim = simulate(elo, params, wc, n=n, seed=42)
-    # ensemble fase 2: XGBoost addestrato point-in-time + snapshot feature per squadra
-    clf = snap = None
+    # CONSENSO di 3 modelli (Elo-Poisson + XGBoost + Attacco/Difesa) nel Monte Carlo
+    cons_models = snap_feat = cons_ko = None
+    cons_group = {}
     try:
-        from ensemble import train_xgb
+        import consensus as C
         from features import team_snapshots
-        clf = train_xgb(mm, pd.Timestamp(asof) + pd.Timedelta(days=1))
-        snap = team_snapshots(mm, pd.Timestamp(asof) + pd.Timedelta(days=1), elo)
+        from bracket import GROUPS as _GR
+        from config import HOSTS
+        cutoff1 = pd.Timestamp(asof) + pd.Timedelta(days=1)
+        cons_models = C.train(mm, cutoff1)
+        snap_feat = team_snapshots(mm, cutoff1, elo)
+        # altitudine per fixture dei gironi
+        alt_fix = {}
+        try:
+            import geo
+            gdf = pd.DataFrame([{"home_team": f["home"], "away_team": f["away"],
+                                 "city": f["city"], "country": f["country"]}
+                                for f in wc["fixtures"] if f["stage"] == "group"])
+            gdf, _ = geo.add_elevation(gdf)
+            for f, (_, r) in zip([x for x in wc["fixtures"] if x["stage"] == "group"], gdf.iterrows()):
+                alt_fix[(f["home"], f["away"])] = (r["alt_pen_home"], r["alt_pen_away"])
+        except Exception:
+            pass
+        for f in wc["fixtures"]:
+            if f["stage"] != "group" or f["played"]:
+                continue
+            h, a = f["home"], f["away"]
+            if h in snap_feat and a in snap_feat:
+                neu = not ((h in HOSTS and f["country"] == h) or (a in HOSTS and f["country"] == a))
+                aph, apa = alt_fix.get((h, a), (0.0, 0.0))
+                cons_group[(h, a)] = C.consensus_lambda(h, a, neu, params, cons_models, snap_feat, aph, apa)
+        teams_order = [t for g in _GR for t in wc["groups"][g]]
+        if all(t in snap_feat for t in teams_order):
+            cons_ko = C.knockout_table(teams_order, params, cons_models, snap_feat)
     except Exception as e:
-        print(f"[daily] ensemble non disponibile ({e}), uso solo Elo-Poisson", file=sys.stderr)
-    matches = all_match_predictions(_tl, params, wc, asof, clf, snap)
+        print(f"[daily] consenso non disponibile ({e}), uso Elo-Poisson", file=sys.stderr)
+
+    sim = simulate(elo, params, wc, n=n, seed=42, cons_group=cons_group, cons_ko=cons_ko)
+    matches = all_match_predictions(_tl, params, wc, asof, cons_models, snap_feat)
     from predicted import predicted_bracket
     pred = predicted_bracket(sim["teams"], elo, params)
 

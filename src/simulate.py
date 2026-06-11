@@ -29,7 +29,8 @@ def _build_third_lookup():
     return lut
 
 
-def simulate(elo: dict, params: dict, wc: dict, n: int = 100_000, seed: int = 0):
+def simulate(elo: dict, params: dict, wc: dict, n: int = 100_000, seed: int = 0,
+             cons_group: dict = None, cons_ko: np.ndarray = None):
     rng = np.random.default_rng(seed)
     c0, c1, hg, rho = params["c0"], params["c1"], params["h_goal"], params["rho"]
 
@@ -82,7 +83,10 @@ def simulate(elo: dict, params: dict, wc: dict, n: int = 100_000, seed: int = 0)
             home_h = f["home"] in HOSTS and f["country"] == f["home"]
             home_a = f["away"] in HOSTS and f["country"] == f["away"]
             ap_h, ap_a = alt_by_fix.get((f["home"], f["away"]), (0.0, 0.0))
-            lhl, lal = lam(hi, ai, home_h, home_a, ap_h, ap_a)
+            if cons_group is not None and (f["home"], f["away"]) in cons_group:
+                lhl, lal = cons_group[(f["home"], f["away"])]
+            else:
+                lhl, lal = lam(hi, ai, home_h, home_a, ap_h, ap_a)
             hsc = rng.poisson(lhl, n)
             asc = rng.poisson(lal, n)
         # punti
@@ -164,18 +168,19 @@ def simulate(elo: dict, params: dict, wc: dict, n: int = 100_000, seed: int = 0)
         raise ValueError(spec)
 
     def sim_ko(a, b):
+        if cons_ko is not None:
+            pa = cons_ko[a, b]                          # P(a avanza) di consenso
+            return np.where(rng.random(len(a)) < pa, a, b)
         ea, eb = elo_arr[a], elo_arr[b]
         d = (ea - eb) / 400.0
         la_ = np.exp(c0 + c1 * d)
         lb = np.exp(c0 - c1 * d)
         gha = rng.poisson(np.clip(la_, 1e-3, 12))
         ghb = rng.poisson(np.clip(lb, 1e-3, 12))
-        aw = gha > ghb
-        bw = ghb > gha
         tie = gha == ghb
         pa = 1.0 / (1.0 + 10 ** ((eb - ea) / 400.0))   # rigori pesati per forza
         coin = rng.random(len(a)) < pa
-        a_wins = aw | (tie & coin)
+        a_wins = (gha > ghb) | (tie & coin)
         return np.where(a_wins, a, b)
 
     # contatori esiti

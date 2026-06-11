@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mondiale 2026, simulazione probabilistica</title>
 <meta name="description" content="Modello predittivo del Mondiale FIFA 2026: probabilita di vittoria, qualificazione, classifiche dei gironi e tabellone simulato di ogni nazionale, aggiornati ogni giorno con 100.000 simulazioni Monte Carlo.">
-<link rel="stylesheet" href="./styles.css?v=137">
+<link rel="stylesheet" href="./styles.css?v=138">
 </head>
 <body>
 <script>/* in embed (iframe sul sito) nasconde header/footer per evitare doppioni */
@@ -13,7 +13,7 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
 <div class="wrap">
   <header>
     <h1>Mondiale 2026 · simulazione probabilistica</h1>
-    <p class="sub">Modello Elo + Poisson Dixon-Coles. 100.000 simulazioni Monte Carlo del torneo, aggiornate ogni giorno sui risultati reali. <span id="meta"></span></p>
+    <p class="sub">Consenso di tre modelli (Elo-Poisson, XGBoost, Attacco/Difesa). 100.000 simulazioni Monte Carlo del torneo, aggiornate ogni giorno sui risultati reali. <span id="meta"></span></p>
   </header>
 
   <nav class="tabs">
@@ -84,6 +84,9 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
       <div class="method">
         <h2>Nota metodologica</h2>
 
+        <h3>0. Architettura: consenso di modelli</h3>
+        <p>Invece di un singolo "super-modello", la previsione e il <strong>consenso di tre modelli</strong> diversi: per ogni partita si mediano le loro probabilita (Elo-Poisson 60%, XGBoost 20%, Attacco/Difesa per squadra 20%), e su questa probabilita di consenso gira il Monte Carlo. La logica e quella del meteo e dei "supercomputer": modelli diversi sbagliano in modo diverso, e mediarli riduce gli errori e migliora la calibrazione. I pesi sono stati scelti fuori campione sui Mondiali 2018/2022, dove il consenso batte ogni singolo modello (log loss 1,018 → 1,005, accuratezza 54,7% → 55,5%). Risultato pratico: probabilita meno overconfident, piu vicine al mercato.</p>
+
         <h3>1. Dati</h3>
         <p>Fonte primaria: <strong>tutte le partite internazionali dal 1872</strong> (dataset aperto martj42/international_results), aggiornato in continuo: data, squadre, risultato, torneo, sede, campo neutro. La struttura del Mondiale 2026 (48 squadre, 12 gironi, calendario, sedi) e estratta dalle stesse fixture ufficiali e validata contro il sorteggio FIFA del 5 dicembre 2025.</p>
 
@@ -133,7 +136,7 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
     <p class="muted small">Simulazione a scopo informativo e divulgativo. Le probabilita non sono garanzie ne consigli di scommessa.</p>
   </footer>
 </div>
-<script src="./app.js?v=137"></script>
+<script src="./app.js?v=138"></script>
 <script>
 /* auto-resize quando incorporata in iframe (umbertobertonelli.it) */
 (function(){
