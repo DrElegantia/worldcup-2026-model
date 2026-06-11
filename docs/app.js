@@ -296,6 +296,26 @@
     var box=document.getElementById("retroBox"); if(!box) return; box.innerHTML="";
     if(!state.retro){ box.appendChild(el("p","muted","Verifica storica non disponibile.")); return; }
     box.appendChild(el("p","muted","Per ogni Mondiale passato, le probabilita che il modello assegnava PRIMA del torneo (solo dati anteriori), confrontate con l'esito reale. Verifica leale: il favorito del modello non sempre vince, ma il campione reale era quasi sempre fra i primissimi."));
+
+    // pannello: le nuove feature fatte girare sui dati passati
+    var vf=state.retro.validated_features;
+    if(vf && vf.length){
+      var pan=el("div","retro-card"); pan.style.gridColumn="1 / -1";
+      pan.appendChild(el("div","retro-head","Le nuove feature, misurate sui dati passati"));
+      var t=el("table","bt-tbl");
+      t.innerHTML="<tr><th style='text-align:left'>Feature</th><th>Su quali partite</th><th>Log loss prima</th><th>Log loss dopo</th></tr>";
+      vf.forEach(function(f){
+        var tr=el("tr");
+        tr.innerHTML="<td style='text-align:left'>"+f.name+"</td><td style='font-size:.78rem'>"+f.scope+"</td>"+
+          "<td>"+f.base_logloss.toFixed(3).replace(".",",")+"</td>"+
+          "<td><b>"+f.enh_logloss.toFixed(3).replace(".",",")+"</b></td>";
+        t.appendChild(tr);
+      });
+      pan.appendChild(t);
+      var coef=state.retro.squad_coef;
+      pan.appendChild(el("p","muted small","Altitudine e forza-rosa migliorano la previsione a livello di <strong>singola partita</strong> sui dati storici (numeri sopra). A livello di <strong>campione del torneo</strong>, pero, non aggiungono: la calibrazione del peso forza-rosa sui Mondiali 2018/2022 sceglie "+(coef===0?"zero":coef)+", perche l'Elo cattura gia la forza della rosa. Per questo i pronostici-campione qui sotto restano quelli del modello Elo+Poisson, onesti e immutati."));
+      box.appendChild(pan);
+    }
     state.retro.tournaments.forEach(function(tn){
       var card=el("div","retro-card");
       var a=tn.actual;
