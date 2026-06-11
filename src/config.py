@@ -74,6 +74,18 @@ TOURNAMENT_WEIGHT = {
 }
 DEFAULT_TOURNAMENT_WEIGHT = 30
 
+# Consenso: pooling + calibrazione. eval_pooling_calib.py mostra che A LIVELLO PARTITA
+# il log-opinion pooling (media geometrica) + temperature scaling migliorano OOS
+# (log loss 0.9725->0.9708, ECE 0.064->0.034). MA propagati nel Monte Carlo del torneo
+# AFFINANO gli edge per-partita e, per compounding su 7 turni, rendono le probabilita
+# TITOLO piu' concentrate e piu' lontane dal consenso bookmaker (Spagna 22%->27%, mercato
+# ~15%). Calibrazione di partita != calibrazione di torneo: in produzione si tiene il
+# pooling ARITMETICO a T=1 (la regressione verso l'uniforme contrasta il compounding,
+# titolo allineato al mercato). Le opzioni restano per riproducibilita del finding.
+CONSENSUS_LOGPOOL = False
+CONSENSUS_TEMPERATURE = 1.0
+CONSENSUS_FLOOR = 1e-4
+
 # Mondiali di backtest
 BACKTEST_WORLD_CUPS = [2002, 2006, 2010, 2014, 2018, 2022]
 

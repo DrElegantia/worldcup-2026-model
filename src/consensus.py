@@ -20,7 +20,8 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from scipy.optimize import minimize_scalar
 
-from config import ELO_HOME_ADV
+from config import (ELO_HOME_ADV, CONSENSUS_LOGPOOL, CONSENSUS_TEMPERATURE,
+                    CONSENSUS_FLOOR)
 from poisson import match_probs, score_matrix, outcome_probs
 from features import build_match_features, FEATURE_COLS
 from eval_attdef import fit_attack_defense, ad_probs
@@ -100,30 +101,47 @@ def _feat(snap, h, a, neutral):
             "gf_h": sh["gf"], "ga_h": sh["ga"], "gf_a": sa["gf"], "ga_a": sa["ga"]}
 
 
+def _pool(components):
+    """Combina i modelli del consenso. Log-opinion pooling (media geometrica pesata
+    delle odds) + temperature scaling, validati out-of-sample (eval_pooling_calib.py:
+    log loss e ECE migliori della media aritmetica, guadagni che si sommano).
+    components: lista di (peso, prob_vec 1X2)."""
+    comps = [(w, np.clip(np.asarray(p, float), CONSENSUS_FLOOR, 1.0)) for w, p in components]
+    wsum = sum(w for w, _ in comps) or 1.0
+    if CONSENSUS_LOGPOOL:
+        logmix = sum(w * np.log(p) for w, p in comps) / wsum
+    else:
+        logmix = np.log(sum(w * p for w, p in comps) / wsum)
+    logmix = logmix / CONSENSUS_TEMPERATURE
+    logmix = logmix - logmix.max()
+    out = np.exp(logmix)
+    return out / out.sum()
+
+
 def _blend(h, a, neutral, params, models, snap, logit_probs, alt_h=0.0, alt_a=0.0):
     (e1, ex, e2), (lh, la), _ = match_probs(snap[h]["elo"], snap[a]["elo"], neutral, params,
                                             alt_pen_h=alt_h, alt_pen_a=alt_a)
     elo = np.array([e1, ex, e2]); rho = params["rho"]
     sh, sa = snap[h], snap[a]
-    out = W["elo"] * elo
-    out = out + W["form"] * np.array(outcome_probs(score_matrix(
-        _cl((sh["gf"] + sa["ga"]) / 2), _cl((sa["gf"] + sh["ga"]) / 2), rho)))
+    comps = [(W["elo"], elo)]
+    comps.append((W["form"], np.array(outcome_probs(score_matrix(
+        _cl((sh["gf"] + sa["ga"]) / 2), _cl((sa["gf"] + sh["ga"]) / 2), rho)))))
     mi, mr = models["massey"]["idx"], models["massey"]["r"]
     if h in mi and a in mi:
         gd = mr[mi[h]] - mr[mi[a]]
-        out = out + W["massey"] * np.array(outcome_probs(score_matrix(_cl((2.6 + gd) / 2), _cl((2.6 - gd) / 2), rho)))
+        comps.append((W["massey"], np.array(outcome_probs(score_matrix(_cl((2.6 + gd) / 2), _cl((2.6 - gd) / 2), rho)))))
     else:
-        out = out + W["massey"] * elo
-    out = out + W["logit"] * (logit_probs if logit_probs is not None else elo)
+        comps.append((W["massey"], elo))
+    comps.append((W["logit"], logit_probs if logit_probs is not None else elo))
     adp = ad_probs(models["ad"], h, a, neutral)
-    out = out + W["ad"] * (np.array(adp) if adp else elo)
+    comps.append((W["ad"], np.array(adp) if adp else elo))
     mk = models.get("market")
     if mk and h in mk and a in mk:
         gd = mk[h] - mk[a]
-        out = out + W["market"] * np.array(outcome_probs(score_matrix(_cl((2.6 + gd) / 2), _cl((2.6 - gd) / 2), rho)))
+        comps.append((W["market"], np.array(outcome_probs(score_matrix(_cl((2.6 + gd) / 2), _cl((2.6 - gd) / 2), rho)))))
     else:
-        out = out + W["market"] * elo
-    return out / out.sum(), (lh, la)
+        comps.append((W["market"], elo))
+    return _pool(comps), (lh, la)
 
 
 def consensus_1x2(h, a, neutral, params, models, snap, alt_pen_h=0.0, alt_pen_a=0.0):

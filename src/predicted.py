@@ -6,7 +6,7 @@ Dalla simulazione si ricava lo scenario piu' probabile:
   - ogni match a eliminazione: vince il favorito (prob 1X2 senza pareggio)
 Serve a mostrare un tabellone concreto, accanto alle probabilita complete.
 """
-from bracket import CFG, GROUPS, SLOT_ORDER, _matching
+from bracket import CFG, GROUPS, SLOT_ORDER, _matching, official_allocation
 from poisson import match_probs
 
 
@@ -43,7 +43,8 @@ def predicted_bracket(teams, elo, params):
     # migliori 8 terze per Elo
     third_rank = sorted(GROUPS, key=lambda g: -elo[thirds[g]])
     qualified = set(third_rank[:8])
-    alloc = _matching(qualified) or {}
+    # allocazione UFFICIALE Annexe C (fallback matching se risorsa assente)
+    alloc = official_allocation(qualified) or _matching(qualified) or {}
 
     def resolve(spec):
         if spec["type"] == "winner":
