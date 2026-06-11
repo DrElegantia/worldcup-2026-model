@@ -121,44 +121,79 @@
     });
   }
 
-  // tabellone previsto (scenario piu' probabile) con interattivita su hover
+  // topologia ufficiale tabellone 2026 (statica)
+  var BK_R16={89:[74,77],90:[73,75],91:[76,78],92:[79,80],93:[83,84],94:[81,82],95:[86,88],96:[85,87]};
+  var BK_QF={97:[89,90],98:[93,94],99:[91,92],100:[95,96]};
+  var BK_SF={101:[97,98],102:[99,100]};
+  var BK_FINAL=104, BK_FINKIDS=[101,102];
+  var BK_L={r32:[74,77,73,75,83,84,81,82],r16:[89,90,93,94],qf:[97,98],sf:[101]};
+  var BK_R={r32:[76,78,79,80,86,88,85,87],r16:[91,92,95,96],qf:[99,100],sf:[102]};
+
+  // tabellone ad albero simmetrico (stile bracket) con path-trace su hover
   function renderBracket(s){
     var box=document.getElementById("bracket"); box.innerHTML="";
     var br=s.predicted_bracket; if(!br){ box.appendChild(el("p","muted","Non disponibile per questa data.")); return; }
     var champ=s.predicted_champion;
     var byTeam={}; s.teams.forEach(function(t){ byTeam[t.team]=t; });
-    box.appendChild(el("p","muted small","Scenario piu probabile partita per partita (il favorito avanza). Passa il mouse su una squadra per evidenziare il suo percorso e vedere le sue probabilita per fase."));
-    var wrap=el("div","bracket-scroll");
-    function teamCell(team, isWin){
-      var d=el("div","brk-team"+(isWin?" win":""));
-      if(team){ d.textContent=name(team); d.setAttribute("data-team", team); }
-      else d.textContent="-";
-      return d;
-    }
-    br.forEach(function(rd){
-      var col=el("div","brk-col");
-      col.appendChild(el("div","brk-head",rd.round));
-      rd.matches.forEach(function(mm){
-        var b=el("div","brk-match");
-        b.appendChild(teamCell(mm.home, mm.winner===mm.home));
-        b.appendChild(teamCell(mm.away, mm.winner===mm.away));
-        b.appendChild(el("div","brk-p", mm.p?pctShort(mm.p)+" passa "+it(mm.winner):""));
-        col.appendChild(b);
-      });
-      wrap.appendChild(col);
-    });
-    var cc=el("div","brk-col");
-    cc.appendChild(el("div","brk-head","Campione previsto"));
-    var champEl=teamCell(champ, true); champEl.className="brk-champ"; champEl.setAttribute("data-team",champ);
-    cc.appendChild(champEl);
-    wrap.appendChild(cc);
-    box.appendChild(wrap);
+    var M={}; br.forEach(function(rd){ rd.matches.forEach(function(m){ M[String(m.match)]=m; }); });
+    var parent={};
+    [BK_R16,BK_QF,BK_SF].forEach(function(map){ Object.keys(map).forEach(function(p){ map[p].forEach(function(c){parent[c]=+p;}); }); });
+    BK_FINKIDS.forEach(function(c){ parent[c]=BK_FINAL; });
+    var teamMatch={};
+    (br[0].matches||[]).forEach(function(m){ if(m.home)teamMatch[m.home]=m.match; if(m.away)teamMatch[m.away]=m.match; });
+    function pathOf(team){ var m=teamMatch[team]; if(m===undefined)return []; var c=[m]; while(parent[m]!==undefined){ m=parent[m]; c.push(m); } return c; }
 
-    // tooltip + highlight percorso
-    var tip=document.getElementById("brkTip");
-    if(!tip){ tip=el("div"); tip.id="brkTip"; tip.className="brk-tip"; document.body.appendChild(tip); }
-    function show(team, x, y){
-      var t=byTeam[team]; if(!t) return;
+    box.appendChild(el("p","muted small","Tabellone simulato (scenario piu probabile). Passa il mouse su una squadra: si traccia il suo percorso fino alla finale e compaiono le probabilita per fase."));
+    var wrap=el("div","bk-wrap"); var tree=el("div","bk-tree");
+
+    function matchBox(id){
+      var m=M[String(id)]; var b=el("div","bk-m"); b.id="bkm-"+id; b.setAttribute("data-m",id);
+      function row(team,win){ var d=el("div","bk-t"+(win?" win":"")); if(team){d.textContent=name(team);d.setAttribute("data-team",team);}else d.textContent="-"; return d; }
+      if(m){ b.appendChild(row(m.home,m.winner===m.home)); b.appendChild(row(m.away,m.winner===m.away)); }
+      else { b.appendChild(row(null)); b.appendChild(row(null)); }
+      return b;
+    }
+    function column(ids,label){
+      var c=el("div","bk-col"); c.appendChild(el("div","bk-head",label));
+      var inner=el("div","bk-colinner"); ids.forEach(function(id){ inner.appendChild(matchBox(id)); }); c.appendChild(inner); return c;
+    }
+    var left=el("div","bk-half");
+    left.appendChild(column(BK_L.r32,"Sedicesimi")); left.appendChild(column(BK_L.r16,"Ottavi"));
+    left.appendChild(column(BK_L.qf,"Quarti")); left.appendChild(column(BK_L.sf,"Semifinale"));
+    var center=el("div","bk-center");
+    center.appendChild(el("div","bk-head","Finale")); center.appendChild(matchBox(BK_FINAL));
+    center.appendChild(el("div","bk-champ-lab","Campione previsto"));
+    var champEl=el("div","bk-champ"); champEl.textContent=name(champ); champEl.setAttribute("data-team",champ); center.appendChild(champEl);
+    var right=el("div","bk-half");
+    right.appendChild(column(BK_R.sf,"Semifinale")); right.appendChild(column(BK_R.qf,"Quarti"));
+    right.appendChild(column(BK_R.r16,"Ottavi")); right.appendChild(column(BK_R.r32,"Sedicesimi"));
+    tree.appendChild(left); tree.appendChild(center); tree.appendChild(right);
+    var svg=document.createElementNS("http://www.w3.org/2000/svg","svg"); svg.setAttribute("class","bk-lines");
+    tree.appendChild(svg); wrap.appendChild(tree); box.appendChild(wrap);
+
+    var conn={};
+    function draw(){
+      var tr=tree.getBoundingClientRect();
+      var W=tree.scrollWidth, H=tree.scrollHeight;
+      svg.setAttribute("width",W); svg.setAttribute("height",H); svg.setAttribute("viewBox","0 0 "+W+" "+H);
+      while(svg.firstChild) svg.removeChild(svg.firstChild); conn={};
+      function geo(id){ var e=document.getElementById("bkm-"+id); if(!e)return null; var r=e.getBoundingClientRect();
+        return {l:r.left-tr.left,r:r.right-tr.left,cy:(r.top+r.bottom)/2-tr.top}; }
+      function link(childId,parentId,side){
+        var c=geo(childId),p=geo(parentId); if(!c||!p)return;
+        var x1=side==="left"?c.r:c.l, x2=side==="left"?p.l:p.r, mx=(x1+x2)/2;
+        var path=document.createElementNS("http://www.w3.org/2000/svg","path");
+        path.setAttribute("d","M"+x1+" "+c.cy+" H"+mx+" V"+p.cy+" H"+x2); path.setAttribute("class","bk-line");
+        svg.appendChild(path); conn[childId]=path;
+      }
+      [].concat(BK_L.r32,BK_L.r16,BK_L.qf,BK_L.sf).forEach(function(c){ link(c,parent[c],"left"); });
+      [].concat(BK_R.r32,BK_R.r16,BK_R.qf,BK_R.sf).forEach(function(c){ link(c,parent[c],"right"); });
+    }
+    requestAnimationFrame(function(){ requestAnimationFrame(draw); });
+    if(!window._bkResize){ window._bkResize=true; window.addEventListener("resize", function(){ var b=document.getElementById("bracket"); if(b&&b.querySelector(".bk-tree")&&state.snap) renderBracket(state.snap); }); }
+
+    var tip=document.getElementById("brkTip"); if(!tip){ tip=el("div"); tip.id="brkTip"; tip.className="brk-tip"; document.body.appendChild(tip); }
+    function show(team,x,y){ var t=byTeam[team]; if(!t)return;
       tip.innerHTML="<div class='tt-h'>"+name(team)+"</div>"+
         "<div class='tt-r'><span>Supera i gironi</span><b>"+pctShort(t.p_advance)+"</b></div>"+
         "<div class='tt-r'><span>Ottavi</span><b>"+pctShort(t.p_r16)+"</b></div>"+
@@ -166,22 +201,19 @@
         "<div class='tt-r'><span>Semifinale</span><b>"+pctShort(t.p_sf)+"</b></div>"+
         "<div class='tt-r'><span>Finale</span><b>"+pctShort(t.p_final)+"</b></div>"+
         "<div class='tt-r tt-win'><span>Titolo</span><b>"+pct(t.p_champion)+"</b></div>";
-      tip.style.display="block";
-      var vw=window.innerWidth;
-      tip.style.left=Math.min(x+14, vw-180)+"px";
-      tip.style.top=(y+window.scrollY+12)+"px";
+      tip.style.display="block"; tip.style.left=Math.min(x+14, window.innerWidth-180)+"px"; tip.style.top=(y+window.scrollY+12)+"px";
     }
-    box.querySelectorAll("[data-team]").forEach(function(node){
+    function clearHL(){ tree.querySelectorAll(".bk-hl").forEach(function(n){n.classList.remove("bk-hl");});
+      Object.keys(conn).forEach(function(k){conn[k].classList.remove("bk-line-hl");}); tip.style.display="none"; }
+    tree.querySelectorAll("[data-team]").forEach(function(node){
       node.addEventListener("mouseenter", function(e){
-        var team=node.getAttribute("data-team");
-        box.querySelectorAll("[data-team='"+(window.CSS&&CSS.escape?CSS.escape(team):team)+"']").forEach(function(n){n.classList.add("brk-hl");});
+        var team=node.getAttribute("data-team"); var path=pathOf(team);
+        path.forEach(function(mid){ var mb=document.getElementById("bkm-"+mid); if(mb)mb.classList.add("bk-hl"); if(conn[mid])conn[mid].classList.add("bk-line-hl"); });
+        if(team===champ){ var ce=tree.querySelector(".bk-champ"); if(ce)ce.classList.add("bk-hl"); }
         show(team, e.clientX, e.clientY);
       });
       node.addEventListener("mousemove", function(e){ show(node.getAttribute("data-team"), e.clientX, e.clientY); });
-      node.addEventListener("mouseleave", function(){
-        box.querySelectorAll(".brk-hl").forEach(function(n){n.classList.remove("brk-hl");});
-        tip.style.display="none";
-      });
+      node.addEventListener("mouseleave", clearHL);
     });
   }
 
