@@ -219,7 +219,7 @@
 
   function renderKnockout(s){
     var box=document.getElementById("knockout"); box.innerHTML="";
-    var cols=[["p_advance","Sedicesimi"],["p_r16","Ottavi"],["p_qf","Quarti"],["p_sf","Semi"],["p_final","Finale"],["p_champion","Titolo"]];
+    var cols=[["p_group_winner","Vince girone"],["p_advance","Si qualifica"],["p_r16","Ottavi"],["p_qf","Quarti"],["p_sf","Semifinale"],["p_final","Finale"],["p_champion","Titolo"]];
     var tbl=el("table","ktable");
     var head="<tr><th>Squadra</th>"; cols.forEach(function(c){head+="<th>"+c[1]+"</th>";}); head+="</tr>";
     tbl.innerHTML=head;
