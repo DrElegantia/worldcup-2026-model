@@ -1,18 +1,19 @@
-"""Consenso a 5 modelli con IPOTESI diverse, pesi ottimizzati out-of-sample.
+"""Consenso a 6 modelli con IPOTESI diverse, pesi ottimizzati out-of-sample.
 
 Modelli (ipotesi diverse, non riparametrizzazioni) e pesi:
-  - Massey      (rating da minimi quadrati sugli scarti gol)        0.24
-  - Logistica   (modello d'esito lineare, link diverso dal Poisson) 0.23
-  - Elo-Poisson (rating scalare iterativo + Poisson Dixon-Coles)     0.21
-  - Forma       (memoria corta: solo ultime ~10 partite)            0.19
-  - Attacco/Difesa (abilita 2D separate per squadra)                0.13
+  - Mercato     (consenso bookmaker: prob-titolo -> forza per squadra)  0.24
+  - Massey      (rating da minimi quadrati sugli scarti gol)            0.17
+  - Logistica   (modello d'esito lineare, link diverso dal Poisson)     0.16
+  - Elo-Poisson (rating scalare iterativo + Poisson Dixon-Coles)         0.16
+  - Forma       (memoria corta: solo ultime ~10 partite)                0.145
+  - Attacco/Difesa (abilita 2D separate per squadra)                    0.13
 
-Pesi da ottimizzazione leave-one-Mondiale-out con REGOLARIZZAZIONE (alpha=0.3
-verso pesi uniformi): senza regolarizzazione Elo e Massey sono collineari e
-l'ottimizzatore azzera arbitrariamente l'Elo; la penalita li tiene tutti attivi
-con OOS log loss equivalente (0.9683 -> 0.9691, differenza rumore).
-Il consenso guida il Monte Carlo (gironi via lambda di consenso, knockout via
-tabella di P(avanza)).
+Pesi da ottimizzazione leave-one-Mondiale-out con REGOLARIZZAZIONE (alpha=0.3).
+Il mercato (Leitner/Zeileis/Hornik) e' il singolo modello piu' informativo: aggiunto
+come 6o, ha il peso piu' alto e migliora l'OOS (4 WC con quote: 0.969 -> 0.958).
+Quando le quote non sono disponibili per un torneo, il termine mercato ricade
+sull'Elo e il consenso resta a 5 modelli. Guida il Monte Carlo (gironi via lambda
+di consenso, knockout via tabella di P(avanza)).
 """
 import numpy as np
 import pandas as pd
@@ -25,7 +26,36 @@ from features import build_match_features, FEATURE_COLS
 from eval_attdef import fit_attack_defense, ad_probs
 import metrics as M
 
-W = {"massey": 0.24, "logit": 0.23, "elo": 0.21, "form": 0.19, "ad": 0.13}
+W = {"market": 0.24, "massey": 0.17, "logit": 0.16, "elo": 0.16, "form": 0.145, "ad": 0.13}
+
+
+def load_market_2026():
+    import csv
+    from config import DATA_PROC
+    p = DATA_PROC.parent / "market" / "market_2026.csv"
+    if not p.exists():
+        return None
+    return {r["team"]: float(r["market_prob_pct"]) / 100 for r in csv.DictReader(open(p))}
+
+
+def load_market_year(year):
+    import csv
+    from config import DATA_PROC
+    p = DATA_PROC.parent / "market" / "market_winprob.csv"
+    if not p.exists():
+        return None
+    out = {r["team"]: float(r["market_prob_pct"]) / 100
+           for r in csv.DictReader(open(p)) if int(r["year"]) == year}
+    return out or None
+
+
+def market_ratings(probs):
+    """Prob-titolo di consenso bookmaker -> forza per squadra (scala-gol)."""
+    teams = list(probs)
+    lp = np.array([np.log(max(probs[t], 1e-5)) for t in teams])
+    lp = lp - lp.mean()
+    sc = 1.2 / (lp.std() + 1e-9)
+    return {t: float(lp[i] * sc) for i, t in enumerate(teams)}
 LOGIT_COLS = ["d_elo", "home_flag", "d_ppg", "d_gf", "d_ga", "d_mom"]
 UNIF = np.array([1 / 3, 1 / 3, 1 / 3])
 
@@ -49,7 +79,7 @@ def fit_massey(train, half_life=900.0):
     return {"idx": idx, "r": r}
 
 
-def train(mm, cutoff):
+def train(mm, cutoff, market_probs=None):
     cutoff = pd.Timestamp(cutoff)
     fm = build_match_features(mm)
     tr = fm[(fm.date < cutoff) & (fm.date >= cutoff - pd.Timedelta(days=365 * 14))].dropna(subset=FEATURE_COLS + LOGIT_COLS)
@@ -58,7 +88,8 @@ def train(mm, cutoff):
     lr.fit(tr[LOGIT_COLS].values, y, sample_weight=tr["weight"].values.astype(float))
     ad = fit_attack_defense(mm[(mm.date < cutoff) & (mm.date >= cutoff - pd.Timedelta(days=365 * 12))])
     mas = fit_massey(mm[(mm.date < cutoff) & (mm.date >= cutoff - pd.Timedelta(days=365 * 14))])
-    return {"lr": lr, "ad": ad, "massey": mas}
+    market = market_ratings(market_probs) if market_probs else None
+    return {"lr": lr, "ad": ad, "massey": mas, "market": market}
 
 
 def _feat(snap, h, a, neutral):
@@ -86,6 +117,12 @@ def _blend(h, a, neutral, params, models, snap, logit_probs, alt_h=0.0, alt_a=0.
     out = out + W["logit"] * (logit_probs if logit_probs is not None else elo)
     adp = ad_probs(models["ad"], h, a, neutral)
     out = out + W["ad"] * (np.array(adp) if adp else elo)
+    mk = models.get("market")
+    if mk and h in mk and a in mk:
+        gd = mk[h] - mk[a]
+        out = out + W["market"] * np.array(outcome_probs(score_matrix(_cl((2.6 + gd) / 2), _cl((2.6 - gd) / 2), rho)))
+    else:
+        out = out + W["market"] * elo
     return out / out.sum(), (lh, la)
 
 

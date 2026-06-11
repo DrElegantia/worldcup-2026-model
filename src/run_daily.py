@@ -23,7 +23,7 @@ from simulate import simulate
 import ingest
 import metrics as M
 
-MODEL_VERSION = "2.1.0-consensus5"   # consenso 5 modelli (Massey, Logistica, Elo, Forma, Att-Dif)
+MODEL_VERSION = "2.2.0-consensus6"   # 6 modelli incl. mercato (bookmaker consensus)
 
 
 def today_str():
@@ -118,7 +118,7 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
         from bracket import GROUPS as _GR
         from config import HOSTS
         cutoff1 = pd.Timestamp(asof) + pd.Timedelta(days=1)
-        cons_models = C.train(mm, cutoff1)
+        cons_models = C.train(mm, cutoff1, market_probs=C.load_market_2026())
         snap_feat = team_snapshots(mm, cutoff1, elo)
         # altitudine per fixture dei gironi
         alt_fix = {}

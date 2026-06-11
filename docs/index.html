@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mondiale 2026, simulazione probabilistica</title>
 <meta name="description" content="Modello predittivo del Mondiale FIFA 2026: probabilita di vittoria, qualificazione, classifiche dei gironi e tabellone simulato di ogni nazionale, aggiornati ogni giorno con 100.000 simulazioni Monte Carlo.">
-<link rel="stylesheet" href="./styles.css?v=140">
+<link rel="stylesheet" href="./styles.css?v=141">
 </head>
 <body>
 <script>/* in embed (iframe sul sito) nasconde header/footer per evitare doppioni */
@@ -13,7 +13,7 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
 <div class="wrap">
   <header>
     <h1>Mondiale 2026 · simulazione probabilistica</h1>
-    <p class="sub">Consenso di cinque modelli (Massey, Logistica, Elo-Poisson, Forma, Attacco/Difesa). 100.000 simulazioni Monte Carlo del torneo, aggiornate ogni giorno sui risultati reali. <span id="meta"></span></p>
+    <p class="sub">Consenso di sei modelli (Mercato, Massey, Logistica, Elo-Poisson, Forma, Attacco/Difesa). 100.000 simulazioni Monte Carlo del torneo, aggiornate ogni giorno sui risultati reali. <span id="meta"></span></p>
   </header>
 
   <nav class="tabs">
@@ -85,7 +85,8 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
         <h2>Nota metodologica</h2>
 
         <h3>0. Architettura: consenso di modelli</h3>
-        <p>Invece di un singolo "super-modello", la previsione e il <strong>consenso di cinque modelli con ipotesi diverse</strong>: Massey (rating ai minimi quadrati sugli scarti gol, 24%), Logistica (modello d'esito lineare, 23%), Elo-Poisson (rating iterativo + Poisson, 21%), Forma (memoria corta, 19%), Attacco/Difesa per squadra (13%). Per ogni partita si mediano le loro probabilita con questi pesi, e su quella di consenso gira il Monte Carlo. La logica e quella del meteo e dei "supercomputer": modelli che sbagliano in modo diverso, mediati, riducono l'errore e migliorano la calibrazione. I pesi sono stati scelti con validazione <strong>leave-one-Mondiale-out</strong> (tarati su 5 tornei, valutati sul 6o) e regolarizzati per robustezza. Verifica onesta dei limiti: oltre 5 modelli il guadagno non e statisticamente rilevante, e nessuna combinazione "azzecca sempre il vincitore" (la varianza del calcio e irriducibile). Risultato pratico: probabilita ben calibrate, vicine al mercato.</p>
+        <p>Invece di un singolo "super-modello", la previsione e il <strong>consenso di sei modelli con ipotesi diverse</strong>: Mercato (consenso bookmaker stile Leitner-Zeileis-Hornik, 24%), Massey (rating ai minimi quadrati sugli scarti gol, 17%), Logistica (modello d'esito lineare, 16%), Elo-Poisson (rating iterativo + Poisson, 16%), Forma (memoria corta, 14,5%), Attacco/Difesa per squadra (13%). Per ogni partita si mediano le loro probabilita con questi pesi, e su quella di consenso gira tutto il Monte Carlo (gironi, tabellone, ogni fase). La logica e quella del meteo e dei "supercomputer": modelli che sbagliano in modo diverso, mediati, riducono l'errore. I pesi sono scelti con validazione <strong>leave-one-Mondiale-out</strong> e regolarizzati per robustezza.</p>
+        <p>Il <strong>mercato e' il singolo modello piu' informativo</strong> (le quote incorporano infortuni, forma, valore rosa che i modelli sui soli risultati non vedono): aggiunto come 6o, prende il peso piu' alto e migliora la previsione del campione sui 4 Mondiali con quote disponibili (2010-2022). Verifica onesta dei limiti: oltre questi modelli il guadagno non e statisticamente rilevante, e nessuna combinazione "azzecca sempre il vincitore" (la varianza del calcio e irriducibile).</p>
 
         <h3>1. Dati</h3>
         <p>Fonte primaria: <strong>tutte le partite internazionali dal 1872</strong> (dataset aperto martj42/international_results), aggiornato in continuo: data, squadre, risultato, torneo, sede, campo neutro. La struttura del Mondiale 2026 (48 squadre, 12 gironi, calendario, sedi) e estratta dalle stesse fixture ufficiali e validata contro il sorteggio FIFA del 5 dicembre 2025.</p>
@@ -136,7 +137,7 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
     <p class="muted small">Simulazione a scopo informativo e divulgativo. Le probabilita non sono garanzie ne consigli di scommessa.</p>
   </footer>
 </div>
-<script src="./app.js?v=140"></script>
+<script src="./app.js?v=141"></script>
 <script>
 /* auto-resize quando incorporata in iframe (umbertobertonelli.it) */
 (function(){

@@ -219,7 +219,7 @@ def _build_consensus(mm, rec, elo, params, cutoff):
     import consensus as C
     from features import team_snapshots
     cutoff = pd.Timestamp(cutoff)
-    models = C.train(mm, cutoff)
+    models = C.train(mm, cutoff, market_probs=C.load_market_year(rec["year"]))
     snap = team_snapshots(mm, cutoff, elo)
     teams = [t for g in rec["groups"] for t in g]
     if not all(t in snap for t in teams):
