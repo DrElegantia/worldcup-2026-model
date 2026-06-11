@@ -1,0 +1,54 @@
+{
+  "_comment": "Struttura ufficiale tabellone Mondiale 2026 (48 squadre). Fonte: Wikipedia 2026 FIFA World Cup knockout stage. R32 match 73-88, R16 89-96, QF 97-100, SF 101-102, 3rd 103, Final 104.",
+  "groups": ["A","B","C","D","E","F","G","H","I","J","K","L"],
+  "third_place_slots": {
+    "74": ["A","B","C","D","F"],
+    "77": ["C","D","F","G","H"],
+    "79": ["C","E","F","H","I"],
+    "80": ["E","H","I","J","K"],
+    "81": ["B","E","F","I","J"],
+    "82": ["A","E","H","I","J"],
+    "85": ["E","F","G","I","J"],
+    "87": ["D","E","I","J","L"]
+  },
+  "r32": {
+    "73": {"t1": {"type": "runner", "group": "A"}, "t2": {"type": "runner", "group": "B"}},
+    "74": {"t1": {"type": "winner", "group": "E"}, "t2": {"type": "third", "slot": "74"}},
+    "75": {"t1": {"type": "winner", "group": "F"}, "t2": {"type": "runner", "group": "C"}},
+    "76": {"t1": {"type": "winner", "group": "C"}, "t2": {"type": "runner", "group": "F"}},
+    "77": {"t1": {"type": "winner", "group": "I"}, "t2": {"type": "third", "slot": "77"}},
+    "78": {"t1": {"type": "runner", "group": "E"}, "t2": {"type": "runner", "group": "I"}},
+    "79": {"t1": {"type": "winner", "group": "A"}, "t2": {"type": "third", "slot": "79"}},
+    "80": {"t1": {"type": "winner", "group": "L"}, "t2": {"type": "third", "slot": "80"}},
+    "81": {"t1": {"type": "winner", "group": "D"}, "t2": {"type": "third", "slot": "81"}},
+    "82": {"t1": {"type": "winner", "group": "G"}, "t2": {"type": "third", "slot": "82"}},
+    "83": {"t1": {"type": "runner", "group": "K"}, "t2": {"type": "runner", "group": "L"}},
+    "84": {"t1": {"type": "winner", "group": "H"}, "t2": {"type": "runner", "group": "J"}},
+    "85": {"t1": {"type": "winner", "group": "B"}, "t2": {"type": "third", "slot": "85"}},
+    "86": {"t1": {"type": "winner", "group": "J"}, "t2": {"type": "runner", "group": "H"}},
+    "87": {"t1": {"type": "winner", "group": "K"}, "t2": {"type": "third", "slot": "87"}},
+    "88": {"t1": {"type": "runner", "group": "D"}, "t2": {"type": "runner", "group": "G"}}
+  },
+  "r16": {
+    "89": ["74", "77"],
+    "90": ["73", "75"],
+    "91": ["76", "78"],
+    "92": ["79", "80"],
+    "93": ["83", "84"],
+    "94": ["81", "82"],
+    "95": ["86", "88"],
+    "96": ["85", "87"]
+  },
+  "qf": {
+    "97": ["89", "90"],
+    "98": ["93", "94"],
+    "99": ["91", "92"],
+    "100": ["95", "96"]
+  },
+  "sf": {
+    "101": ["97", "98"],
+    "102": ["99", "100"]
+  },
+  "final": {"104": ["101", "102"]},
+  "third_place_match": {"103": ["101", "102"]}
+}

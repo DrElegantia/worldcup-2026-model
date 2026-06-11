@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+data/raw/
+data/processed/matches.parquet
+data/processed/wc2026.json

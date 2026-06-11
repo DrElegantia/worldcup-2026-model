@@ -1,0 +1,87 @@
+{
+  "summary": [
+    {
+      "year": 2002,
+      "n_matches": 64,
+      "logloss_model": 1.05549,
+      "logloss_static": 1.05548,
+      "logloss_uniform": 1.09861,
+      "brier_model": 0.62934,
+      "rps_model": 0.22246,
+      "acc_model": 0.48438,
+      "ece_model": 0.04784
+    },
+    {
+      "year": 2006,
+      "n_matches": 64,
+      "logloss_model": 0.89406,
+      "logloss_static": 0.88724,
+      "logloss_uniform": 1.09861,
+      "brier_model": 0.52244,
+      "rps_model": 0.17298,
+      "acc_model": 0.64062,
+      "ece_model": 0.166
+    },
+    {
+      "year": 2010,
+      "n_matches": 64,
+      "logloss_model": 0.96985,
+      "logloss_static": 0.97175,
+      "logloss_uniform": 1.09861,
+      "brier_model": 0.57585,
+      "rps_model": 0.19478,
+      "acc_model": 0.54688,
+      "ece_model": 0.04233
+    },
+    {
+      "year": 2014,
+      "n_matches": 64,
+      "logloss_model": 0.90178,
+      "logloss_static": 0.89134,
+      "logloss_uniform": 1.09861,
+      "brier_model": 0.53129,
+      "rps_model": 0.18266,
+      "acc_model": 0.64062,
+      "ece_model": 0.135
+    },
+    {
+      "year": 2018,
+      "n_matches": 64,
+      "logloss_model": 0.97616,
+      "logloss_static": 0.97816,
+      "logloss_uniform": 1.09861,
+      "brier_model": 0.58144,
+      "rps_model": 0.2068,
+      "acc_model": 0.5625,
+      "ece_model": 0.14815
+    },
+    {
+      "year": 2022,
+      "n_matches": 64,
+      "logloss_model": 1.06043,
+      "logloss_static": 1.07818,
+      "logloss_uniform": 1.09861,
+      "brier_model": 0.61627,
+      "rps_model": 0.2219,
+      "acc_model": 0.53125,
+      "ece_model": 0.11462
+    },
+    {
+      "year": "POOLED",
+      "n_matches": 384,
+      "logloss_model": 0.9763,
+      "logloss_static": 0.97702,
+      "logloss_uniform": 1.09861,
+      "brier_model": 0.5761,
+      "rps_model": 0.20026,
+      "acc_model": 0.56771,
+      "ece_model": 0.10899
+    }
+  ],
+  "static_params": {
+    "c0": 0.19097286530333094,
+    "c1": 0.8849763627166813,
+    "h_goal": 0.09769422366157005,
+    "rho": -0.06945135734677954
+  }
+}
