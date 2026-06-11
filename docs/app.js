@@ -121,33 +121,68 @@
     });
   }
 
-  // tabellone previsto (scenario piu' probabile)
+  // tabellone previsto (scenario piu' probabile) con interattivita su hover
   function renderBracket(s){
     var box=document.getElementById("bracket"); box.innerHTML="";
     var br=s.predicted_bracket; if(!br){ box.appendChild(el("p","muted","Non disponibile per questa data.")); return; }
     var champ=s.predicted_champion;
-    box.appendChild(el("p","muted small","Scenario piu' probabile partita per partita (il favorito avanza). La squadra in grassetto e il favorito, con la sua probabilita di passare il turno."));
+    var byTeam={}; s.teams.forEach(function(t){ byTeam[t.team]=t; });
+    box.appendChild(el("p","muted small","Scenario piu probabile partita per partita (il favorito avanza). Passa il mouse su una squadra per evidenziare il suo percorso e vedere le sue probabilita per fase."));
     var wrap=el("div","bracket-scroll");
+    function teamCell(team, isWin){
+      var d=el("div","brk-team"+(isWin?" win":""));
+      if(team){ d.textContent=name(team); d.setAttribute("data-team", team); }
+      else d.textContent="-";
+      return d;
+    }
     br.forEach(function(rd){
       var col=el("div","brk-col");
       col.appendChild(el("div","brk-head",rd.round));
       rd.matches.forEach(function(mm){
         var b=el("div","brk-match");
-        var w=mm.winner;
-        b.innerHTML=
-          "<div class='brk-team "+(w===mm.home?"win":"")+"'>"+(mm.home?name(mm.home):"-")+"</div>"+
-          "<div class='brk-team "+(w===mm.away?"win":"")+"'>"+(mm.away?name(mm.away):"-")+"</div>"+
-          "<div class='brk-p'>"+(mm.p?pctShort(mm.p)+" passa "+it(w):"")+"</div>";
+        b.appendChild(teamCell(mm.home, mm.winner===mm.home));
+        b.appendChild(teamCell(mm.away, mm.winner===mm.away));
+        b.appendChild(el("div","brk-p", mm.p?pctShort(mm.p)+" passa "+it(mm.winner):""));
         col.appendChild(b);
       });
       wrap.appendChild(col);
     });
-    // colonna campione
     var cc=el("div","brk-col");
     cc.appendChild(el("div","brk-head","Campione previsto"));
-    cc.appendChild(el("div","brk-champ",name(champ)));
+    var champEl=teamCell(champ, true); champEl.className="brk-champ"; champEl.setAttribute("data-team",champ);
+    cc.appendChild(champEl);
     wrap.appendChild(cc);
     box.appendChild(wrap);
+
+    // tooltip + highlight percorso
+    var tip=document.getElementById("brkTip");
+    if(!tip){ tip=el("div"); tip.id="brkTip"; tip.className="brk-tip"; document.body.appendChild(tip); }
+    function show(team, x, y){
+      var t=byTeam[team]; if(!t) return;
+      tip.innerHTML="<div class='tt-h'>"+name(team)+"</div>"+
+        "<div class='tt-r'><span>Supera i gironi</span><b>"+pctShort(t.p_advance)+"</b></div>"+
+        "<div class='tt-r'><span>Ottavi</span><b>"+pctShort(t.p_r16)+"</b></div>"+
+        "<div class='tt-r'><span>Quarti</span><b>"+pctShort(t.p_qf)+"</b></div>"+
+        "<div class='tt-r'><span>Semifinale</span><b>"+pctShort(t.p_sf)+"</b></div>"+
+        "<div class='tt-r'><span>Finale</span><b>"+pctShort(t.p_final)+"</b></div>"+
+        "<div class='tt-r tt-win'><span>Titolo</span><b>"+pct(t.p_champion)+"</b></div>";
+      tip.style.display="block";
+      var vw=window.innerWidth;
+      tip.style.left=Math.min(x+14, vw-180)+"px";
+      tip.style.top=(y+window.scrollY+12)+"px";
+    }
+    box.querySelectorAll("[data-team]").forEach(function(node){
+      node.addEventListener("mouseenter", function(e){
+        var team=node.getAttribute("data-team");
+        box.querySelectorAll("[data-team='"+(window.CSS&&CSS.escape?CSS.escape(team):team)+"']").forEach(function(n){n.classList.add("brk-hl");});
+        show(team, e.clientX, e.clientY);
+      });
+      node.addEventListener("mousemove", function(e){ show(node.getAttribute("data-team"), e.clientX, e.clientY); });
+      node.addEventListener("mouseleave", function(){
+        box.querySelectorAll(".brk-hl").forEach(function(n){n.classList.remove("brk-hl");});
+        tip.style.display="none";
+      });
+    });
   }
 
   function renderKnockout(s){

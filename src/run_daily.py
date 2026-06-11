@@ -23,7 +23,7 @@ from simulate import simulate
 import ingest
 import metrics as M
 
-MODEL_VERSION = "1.2.0-altitude"   # Elo + Poisson DC (+penalita altitudine) + XGBoost ensemble
+MODEL_VERSION = "1.3.0-squad"   # + forza-rosa EA FIFA nelle predizioni per-match (validata WC18/22)
 
 
 def today_str():
@@ -37,6 +37,8 @@ def all_match_predictions(tl, params, wc, asof, clf=None, snap=None):
     from config import HOSTS
     from elo import ratings_as_of
     from ensemble import ensemble_match_probs
+    import squad as squadmod
+    strength = squadmod.load().get("2026", {})
     asof_ts = pd.Timestamp(asof)
     # penalita altitudine per ogni fixture (sede nota)
     alt_by_fix = {}
@@ -60,7 +62,8 @@ def all_match_predictions(tl, params, wc, asof, clf=None, snap=None):
         ap_h, ap_a = alt_by_fix.get((h, a, f["date"]), (0.0, 0.0))
         if (not f["played"]) and clf is not None and snap is not None and h in snap and a in snap:
             (p1, px, p2), (lh, la), mat = ensemble_match_probs(h, a, neutral, params, clf, snap,
-                                                               alt_pen_h=ap_h, alt_pen_a=ap_a)
+                                                               alt_pen_h=ap_h, alt_pen_a=ap_a,
+                                                               sq_h=strength.get(h), sq_a=strength.get(a))
         else:
             (p1, px, p2), (lh, la), mat = match_probs(elo[h], elo[a], neutral, params,
                                                       alt_pen_h=ap_h, alt_pen_a=ap_a)

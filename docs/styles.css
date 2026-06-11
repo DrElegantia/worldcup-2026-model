@@ -119,3 +119,16 @@ footer{margin-top:30px;border-top:1px solid var(--line);padding-top:12px}
 .bt-tbl td{padding:6px 8px;text-align:center;font-variant-numeric:tabular-nums;border-top:1px solid var(--line)}
 .bt-tbl tr.pooled{font-weight:800;background:rgba(233,196,106,.12)}
 .bt-tbl tr.pooled td{border-top:2px solid var(--acc2)}
+
+/* bracket interattivo: highlight percorso + tooltip */
+.brk-team{cursor:default;border-radius:4px;transition:background .12s}
+.brk-team[data-team]{cursor:pointer}
+.brk-hl{background:rgba(233,196,106,.22)!important;color:var(--txt)!important}
+.brk-champ.brk-hl{filter:brightness(1.08)}
+.brk-tip{position:absolute;z-index:50;display:none;background:#0b1218;border:1px solid var(--acc);
+  border-radius:9px;padding:9px 11px;min-width:165px;box-shadow:0 8px 24px rgba(0,0,0,.5);
+  font-size:.8rem;pointer-events:none}
+.brk-tip .tt-h{font-weight:800;margin-bottom:6px;border-bottom:1px solid var(--line);padding-bottom:4px}
+.brk-tip .tt-r{display:flex;justify-content:space-between;gap:14px;padding:2px 0;color:var(--mut)}
+.brk-tip .tt-r b{color:var(--txt);font-variant-numeric:tabular-nums}
+.brk-tip .tt-win b{color:var(--acc2)}
