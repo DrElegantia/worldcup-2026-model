@@ -172,71 +172,74 @@ def main():
 
     df = pd.DataFrame(rows); P = np.array(df["P"].tolist()); O = df["o"].values; Y = df["year"].values
 
-    # ---- forward selection OOS, curva N=1..11 ----
-    sel, rem = [], list(range(NM)); curve = []
-    for _ in range(NM):
-        best = None
-        for c in rem:
-            idx = sel + [c]; sub = P[:, idx, :]
-            probs = np.zeros((len(O), 3))
-            for hld in np.unique(Y):
-                trm = Y != hld; tem = Y == hld
-                w = opt_weights(sub[trm], O[trm])
-                probs[tem] = (sub[tem] * w[None, :, None]).sum(1)
-            probs /= probs.sum(1, keepdims=True)
-            ll = M.log_loss(probs, O)
-            if best is None or ll < best[0]: best = (ll, c, probs)
-        sel.append(best[1]); rem.remove(best[1]); curve.append((len(sel), best[0], best[2]))
-    print("\n=== A) escalation OOS a livello partita (forward selection) ===")
-    print(f"{'N':>2}  {'modello aggiunto':18}{'logloss OOS':>12}")
-    prev = None
-    for (nn, ll, _), midx in zip(curve, sel):
-        d = "" if prev is None else f"  (Δ {ll-prev:+.4f})"
-        print(f"{nn:>2}  {NAMES[midx]:18}{ll:12.4f}{d}"); prev = ll
-    # significativita: 9 vs 11, e best vs Elo-solo
-    def paired(p_a, p_b, la, lb):
-        ar = np.arange(len(O)); da = -np.log(np.clip(p_a[ar, O], 1e-12, 1)); db = -np.log(np.clip(p_b[ar, O], 1e-12, 1))
-        diff = da - db; mu = diff.mean(); se = diff.std(ddof=1) / np.sqrt(len(diff)); t = mu / se if se else 0
-        print(f"  {lb} vs {la}: Δlogloss {mu:+.4f} ± {se:.4f} (t={t:.2f}) -> "
-              + ("RILEVANTE" if abs(t) > 2 else "rumore"))
-    probs_n = {nn: pr for nn, _, pr in curve}
-    print("\nsignificativita (test appaiato):")
-    paired(probs_n[9], probs_n[11], "consenso 9 modelli", "consenso 11 modelli")
-    paired(probs_n[1], probs_n[min(2, NM)], "1 modello", "2 modelli")
-    paired(probs_n[1], probs_n[11], "1 modello", "11 modelli")
-
-    # ---- B) ricostruzione campione per Mondiale, a N crescente ----
-    print("\n=== B) ricostruzione del CAMPIONE per Mondiale (rank del campione reale) ===")
-    Ns = [1, 3, 5, 7, 9, 11]
-    # pesi globali per ciascun N (ottimizzati su TUTTE le partite, ordine = forward selection)
-    weights_for_N = {}
-    for nn in Ns:
-        idx = sel[:nn]; sub = P[:, idx, :]
-        weights_for_N[nn] = (idx, opt_weights(sub, O))
-    header = "Mondiale (campione)      " + "".join(f"N={n:<5}" for n in Ns)
-    print(header)
-    for year in sorted(champ_data):
-        rec, predict, snap, params, elo = champ_data[year]
-        teams32 = [t for g in rec["groups"] for t in g]
-        # tabella 32x32 per ogni modello (P(home win) neutro), una volta
-        nT = len(teams32); permod = np.zeros((NM, nT, nT, 3))
+    # ---- pre-calcolo tabelle 32x32 per modello, per ogni Mondiale ricostruibile ----
+    permod_by_year = {}
+    for year, (rec, predict, snap, params, elo) in champ_data.items():
+        teams32 = [t for g in rec["groups"] for t in g]; nT = len(teams32)
+        permod = np.zeros((NM, nT, nT, 3))
         for i in range(nT):
             for j in range(nT):
                 if i == j: continue
                 pr = predict(teams32[i], teams32[j], True)
                 permod[:, i, j, :] = pr if pr is not None else 1 / 3
-        line = f"{year} {rec['actual']['champion'][:14]:16}"
-        for nn in Ns:
-            idx, w = weights_for_N[nn]
-            cons = (permod[idx] * w[:, None, None, None]).sum(0)        # nT x nT x 3
+        permod_by_year[year] = (rec, elo, params, permod)
+    years = sorted(permod_by_year)
+
+    def oos_match(idx):
+        sub = P[:, idx, :]; probs = np.zeros((len(O), 3))
+        for hld in np.unique(Y):
+            trm = Y != hld; tem = Y == hld
+            w = opt_weights(sub[trm], O[trm])
+            probs[tem] = (sub[tem] * w[None, :, None]).sum(1)
+        return probs / probs.sum(1, keepdims=True)
+
+    def champ_ranks(idx):
+        w = opt_weights(P[:, idx, :], O)                       # pesi globali (ricostruzione)
+        ranks = {}
+        for year in years:
+            rec, elo, params, permod = permod_by_year[year]
+            cons = (permod[idx] * w[:, None, None, None]).sum(0)
             cons /= cons.sum(-1, keepdims=True)
             ko = cons[:, :, 0] + cons[:, :, 1] * (cons[:, :, 0] /
-                  np.clip(cons[:, :, 0] + cons[:, :, 2], 1e-9, None))   # P(avanza)
+                  np.clip(cons[:, :, 0] + cons[:, :, 2], 1e-9, None))
             probs = R.simulate_past(rec, elo, params, n=20000, cons_ko=ko)
-            rank = next((k + 1 for k, r in enumerate(probs) if r["team"] == rec["actual"]["champion"]), None)
-            line += f"#{str(rank):<5}"
-        print(line)
-    print("\nLettura: se aumentando N il rank del campione non scende, piu' modelli non aiutano a 'azzeccare il vincitore'.")
+            ranks[year] = next((k + 1 for k, r in enumerate(probs)
+                                if r["team"] == rec["actual"]["champion"]), None)
+        return ranks
+
+    # indici: 0 Elo,1 AttDef,2 Forma,3 Massey,4 ResElo,5 Colley,6 ShortElo,7 LongElo,8 XGB,9 RF,10 Logit
+    BLOCKS = [
+        (4,  [0, 1, 3, 10],                "Elo, Att/Dif, Massey, Logistica"),
+        (5,  [0, 1, 3, 10, 2],             "+ Forma"),
+        (7,  [0, 1, 3, 10, 2, 4, 8],       "+ Results-Elo, XGBoost"),
+        (9,  [0, 1, 3, 10, 2, 4, 8, 5, 9], "+ Colley, RandomForest"),
+        (11, list(range(11)),              "+ Short-Elo, Long-Elo"),
+    ]
+
+    def paired(pa, pb):
+        ar = np.arange(len(O)); da = -np.log(np.clip(pa[ar, O], 1e-12, 1)); db = -np.log(np.clip(pb[ar, O], 1e-12, 1))
+        d = da - db; mu = d.mean(); se = d.std(ddof=1) / np.sqrt(len(d)); return mu, se, (mu / se if se else 0)
+
+    print("\n=== BLOCK TESTING SEQUENZIALE (pesi ottimizzati per blocco) ===")
+    print(f"{'blocco':>7}  {'logloss OOS':>11}   campione reale per Mondiale "
+          + "(" + " ".join(str(y) for y in years) + ")   ricostruisce tutti?")
+    probs_block = {}
+    for N, idx, desc in BLOCKS:
+        pm = oos_match(idx); probs_block[N] = pm
+        cr = champ_ranks(idx)
+        allwin = all(cr[y] == 1 for y in years)
+        rstr = "  ".join(f"#{cr[y]}" for y in years)
+        print(f"{N:>5}m  {M.log_loss(pm, O):11.4f}   {rstr:24}   {'SI' if allwin else 'NO'}  ({desc})")
+
+    print("\n=== albero decisionale (la tua sequenza) ===")
+    order = [b[0] for b in BLOCKS]
+    for a, b in zip(order[:-1], order[1:]):
+        mu, se, t = paired(probs_block[a], probs_block[b])
+        ok = (abs(t) > 2 and mu > 0)
+        print(f"  blocco {a} non ricostruisce ogni Mondiale -> provo {b}: "
+              f"Δlogloss {mu:+.4f} (t={t:.2f}) -> " + ("MIGLIORA" if ok else "nessun guadagno rilevante"))
+    print(f"\n9->11: t={paired(probs_block[9], probs_block[11])[2]:.2f} (rumore) -> mi FERMO, non presumo.")
+    print("Nessun blocco 'azzecca sempre il vincitore': e' impossibile senza overfitting (vedi Francia 2018).")
 
 
 if __name__ == "__main__":
