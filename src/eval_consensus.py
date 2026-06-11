@@ -15,7 +15,7 @@ import xgboost as xgb
 
 from config import BACKTEST_WORLD_CUPS, WC_START_DATES, DATA_PROC
 from elo import compute_elo
-from poisson import fit, match_probs
+from poisson import fit, match_probs, score_matrix, outcome_probs
 from features import build_match_features, FEATURE_COLS
 from eval_attdef import fit_attack_defense, ad_probs
 import metrics as M
@@ -48,8 +48,12 @@ def collect():
             (p1, pxd, p2), _, _ = match_probs(r.pre_elo_home, r.pre_elo_away, True, params)
             adp = ad_probs(admodel, r.home_team, r.away_team, True)
             if adp is None: continue
+            # 4o modello: Poisson di sola FORMA recente (memoria corta, diverso dall'Elo)
+            lhf = max(0.2, (r.gf_h + r.ga_a) / 2.0); laf = max(0.2, (r.gf_a + r.ga_h) / 2.0)
+            form = outcome_probs(score_matrix(min(lhf, 12), min(laf, 12), params["rho"]))
             rows.append({"year": year, "elo": [p1, pxd, p2], "xgb": list(px[k]),
-                         "ad": list(adp), "o": M.outcome_index(r.home_score, r.away_score)})
+                         "ad": list(adp), "form": list(form),
+                         "o": M.outcome_index(r.home_score, r.away_score)})
         print(f"[consensus] {year} fatto", file=sys.stderr)
     return pd.DataFrame(rows)
 
@@ -57,6 +61,7 @@ def collect():
 def run():
     df = collect()
     elo = np.array(df["elo"].tolist()); xg = np.array(df["xgb"].tolist()); ad = np.array(df["ad"].tolist())
+    fo = np.array(df["form"].tolist())
     O = df["o"].values; Y = df["year"].values
     tem = np.isin(Y, TEST); full = np.ones(len(O), bool)
 
@@ -74,9 +79,10 @@ def run():
     cons_opt = norm(best_w[0]*elo + best_w[1]*xg + best_w[2]*ad)
 
     blends = {
-        "Elo+XGB (2 modelli)": norm(0.7*elo + 0.3*xg),
-        "Elo.5/XGB.25/AD.25": norm(0.5*elo + 0.25*xg + 0.25*ad),
-        "Elo.6/XGB.2/AD.2": norm(0.6*elo + 0.2*xg + 0.2*ad),
+        "3 modelli (Elo.6/XGB.2/AD.2)": norm(0.6*elo + 0.2*xg + 0.2*ad),
+        "4 modelli +forma (.5/.2/.15/.15)": norm(0.5*elo + 0.2*xg + 0.15*ad + 0.15*fo),
+        "4 modelli peso uguale": norm(elo + xg + ad + fo),
+        "Forma da sola": norm(fo),
     }
 
     def show(label, P, mask):
