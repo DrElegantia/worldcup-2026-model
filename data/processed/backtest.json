@@ -78,6 +78,44 @@
       "ece_model": 0.10899
     }
   ],
+  "by_stage": [
+    {
+      "stage": "Gironi",
+      "n": 288,
+      "correct": 164,
+      "accuracy": 0.5694
+    },
+    {
+      "stage": "Ottavi",
+      "n": 48,
+      "correct": 27,
+      "accuracy": 0.5625
+    },
+    {
+      "stage": "Quarti",
+      "n": 24,
+      "correct": 10,
+      "accuracy": 0.4167
+    },
+    {
+      "stage": "Semifinali",
+      "n": 12,
+      "correct": 9,
+      "accuracy": 0.75
+    },
+    {
+      "stage": "Finale",
+      "n": 12,
+      "correct": 8,
+      "accuracy": 0.6667
+    },
+    {
+      "stage": "Tutte",
+      "n": 384,
+      "correct": 218,
+      "accuracy": 0.5677
+    }
+  ],
   "static_params": {
     "c0": 0.19097286530333094,
     "c1": 0.8849763627166813,

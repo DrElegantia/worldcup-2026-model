@@ -22,6 +22,20 @@ from elo import compute_elo
 from poisson import fit, match_probs
 import metrics as M
 
+# ordine fasi nel formato classico 32 squadre (64 match): 48 gironi, 8 ottavi,
+# 4 quarti, 2 semi, 2 fra finale e 3/4 posto
+STAGE_ORDER = ["Gironi", "Ottavi", "Quarti", "Semifinali", "Finale"]
+
+
+def _stage_of(i, total):
+    if total >= 64:
+        if i < 48: return "Gironi"
+        if i < 56: return "Ottavi"
+        if i < 60: return "Quarti"
+        if i < 62: return "Semifinali"
+        return "Finale"
+    return "Gironi"
+
 
 def run():
     m = pd.read_parquet(DATA_PROC / "matches.parquet")
@@ -42,17 +56,20 @@ def run():
         train = mm[(mm.date < cutoff) & (mm.date >= cutoff - pd.Timedelta(days=365 * 18))]
         params = fit(train, cutoff)
 
+        wc = wc.sort_values("date").reset_index(drop=True)
         probs_model, probs_static, outs = [], [], []
-        for _, r in wc.iterrows():
+        for i, r in wc.iterrows():
             (p1, px, p2), _, _ = match_probs(r.pre_elo_home, r.pre_elo_away, True, params)
             (s1, sx, s2), _, _ = match_probs(r.pre_elo_home, r.pre_elo_away, True, static_params)
             o = M.outcome_index(r.home_score, r.away_score)
             probs_model.append([p1, px, p2])
             probs_static.append([s1, sx, s2])
             outs.append(o)
+            pred = int(np.argmax([p1, px, p2]))
             per_match.append({"year": year, "home": r.home_team, "away": r.away_team,
                               "p_home": round(p1, 3), "p_draw": round(px, 3),
-                              "p_away": round(p2, 3), "outcome": o})
+                              "p_away": round(p2, 3), "outcome": o,
+                              "pred": pred, "stage": _stage_of(i, len(wc))})
         pm = np.array(probs_model)
         ps = np.array(probs_static)
         uni = np.full_like(pm, 1 / 3)
@@ -86,7 +103,25 @@ def run():
     pd.set_option("display.max_columns", 20)
     print(df.round(4).to_string(index=False))
 
+    # accuratezza per fase (pooled sui 6 Mondiali): quante partite azzeccate
+    pmdf = pd.DataFrame(per_match)
+    pmdf["correct"] = pmdf["pred"] == pmdf["outcome"]
+    by_stage = []
+    for st in STAGE_ORDER:
+        sub = pmdf[pmdf.stage == st]
+        if len(sub):
+            by_stage.append({"stage": st, "n": int(len(sub)),
+                             "correct": int(sub.correct.sum()),
+                             "accuracy": round(float(sub.correct.mean()), 4)})
+    overall = {"stage": "Tutte", "n": int(len(pmdf)), "correct": int(pmdf.correct.sum()),
+               "accuracy": round(float(pmdf.correct.mean()), 4)}
+    by_stage.append(overall)
+    print("\nAccuratezza per fase (pooled 2002-2022):")
+    for r in by_stage:
+        print(f"  {r['stage']:14} {r['correct']:3}/{r['n']:3}  {100*r['accuracy']:.1f}%")
+
     out = {"summary": df.round(5).to_dict(orient="records"),
+           "by_stage": by_stage,
            "static_params": static_params}
     with open(DATA_PROC / "backtest.json", "w") as f:
         json.dump(out, f, indent=2)

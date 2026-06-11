@@ -186,10 +186,14 @@
         "<span class='ma'>"+name(m.away)+"</span>";
       row.appendChild(line);
       row.appendChild(el("div","mpred","<span class='muted'>Risultato piu probabile:</span> <strong>"+m.pred_score+"</strong> ("+it(m.pred_winner)+")"));
+      function seg(cls,p,lab,title){
+        var txt = p>=0.14 ? lab+" "+pctShort(p) : (p>=0.07 ? pctShort(p) : "");
+        return "<span style='flex:"+Math.max(p,0.05)+"' class='"+cls+"' title='"+title+"'>"+txt+"</span>";
+      }
       var split=el("div","msplit");
-      split.innerHTML="<span style='flex:"+Math.max(m.p_home,0.02)+"' class='s1' title='Vittoria "+it(m.home)+"'>1 "+pctShort(m.p_home)+"</span>"+
-                      "<span style='flex:"+Math.max(m.p_draw,0.02)+"' class='sx' title='Pareggio'>X "+pctShort(m.p_draw)+"</span>"+
-                      "<span style='flex:"+Math.max(m.p_away,0.02)+"' class='s2' title='Vittoria "+it(m.away)+"'>2 "+pctShort(m.p_away)+"</span>";
+      split.innerHTML=seg("s1",m.p_home,"1","Vittoria "+it(m.home))+
+                      seg("sx",m.p_draw,"X","Pareggio")+
+                      seg("s2",m.p_away,"2","Vittoria "+it(m.away));
       row.appendChild(split);
     }
     return row;
@@ -206,9 +210,15 @@
     else { b48.appendChild(el("p","muted","Nessuna partita nelle prossime 48 ore.")); }
 
     var bp=document.getElementById("playedBox"); bp.innerHTML="";
-    var sec=document.getElementById("playedSection");
-    if(played.length){ sec.style.display=""; played.forEach(function(m){ bp.appendChild(matchCard(m)); }); }
-    else { sec.style.display="none"; }
+    if(played.length){
+      var hit=played.filter(function(m){return m.hit;}).length;
+      document.getElementById("playedScore").textContent =
+        "Segno azzeccato in "+hit+" partite su "+played.length+" giocate finora.";
+      played.forEach(function(m){ bp.appendChild(matchCard(m)); });
+    } else {
+      document.getElementById("playedScore").textContent="";
+      bp.appendChild(el("p","muted empty","Il torneo inizia oggi. Appena le partite vengono giocate, qui compaiono il risultato reale e la predizione del modello, con il segno ✓ (indovinato) o ✗. La sezione si aggiorna ogni giorno in automatico."));
+    }
 
     var bn=document.getElementById("nextBox"); bn.innerHTML="";
     if(next.length){ next.forEach(function(m){ bn.appendChild(matchCard(m)); }); }
@@ -289,6 +299,17 @@
         tbl.appendChild(tr);
       });
       box.innerHTML=""; box.appendChild(tbl);
+      var sa=document.getElementById("stageAccuracy");
+      if(sa && bt.by_stage){
+        var t2=el("table","bt-tbl");
+        t2.innerHTML="<tr><th>Fase</th><th>Partite</th><th>Azzeccate</th><th>Accuratezza</th></tr>";
+        bt.by_stage.forEach(function(r){
+          var tr=el("tr",r.stage==="Tutte"?"pooled":"");
+          tr.innerHTML="<td>"+r.stage+"</td><td>"+r.n+"</td><td>"+r.correct+"</td><td>"+Math.round(100*r.accuracy)+"%</td>";
+          t2.appendChild(tr);
+        });
+        sa.innerHTML=""; sa.appendChild(t2);
+      }
     }).catch(function(){});
   }
 

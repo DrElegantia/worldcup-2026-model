@@ -47,9 +47,9 @@
       <p class="muted small">Per ogni partita: risultato piu probabile secondo il modello e probabilita di vittoria 1 (prima squadra) / X (pareggio) / 2 (seconda squadra).</p>
       <div id="next48" class="matches"></div>
 
-      <section id="playedSection" style="display:none">
+      <section id="playedSection">
         <h2>Risultati e predizioni</h2>
-        <p class="muted small">Partite gia giocate: risultato reale, cosa aveva previsto il modello, e se ha indovinato il segno.</p>
+        <p class="muted small">Partite gia giocate: risultato reale, cosa aveva previsto il modello, e se ha indovinato il segno. <span id="playedScore" class="hl"></span></p>
         <div id="playedBox" class="matches"></div>
       </section>
 
@@ -98,6 +98,10 @@
         <p>Il modello e stato testato sui 6 Mondiali usando <strong>solo i dati disponibili prima di ogni torneo</strong>. Su 384 partite:</p>
         <div id="backtestTable" class="bt-wrap"><p class="muted small">Caricamento...</p></div>
         <p class="muted small">Log loss e RPS piu bassi sono migliori. L'uniforme (1/3 a ogni esito) da log loss 1,099. Il modello la batte su tutti i tornei. Valori in linea con lo stato dell'arte per il calcio internazionale.</p>
+
+        <h3>Quante partite ha azzeccato, per fase</h3>
+        <p class="muted small">Segno corretto (1, X o 2) sulle partite dei 6 Mondiali, diviso per fase. I quarti sono la fase piu difficile: squadre vicine, tanti episodi.</p>
+        <div id="stageAccuracy" class="bt-wrap"><p class="muted small">Caricamento...</p></div>
 
         <h3>6. Limiti</h3>
         <p>Predire il vincitore di un Mondiale e intrinsecamente incerto: la varianza dello sport e alta e le partite sono poche. Il valore del sistema sta nel fornire probabilita <strong>ben calibrate e tracciabili</strong>, non nell'indovinare il campione. Questa versione core usa forza storica, forma recente e fattore campo. In arrivo (fase 2): qualita dei singoli (valore di mercato, xG), sinergia della rosa, clima e altitudine delle sedi 2026, logistica, ensemble con gradient boosting. Ogni feature verra aggiunta solo se migliora il backtest.</p>

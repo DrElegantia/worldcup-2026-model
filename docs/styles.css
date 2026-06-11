@@ -57,8 +57,8 @@ select{background:var(--panel2);color:var(--txt);border:1px solid var(--line);
 .mteams{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:.85rem;margin-bottom:6px}
 .mvs{color:var(--mut);font-size:.76rem;font-variant-numeric:tabular-nums}
 .mh{font-weight:600} .ma{font-weight:600;text-align:right}
-.msplit{display:flex;height:20px;border-radius:5px;overflow:hidden;font-size:.7rem}
-.msplit span{display:flex;align-items:center;justify-content:center;color:#0e141b;font-weight:700;min-width:0}
+.msplit{display:flex;height:22px;border-radius:5px;overflow:hidden;font-size:.7rem}
+.msplit span{display:flex;align-items:center;justify-content:center;color:#0e141b;font-weight:700;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:clip;line-height:22px}
 .s1{background:var(--s1)} .sx{background:var(--sx);color:#e6edf3} .s2{background:var(--s2)}
 
 /* trend */
