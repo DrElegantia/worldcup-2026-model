@@ -1,0 +1,47 @@
+{
+  "weight": 0.3,
+  "rows": [
+    {
+      "model": "baseline Elo-Poisson",
+      "key": "baseline",
+      "pooled": {
+        "logloss": 0.9763,
+        "rps": 0.2003,
+        "acc": 0.5677
+      },
+      "test": {
+        "logloss": 1.0183,
+        "rps": 0.2143,
+        "acc": 0.5469
+      }
+    },
+    {
+      "model": "XGBoost",
+      "key": "xgboost",
+      "pooled": {
+        "logloss": 0.9796,
+        "rps": 0.1998,
+        "acc": 0.5443
+      },
+      "test": {
+        "logloss": 1.0169,
+        "rps": 0.2138,
+        "acc": 0.5312
+      }
+    },
+    {
+      "model": "ensemble (w=0.30)",
+      "key": "ensemble",
+      "pooled": {
+        "logloss": 0.9747,
+        "rps": 0.1995,
+        "acc": 0.5703
+      },
+      "test": {
+        "logloss": 1.0159,
+        "rps": 0.2138,
+        "acc": 0.5391
+      }
+    }
+  ]
+}

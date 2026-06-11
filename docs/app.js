@@ -311,6 +311,24 @@
         sa.innerHTML=""; sa.appendChild(t2);
       }
     }).catch(function(){});
+    renderPhase2();
+  }
+
+  function renderPhase2(){
+    var box=document.getElementById("phase2Table"); if(!box) return;
+    getJSON(DATA_BASE+"/phase2.json").then(function(d){
+      var t=el("table","bt-tbl");
+      t.innerHTML="<tr><th>Modello</th><th>Log loss (pooled)</th><th>RPS</th><th>Log loss (test 18-22)</th><th>RPS (test)</th></tr>";
+      d.rows.forEach(function(r){
+        var tr=el("tr",r.key==="ensemble"?"pooled":"");
+        function f(x){return x.toFixed(4).replace(".",",");}
+        tr.innerHTML="<td style='text-align:left'>"+r.model+"</td>"+
+          "<td>"+f(r.pooled.logloss)+"</td><td>"+f(r.pooled.rps)+"</td>"+
+          "<td>"+f(r.test.logloss)+"</td><td>"+f(r.test.rps)+"</td>";
+        t.appendChild(tr);
+      });
+      box.innerHTML=""; box.appendChild(t);
+    }).catch(function(){ box.innerHTML="<p class='muted small'>Confronto fase 2 non disponibile.</p>"; });
   }
 
   if(document.readyState!=="loading") init();

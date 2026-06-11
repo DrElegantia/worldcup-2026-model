@@ -23,19 +23,20 @@ from simulate import simulate
 import ingest
 import metrics as M
 
-MODEL_VERSION = "1.0.0-core"   # Elo + Dixon-Coles Poisson
+MODEL_VERSION = "1.1.0-ensemble"   # Elo + Dixon-Coles Poisson + XGBoost (peso 0.30)
 
 
 def today_str():
     return datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 
-def all_match_predictions(tl, params, wc, asof):
-    """Per ogni partita 2026: predizione del modello (Elo pre-match, leakage-free)
-    e, se gia' giocata, il risultato reale. Cosi' si confronta predetto vs reale."""
+def all_match_predictions(tl, params, wc, asof, clf=None, snap=None):
+    """Per ogni partita 2026: predizione del modello (leakage-free) e, se gia'
+    giocata, il risultato reale. Le partite future usano l'ensemble Elo-Poisson+XGB."""
     import numpy as np
     from config import HOSTS
     from elo import ratings_as_of
+    from ensemble import ensemble_match_probs
     asof_ts = pd.Timestamp(asof)
     out = []
     for f in wc["fixtures"]:
@@ -45,7 +46,10 @@ def all_match_predictions(tl, params, wc, asof):
         if h not in elo or a not in elo:
             continue
         neutral = not ((h in HOSTS and f["country"] == h) or (a in HOSTS and f["country"] == a))
-        (p1, px, p2), (lh, la), mat = match_probs(elo[h], elo[a], neutral, params)
+        if (not f["played"]) and clf is not None and snap is not None and h in snap and a in snap:
+            (p1, px, p2), (lh, la), mat = ensemble_match_probs(h, a, neutral, params, clf, snap)
+        else:
+            (p1, px, p2), (lh, la), mat = match_probs(elo[h], elo[a], neutral, params)
         gh, ga = np.unravel_index(int(np.argmax(mat)), mat.shape)
         if p1 >= px and p1 >= p2:
             pred = h
@@ -91,7 +95,16 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
     wc = json.load(open(DATA_PROC / "wc2026.json"))
 
     sim = simulate(elo, params, wc, n=n, seed=42)
-    matches = all_match_predictions(_tl, params, wc, asof)
+    # ensemble fase 2: XGBoost addestrato point-in-time + snapshot feature per squadra
+    clf = snap = None
+    try:
+        from ensemble import train_xgb
+        from features import team_snapshots
+        clf = train_xgb(mm, pd.Timestamp(asof) + pd.Timedelta(days=1))
+        snap = team_snapshots(mm, pd.Timestamp(asof) + pd.Timedelta(days=1), elo)
+    except Exception as e:
+        print(f"[daily] ensemble non disponibile ({e}), uso solo Elo-Poisson", file=sys.stderr)
+    matches = all_match_predictions(_tl, params, wc, asof, clf, snap)
     from predicted import predicted_bracket
     pred = predicted_bracket(sim["teams"], elo, params)
 
@@ -167,9 +180,10 @@ def mirror_to_docs():
     bt = DATA_PROC / "backtest.json"
     if bt.exists():
         shutil.copy(bt, ddir / "backtest.json")
-    retro = DATA_PROC / "retro.json"
-    if retro.exists():
-        shutil.copy(retro, ddir / "retro.json")
+    for extra in ("retro.json", "phase2.json"):
+        p = DATA_PROC / extra
+        if p.exists():
+            shutil.copy(p, ddir / extra)
 
 
 if __name__ == "__main__":
