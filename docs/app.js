@@ -105,7 +105,7 @@
       var card=el("div","gcard");
       card.appendChild(el("div","ghead","Girone "+g));
       var tbl=el("table","gtable");
-      tbl.innerHTML="<tr><th>#</th><th></th><th title='Punti attesi nei gironi'>Pt att.</th><th title='Probabilita di superare il girone'>Passa</th></tr>";
+      tbl.innerHTML="<tr><th>#</th><th></th><th title='Punti attesi nei gironi'>Pt att.</th><th title='Probabilità di superare il girone'>Passa</th></tr>";
       (std[g]||[]).forEach(function(r){
         var t=advBy[r.team]||{}; var adv=t.p_advance||0;
         var cls=r.pos<=2?"qual":(adv>=0.5?"qual":"out");
@@ -143,7 +143,7 @@
     (br[0].matches||[]).forEach(function(m){ if(m.home)teamMatch[m.home]=m.match; if(m.away)teamMatch[m.away]=m.match; });
     function pathOf(team){ var m=teamMatch[team]; if(m===undefined)return []; var c=[m]; while(parent[m]!==undefined){ m=parent[m]; c.push(m); } return c; }
 
-    box.appendChild(el("p","muted small","Tabellone simulato (scenario piu probabile). Passa il mouse su una squadra: si traccia il suo percorso fino alla finale e compaiono le probabilita per fase."));
+    box.appendChild(el("p","muted small","Tabellone simulato (scenario più probabile). Passa il mouse su una squadra: si traccia il suo percorso fino alla finale e compaiono le probabilità per fase."));
     var wrap=el("div","bk-wrap"); var tree=el("div","bk-tree");
 
     function matchBox(id){
@@ -252,7 +252,7 @@
         "<span class='mvs'>vs</span>"+
         "<span class='ma'>"+name(m.away)+"</span>";
       row.appendChild(line);
-      row.appendChild(el("div","mpred","<span class='muted'>Risultato piu probabile:</span> <strong>"+m.pred_score+"</strong> ("+it(m.pred_winner)+")"));
+      row.appendChild(el("div","mpred","<span class='muted'>Risultato più probabile:</span> <strong>"+m.pred_score+"</strong> ("+it(m.pred_winner)+")"));
       function seg(cls,p,lab,title){
         var txt = p>=0.14 ? lab+" "+pctShort(p) : (p>=0.07 ? pctShort(p) : "");
         return "<span style='flex:"+Math.max(p,0.05)+"' class='"+cls+"' title='"+title+"'>"+txt+"</span>";
@@ -267,7 +267,7 @@
   }
 
   function trackRecord(ms){
-    // riepilogo su TUTTE le partite gia giocate (non solo le ultime mostrate)
+    // riepilogo su TUTTE le partite già giocate (non solo le ultime mostrate)
     var p=(ms||[]).filter(function(m){return m.played && m.home_score!=null;});
     var win=0, exact=0, gd=0;
     p.forEach(function(m){
@@ -355,7 +355,7 @@
   function renderRetro(){
     var box=document.getElementById("retroBox"); if(!box) return; box.innerHTML="";
     if(!state.retro){ box.appendChild(el("p","muted","Verifica storica non disponibile.")); return; }
-    box.appendChild(el("p","muted","Per ogni Mondiale passato, le probabilita che lo <strong>stesso consenso di 3 modelli</strong> usato per il 2026 avrebbe assegnato PRIMA del torneo (solo dati anteriori a ogni Mondiale, i tre modelli rifittati point-in-time), confrontate con l'esito reale. Verifica leale: il favorito non sempre vince, ma il campione reale era quasi sempre fra i primissimi."));
+    box.appendChild(el("p","muted","Per ogni Mondiale passato, le probabilità che lo <strong>stesso consenso di 3 modelli</strong> usato per il 2026 avrebbe assegnato PRIMA del torneo (solo dati anteriori a ogni Mondiale, i tre modelli rifittati point-in-time), confrontate con l'esito reale. Verifica leale: il favorito non sempre vince, ma il campione reale era quasi sempre fra i primissimi."));
     state.retro.tournaments.forEach(function(tn){
       var card=el("div","retro-card");
       var a=tn.actual;
@@ -420,7 +420,7 @@
       var dn=document.getElementById("drawNote");
       if(dn && ex.draws){
         var d=ex.draws;
-        dn.innerHTML="<strong>Pareggi:</strong> il "+Math.round(100*d.share_real)+"% delle partite dei Mondiali finisce in parita. Il modello assegna in media "+Math.round(100*d.avg_p_draw_on_draws)+"% di probabilita al pareggio quando poi succede, ma quasi mai il pareggio e l'esito singolo piu probabile: e una proprieta nota dei modelli di gol (la X resta divisa tra le due squadre). Per questo si valuta su probabilita (log loss, RPS), non solo sul segno secco.";
+        dn.innerHTML="<strong>Pareggi:</strong> il "+Math.round(100*d.share_real)+"% delle partite dei Mondiali finisce in parita. Il modello assegna in media "+Math.round(100*d.avg_p_draw_on_draws)+"% di probabilità al pareggio quando poi succede, ma quasi mai il pareggio e l'esito singolo più probabile: e una proprieta nota dei modelli di gol (la X resta divisa tra le due squadre). Per questo si valuta su probabilità (log loss, RPS), non solo sul segno secco.";
       }
       var sa=document.getElementById("stageAccuracy");
       if(sa && bt.by_stage){

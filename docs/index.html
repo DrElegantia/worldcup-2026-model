@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mondiale 2026, simulazione probabilistica</title>
-<meta name="description" content="Modello predittivo del Mondiale FIFA 2026: probabilita di vittoria, qualificazione, classifiche dei gironi e tabellone simulato di ogni nazionale, aggiornati ogni giorno con 100.000 simulazioni Monte Carlo.">
+<meta name="description" content="Modello predittivo del Mondiale FIFA 2026: probabilità di vittoria, qualificazione, classifiche dei gironi e tabellone simulato di ogni nazionale, aggiornati ogni giorno con 100.000 simulazioni Monte Carlo.">
 <link rel="stylesheet" href="./styles.css?v=141">
 </head>
 <body>
@@ -35,23 +35,23 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
       <div id="contenders" class="contenders"></div>
 
       <h2>Classifica prevista dei gironi</h2>
-      <p class="muted small">Ordine piu probabile di arrivo, punti attesi e probabilita di passare il turno. Le prime due di ogni girone piu le 8 migliori terze vanno ai sedicesimi.</p>
+      <p class="muted small">Ordine più probabile di arrivo, punti attesi e probabilità di passare il turno. Le prime due di ogni girone più le 8 migliori terze vanno ai sedicesimi.</p>
       <div id="groups" class="groups"></div>
 
       <h2>Tabellone simulato (fasi finali)</h2>
       <div id="bracket" class="bracket"></div>
 
-      <h2>Probabilita per ogni fase</h2>
-      <p class="muted small">Probabilita di raggiungere ciascuna fase, top 24 per probabilita titolo.</p>
+      <h2>Probabilità per ogni fase</h2>
+      <p class="muted small">Probabilità di raggiungere ciascuna fase, top 24 per probabilità titolo.</p>
       <div id="knockout" class="ktable-wrap"></div>
 
       <h2>Prossime 48 ore</h2>
-      <p class="muted small">Per ogni partita: risultato piu probabile secondo il modello e probabilita di vittoria 1 (prima squadra) / X (pareggio) / 2 (seconda squadra).</p>
+      <p class="muted small">Per ogni partita: risultato più probabile secondo il modello e probabilità di vittoria 1 (prima squadra) / X (pareggio) / 2 (seconda squadra).</p>
       <div id="next48" class="matches"></div>
 
       <section id="playedSection">
         <h2>Risultati e predizioni</h2>
-        <p class="muted small">Partite gia giocate: risultato reale, cosa aveva previsto il modello, e se ha indovinato il segno.</p>
+        <p class="muted small">Partite già giocate: risultato reale, cosa aveva previsto il modello, e se ha indovinato il segno.</p>
         <div id="trackRecord" class="track"></div>
         <div id="playedBox" class="matches"></div>
       </section>
@@ -64,7 +64,7 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
       <div class="datebar">
         <label for="trendMetric">Metrica</label>
         <select id="trendMetric">
-          <option value="p_champion">Probabilita titolo</option>
+          <option value="p_champion">Probabilità titolo</option>
           <option value="p_final">Arriva in finale</option>
           <option value="p_sf">Arriva in semifinale</option>
           <option value="p_qf">Arriva ai quarti</option>
@@ -86,59 +86,59 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
         <h2>Nota metodologica</h2>
 
         <h3>0. Architettura: consenso di modelli</h3>
-        <p>Invece di un singolo "super-modello", la previsione e il <strong>consenso di sei modelli con ipotesi diverse</strong>: Mercato (consenso bookmaker stile Leitner-Zeileis-Hornik, 24%), Massey (rating ai minimi quadrati sugli scarti gol, 17%), Logistica (modello d'esito lineare, 16%), Elo-Poisson (rating iterativo + Poisson, 16%), Forma (memoria corta, 14,5%), Attacco/Difesa per squadra (13%). Per ogni partita si mediano le loro probabilita con questi pesi, e su quella di consenso gira tutto il Monte Carlo (gironi, tabellone, ogni fase). La logica e quella del meteo e dei "supercomputer": modelli che sbagliano in modo diverso, mediati, riducono l'errore. I pesi sono scelti con validazione <strong>leave-one-Mondiale-out</strong> e regolarizzati per robustezza.</p>
-        <p>Il <strong>mercato e' il singolo modello piu' informativo</strong> (le quote incorporano infortuni, forma, valore rosa che i modelli sui soli risultati non vedono): aggiunto come 6o, prende il peso piu' alto e migliora la previsione del campione sui 4 Mondiali con quote disponibili (2010-2022). Verifica onesta dei limiti: oltre questi modelli il guadagno non e statisticamente rilevante, e nessuna combinazione "azzecca sempre il vincitore" (la varianza del calcio e irriducibile).</p>
+        <p>Invece di un singolo "super-modello", la previsione è il <strong>consenso di sei modelli con ipotesi diverse</strong>: Mercato (consenso dei bookmaker, stile Leitner-Zeileis-Hornik, 24%), Massey (rating ai minimi quadrati sugli scarti di gol, 17%), Logistica (modello d'esito lineare, 16%), Elo-Poisson (rating iterativo più Poisson, 16%), Forma (memoria corta, 14,5%) e Attacco/Difesa per squadra (13%). Per ogni partita si mediano le loro probabilità con questi pesi, e sulla probabilità di consenso gira tutto il Monte Carlo (gironi, tabellone, ogni fase). La logica è quella delle previsioni meteo e dei "supercomputer": modelli che sbagliano in modo diverso, mediati fra loro, riducono l'errore. I pesi sono scelti con validazione <strong>leave-one-Mondiale-out</strong> e regolarizzati per robustezza.</p>
+        <p>Il <strong>mercato è il singolo modello più informativo</strong>: le quote incorporano infortuni, forma e valore della rosa che i modelli costruiti sui soli risultati non vedono. È il modello con il peso più alto e prevede meglio il campione sui quattro Mondiali con quote disponibili (2010-2022). Sui limiti siamo onesti: oltre questi sei modelli il guadagno non è statisticamente rilevante, e nessuna combinazione "azzecca sempre il vincitore", perché la varianza del calcio è irriducibile.</p>
 
         <h3>1. Dati</h3>
-        <p>Fonte primaria: <strong>tutte le partite internazionali dal 1872</strong> (dataset aperto martj42/international_results), aggiornato in continuo: data, squadre, risultato, torneo, sede, campo neutro. La struttura del Mondiale 2026 (48 squadre, 12 gironi, calendario, sedi) e estratta dalle stesse fixture ufficiali e validata contro il sorteggio FIFA del 5 dicembre 2025.</p>
+        <p>Fonte primaria: <strong>tutte le partite internazionali dal 1872</strong> (dataset aperto martj42/international_results), con data, squadre, risultato, torneo, sede e campo neutro. La struttura del Mondiale 2026 (48 squadre, 12 gironi, calendario, sedi) è estratta dalle fixture ufficiali e validata contro il sorteggio FIFA del 5 dicembre 2025.</p>
 
         <h3>2. Forza delle squadre: Elo</h3>
-        <p>Ogni nazionale ha un rating <strong>Elo</strong> aggiornato partita per partita su tutta la storia, con vantaggio campo (annullato in campo neutro) e moltiplicatore per lo scarto di gol (una vittoria larga sposta piu rating di una di misura). E il punto-in-tempo: il rating usato per prevedere una partita e sempre quello precedente alla partita stessa.</p>
+        <p>Ogni nazionale ha un rating <strong>Elo</strong> calcolato partita per partita su tutta la storia, con vantaggio campo (annullato in campo neutro) e moltiplicatore per lo scarto di gol (una vittoria larga sposta più rating di una di misura). È un rating point-in-time: per prevedere una partita si usa sempre il rating precedente alla partita stessa.</p>
 
         <h3>3. Gol attesi: Poisson Dixon-Coles</h3>
-        <p>Dalla differenza Elo fra le due squadre, un modello <strong>Poisson bivariato</strong> stima i gol attesi di ciascuna (lambda) e quindi la distribuzione dei risultati. La <strong>correzione Dixon-Coles</strong> sistema la dipendenza nei punteggi bassi (0-0, 1-0, 1-1). I parametri sono stimati per massima verosimiglianza con pesatura temporale (le partite recenti pesano di piu).</p>
+        <p>Dalla differenza di Elo fra le due squadre, un modello <strong>Poisson bivariato</strong> stima i gol attesi di ciascuna (lambda) e quindi la distribuzione dei risultati. La <strong>correzione Dixon-Coles</strong> sistema la dipendenza nei punteggi bassi (0-0, 1-0, 1-1). I parametri sono stimati per massima verosimiglianza, con pesatura temporale: le partite recenti pesano di più.</p>
 
         <h3>4. Simulazione del torneo: Monte Carlo</h3>
-        <p>Il torneo completo viene simulato <strong>100.000 volte</strong>: gironi (con i criteri ufficiali di classifica), selezione delle 8 migliori terze con <strong>allocazione Annex C</strong> (tutte le 495 combinazioni), tabellone dai sedicesimi alla finale secondo la struttura ufficiale FIFA, con supplementari e rigori. Le partite gia giocate usano il risultato reale; cosi le probabilita si aggiornano ogni giorno.</p>
+        <p>Il torneo completo è simulato <strong>100.000 volte</strong>: gironi (con i criteri ufficiali di classifica), selezione delle 8 migliori terze con <strong>allocazione ufficiale Annexe C</strong> (tutte le 495 combinazioni), tabellone dai sedicesimi alla finale secondo la struttura ufficiale FIFA, con tempi supplementari e rigori. Le partite già giocate usano il risultato reale, le altre sono simulate.</p>
 
         <h3>5. Validazione point-in-time (2002-2022)</h3>
-        <p>Il modello e stato testato sui 6 Mondiali usando <strong>solo i dati disponibili prima di ogni torneo</strong>. Su 384 partite:</p>
+        <p>Il modello è testato sui sei Mondiali usando <strong>solo i dati disponibili prima di ogni torneo</strong>. Su 384 partite:</p>
         <div id="backtestTable" class="bt-wrap"><p class="muted small">Caricamento...</p></div>
-        <p class="muted small">Log loss e RPS piu bassi sono migliori. L'uniforme (1/3 a ogni esito) da log loss 1,099. Il modello la batte su tutti i tornei. Valori in linea con lo stato dell'arte per il calcio internazionale.</p>
+        <p class="muted small">Log loss e RPS più bassi sono migliori. La previsione uniforme (1/3 a ogni esito) dà log loss 1,099, e il modello la batte su tutti i tornei. I valori sono in linea con lo stato dell'arte per il calcio internazionale.</p>
 
-        <h3>Quante partite ha azzeccato, per fase</h3>
-        <p class="muted small">Segno corretto (1, X o 2) sulle partite dei 6 Mondiali, diviso per fase. I quarti sono la fase piu difficile: squadre vicine, tanti episodi.</p>
+        <h3>Quante partite indovina, per fase</h3>
+        <p class="muted small">Segno corretto (1, X o 2) sulle partite dei sei Mondiali, diviso per fase. I quarti sono la fase più difficile: squadre vicine e molti episodi.</p>
         <div id="stageAccuracy" class="bt-wrap"><p class="muted small">Caricamento...</p></div>
 
-        <h3>5b. Dove il modello e affidabile (sfumature)</h3>
-        <p class="muted small">Accuratezza e log loss per quanto e netto il favorito (differenza di rating Elo). Il modello e molto affidabile quando c'e un favorito chiaro, vicino al testa-o-croce sulle gare equilibrate, dove nessuno puo fare meglio.</p>
+        <h3>5b. Dove il modello è affidabile</h3>
+        <p class="muted small">Accuratezza e log loss in base a quanto è netto il favorito (differenza di rating Elo). Il modello è molto affidabile quando c'è un favorito chiaro, e vicino al testa-o-croce sulle gare equilibrate, dove nessuno può fare meglio.</p>
         <div id="favoriteTable" class="bt-wrap"></div>
         <p id="drawNote" class="muted small"></p>
 
-        <h3>6. Fase 2: ensemble con gradient boosting</h3>
-        <p>Oltre all'Elo abbiamo aggiunto feature ingegnerizzate leakage-free (forma recente, attacco/difesa recenti, giorni di riposo, carico partite, momentum Elo) e un modello <strong>XGBoost</strong>, messo in <strong>ensemble</strong> con l'Elo-Poisson. Il peso dell'ensemble e stato scelto <strong>fuori campione</strong> (addestrato sui Mondiali 2002-2014, valutato su 2018-2022) e tenuto solo perche batte il baseline. Guadagno reale ma piccolo: l'Elo e gia molto forte.</p>
+        <h3>6. Ensemble con gradient boosting</h3>
+        <p>All'Elo si affiancano alcune feature ingegnerizzate, costruite senza guardare al futuro (forma recente, attacco e difesa recenti, giorni di riposo, carico di partite, momentum dell'Elo), e un modello <strong>XGBoost</strong> in <strong>ensemble</strong> con l'Elo-Poisson. Il peso dell'ensemble è scelto <strong>fuori campione</strong> (addestrato sui Mondiali 2002-2014, valutato su 2018-2022) e mantenuto solo perché batte il riferimento. Il guadagno è reale ma piccolo, perché l'Elo è già molto forte.</p>
         <div id="phase2Table" class="bt-wrap"><p class="muted small">Caricamento...</p></div>
-        <p class="muted small">Disciplina seguita: ogni feature viene aggiunta solo se migliora log loss e RPS sul backtest. Cio che non migliora viene scartato.</p>
+        <p class="muted small">Disciplina del progetto: una feature entra nel modello solo se migliora log loss e RPS sul backtest; ciò che non migliora resta fuori.</p>
 
-        <h3>6b. Altitudine e acclimatamento (sedi 2026)</h3>
-        <p>Abbiamo collegato l'elevazione di ogni sede e di ogni nazionale (fonte aperta GeoNames) e aggiunto al modello dei gol una <strong>penalita di altitudine</strong>: chi gioca lontano e in quota piu alta rispetto a casa segna meno. Stimata per massima verosimiglianza su <strong>2.256 partite storiche d'altura</strong> (qualificazioni a La Paz, Quito, Citta del Messico, Bogota). Validazione sulle sole partite ad alta quota (>1500 m): <strong>log loss 0,968 → 0,952</strong> e RPS 0,191 → 0,186. Effetto nullo dove non serve (le partite sul livello del mare non sono toccate), reale dove conta: per il 2026 il Messico all'Azteca (2.240 m) e le sedi di Guadalajara e Denver ottengono un vantaggio quota concreto nella simulazione.</p>
+        <h3>6b. Altitudine e acclimatamento</h3>
+        <p>Il modello dei gol include una <strong>penalità di altitudine</strong>, costruita dall'elevazione di ogni sede e di ogni nazionale (fonte aperta GeoNames): chi gioca in quota più alta rispetto a casa segna meno. È stimata per massima verosimiglianza su <strong>2.256 partite storiche d'altura</strong> (qualificazioni a La Paz, Quito, Città del Messico, Bogotá). Sulle sole partite ad alta quota (oltre 1500 m) porta il log loss da <strong>0,968 a 0,952</strong> e l'RPS da 0,191 a 0,186. Dove non serve l'effetto è nullo (le partite sul livello del mare non sono toccate); dove conta è concreto: per il 2026 il Messico all'Azteca (2.240 m) e le sedi di Guadalajara e Denver hanno un vantaggio di quota reale nella simulazione.</p>
 
-        <h3>6c. Forza-rosa (rating EA FIFA)</h3>
-        <p>Abbiamo aggiunto la <strong>forza-rosa</strong> di ogni nazionale, calcolata come media dei top-23 giocatori per nazionalita nei rating del videogioco EA FIFA (fonte aperta, edizione FIFA 18 per il 2018, FIFA 22 per il 2022, EA FC 24 per il 2026). E un proxy del valore della rosa, indipendente dai risultati recenti (che cattura gia l'Elo). Validazione point-in-time su <strong>WC 2018 + 2022</strong> (128 partite): l'ensemble con forza-rosa migliora il log loss <strong>1,021 → 1,013</strong> e l'RPS 0,215 → 0,213. Importanza della feature alta (tra le prime dopo l'Elo). E integrata nelle predizioni per-match; il dato Opta/StatsPerform a pagamento non e usato, solo fonti aperte.</p>
+        <h3>6c. Forza della rosa (rating EA FIFA)</h3>
+        <p>Il modello include la <strong>forza della rosa</strong> di ogni nazionale, calcolata come media dei 23 migliori giocatori per nazionalità nei rating del videogioco EA FIFA (fonte aperta: FIFA 18 per il 2018, FIFA 22 per il 2022, EA FC 24 per il 2026). È un proxy del valore della rosa, indipendente dai risultati recenti, che l'Elo cattura già. Nella validazione point-in-time sui <strong>Mondiali 2018 e 2022</strong> (128 partite) l'ensemble con la forza della rosa porta il log loss da <strong>1,021 a 1,013</strong> e l'RPS da 0,215 a 0,213, con un'importanza alta della feature (tra le prime dopo l'Elo). È usata nelle predizioni di ogni partita; il dato Opta/StatsPerform a pagamento non è usato, solo fonti aperte.</p>
 
-        <h3>7. Limiti e prossimi passi</h3>
-        <p>Predire il vincitore di un Mondiale e intrinsecamente incerto: la varianza dello sport e alta e le partite sono poche. Il valore del sistema sta nel fornire probabilita <strong>ben calibrate e tracciabili</strong>, non nell'indovinare il campione. Le feature piu promettenti ancora da integrare (qualita dei singoli via valore di mercato e xG, sinergia della rosa, clima e altitudine delle sedi 2026) richiedono fonti dati esterne non ancora collegate in modo point-in-time: verranno aggiunte solo quando reperibili senza inventare nulla, e solo se migliorano il backtest.</p>
+        <h3>7. Limiti</h3>
+        <p>Prevedere il vincitore di un Mondiale è intrinsecamente incerto: la varianza dello sport è alta e le partite sono poche. Il valore del sistema sta nel fornire probabilità <strong>ben calibrate e tracciabili</strong>, non nell'indovinare con certezza il campione.</p>
 
-        <p class="muted small">Dataset e codice aperti: <a href="https://github.com/DrElegantia/worldcup-2026-model" target="_blank" rel="noopener">github.com/DrElegantia/worldcup-2026-model</a>. Solo dati sportivi pubblici. Simulazione a scopo informativo, non e un consiglio di scommessa.</p>
+        <p class="muted small">Dataset e codice aperti: <a href="https://github.com/DrElegantia/worldcup-2026-model" target="_blank" rel="noopener">github.com/DrElegantia/worldcup-2026-model</a>. Solo dati sportivi pubblici. Simulazione a scopo informativo, non è un consiglio di scommessa.</p>
       </div>
     </section>
   </div>
 
   <footer>
-    <p class="muted small">Simulazione a scopo informativo e divulgativo. Le probabilita non sono garanzie ne consigli di scommessa.</p>
+    <p class="muted small">Simulazione a scopo informativo e divulgativo. Le probabilità non sono garanzie ne consigli di scommessa.</p>
   </footer>
 </div>
-<script src="./app.js?v=141"></script>
+<script src="./app.js?v=146"></script>
 <script>
 /* auto-resize quando incorporata in iframe (umbertobertonelli.it) */
 (function(){
