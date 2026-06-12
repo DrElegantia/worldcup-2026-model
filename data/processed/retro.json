@@ -5,6 +5,8 @@
       "actual": {
         "champion": "Spain",
         "finalist": "Netherlands",
+        "third": "Germany",
+        "fourth": "Uruguay",
         "semifinalists": [
           "Germany",
           "Netherlands",
@@ -14,63 +16,63 @@
       },
       "model": "consenso",
       "champion_pred_rank": 1,
-      "champion_pred_prob": 0.2336,
+      "champion_pred_prob": 0.2322,
       "top": [
         {
           "team": "Spain",
           "elo": 2132.0,
-          "p_champion": 0.2336,
-          "p_final": 0.3521,
-          "p_semi": 0.4864
+          "p_champion": 0.2322,
+          "p_final": 0.3547,
+          "p_semi": 0.4882
         },
         {
           "team": "Brazil",
           "elo": 2110.0,
-          "p_champion": 0.1808,
-          "p_final": 0.2914,
-          "p_semi": 0.4216
+          "p_champion": 0.1816,
+          "p_final": 0.2927,
+          "p_semi": 0.4226
         },
         {
           "team": "England",
           "elo": 2020.0,
-          "p_champion": 0.1389,
-          "p_final": 0.2503,
-          "p_semi": 0.4568
+          "p_champion": 0.1414,
+          "p_final": 0.2508,
+          "p_semi": 0.4574
         },
         {
           "team": "Netherlands",
           "elo": 2057.0,
-          "p_champion": 0.1152,
-          "p_final": 0.2174,
-          "p_semi": 0.3541
+          "p_champion": 0.1148,
+          "p_final": 0.2157,
+          "p_semi": 0.3526
         },
         {
           "team": "Germany",
           "elo": 1975.0,
-          "p_champion": 0.0799,
-          "p_final": 0.1662,
-          "p_semi": 0.3419
+          "p_champion": 0.0802,
+          "p_final": 0.1645,
+          "p_semi": 0.3409
         },
         {
           "team": "Argentina",
           "elo": 1912.0,
-          "p_champion": 0.0608,
-          "p_final": 0.1349,
-          "p_semi": 0.2954
+          "p_champion": 0.0597,
+          "p_final": 0.1342,
+          "p_semi": 0.2945
         },
         {
           "team": "Italy",
           "elo": 1950.0,
-          "p_champion": 0.047,
-          "p_final": 0.1154,
-          "p_semi": 0.2176
+          "p_champion": 0.0468,
+          "p_final": 0.114,
+          "p_semi": 0.2168
         },
         {
           "team": "France",
           "elo": 1881.0,
-          "p_champion": 0.0279,
-          "p_final": 0.0734,
-          "p_semi": 0.1907
+          "p_champion": 0.0294,
+          "p_final": 0.0736,
+          "p_semi": 0.1938
         }
       ]
     },
@@ -79,6 +81,8 @@
       "actual": {
         "champion": "Germany",
         "finalist": "Argentina",
+        "third": "Netherlands",
+        "fourth": "Brazil",
         "semifinalists": [
           "Argentina",
           "Brazil",
@@ -88,63 +92,63 @@
       },
       "model": "consenso",
       "champion_pred_rank": 2,
-      "champion_pred_prob": 0.1529,
+      "champion_pred_prob": 0.1504,
       "top": [
         {
           "team": "Brazil",
           "elo": 2166.0,
-          "p_champion": 0.2705,
-          "p_final": 0.3856,
-          "p_semi": 0.5343
+          "p_champion": 0.27,
+          "p_final": 0.3837,
+          "p_semi": 0.5308
         },
         {
           "team": "Germany",
           "elo": 2090.0,
-          "p_champion": 0.1529,
-          "p_final": 0.255,
-          "p_semi": 0.4459
+          "p_champion": 0.1504,
+          "p_final": 0.2533,
+          "p_semi": 0.4473
         },
         {
           "team": "Spain",
           "elo": 2134.0,
-          "p_champion": 0.135,
-          "p_final": 0.2356,
-          "p_semi": 0.3718
+          "p_champion": 0.1372,
+          "p_final": 0.2419,
+          "p_semi": 0.3774
         },
         {
           "team": "Argentina",
           "elo": 2041.0,
-          "p_champion": 0.1286,
-          "p_final": 0.2402,
-          "p_semi": 0.4134
+          "p_champion": 0.1279,
+          "p_final": 0.2403,
+          "p_semi": 0.4154
         },
         {
           "team": "France",
           "elo": 1923.0,
-          "p_champion": 0.0487,
-          "p_final": 0.1102,
-          "p_semi": 0.2517
+          "p_champion": 0.0483,
+          "p_final": 0.1094,
+          "p_semi": 0.2506
         },
         {
           "team": "Netherlands",
           "elo": 2003.0,
-          "p_champion": 0.0411,
-          "p_final": 0.0992,
-          "p_semi": 0.1896
+          "p_champion": 0.0409,
+          "p_final": 0.0962,
+          "p_semi": 0.187
         },
         {
           "team": "Portugal",
           "elo": 1970.0,
-          "p_champion": 0.0341,
-          "p_final": 0.088,
-          "p_semi": 0.2081
+          "p_champion": 0.0354,
+          "p_final": 0.0918,
+          "p_semi": 0.2096
         },
         {
           "team": "England",
           "elo": 1949.0,
-          "p_champion": 0.0316,
-          "p_final": 0.077,
-          "p_semi": 0.162
+          "p_champion": 0.0317,
+          "p_final": 0.0792,
+          "p_semi": 0.1646
         }
       ]
     },
@@ -153,6 +157,8 @@
       "actual": {
         "champion": "France",
         "finalist": "Croatia",
+        "third": "Belgium",
+        "fourth": "England",
         "semifinalists": [
           "Belgium",
           "Croatia",
@@ -162,63 +168,63 @@
       },
       "model": "consenso",
       "champion_pred_rank": 4,
-      "champion_pred_prob": 0.0844,
+      "champion_pred_prob": 0.0812,
       "top": [
         {
           "team": "Brazil",
           "elo": 2176.0,
-          "p_champion": 0.2327,
-          "p_final": 0.3542,
-          "p_semi": 0.5027
+          "p_champion": 0.2354,
+          "p_final": 0.3553,
+          "p_semi": 0.5018
         },
         {
           "team": "Spain",
           "elo": 2078.0,
-          "p_champion": 0.1795,
-          "p_final": 0.2968,
-          "p_semi": 0.485
+          "p_champion": 0.1762,
+          "p_final": 0.2954,
+          "p_semi": 0.4838
         },
         {
           "team": "Germany",
           "elo": 2103.0,
-          "p_champion": 0.1542,
-          "p_final": 0.2628,
-          "p_semi": 0.4196
+          "p_champion": 0.1518,
+          "p_final": 0.2633,
+          "p_semi": 0.4198
         },
         {
           "team": "France",
           "elo": 2031.0,
-          "p_champion": 0.0844,
-          "p_final": 0.165,
-          "p_semi": 0.3229
+          "p_champion": 0.0812,
+          "p_final": 0.1626,
+          "p_semi": 0.3199
         },
         {
           "team": "Belgium",
           "elo": 1985.0,
-          "p_champion": 0.0793,
-          "p_final": 0.1642,
-          "p_semi": 0.2988
+          "p_champion": 0.0806,
+          "p_final": 0.1639,
+          "p_semi": 0.2933
         },
         {
           "team": "Argentina",
           "elo": 2013.0,
-          "p_champion": 0.0664,
-          "p_final": 0.1404,
-          "p_semi": 0.2794
+          "p_champion": 0.0688,
+          "p_final": 0.1424,
+          "p_semi": 0.282
         },
         {
           "team": "England",
           "elo": 1979.0,
-          "p_champion": 0.0447,
-          "p_final": 0.1105,
-          "p_semi": 0.2246
+          "p_champion": 0.0463,
+          "p_final": 0.1116,
+          "p_semi": 0.2275
         },
         {
           "team": "Portugal",
           "elo": 2005.0,
           "p_champion": 0.042,
-          "p_final": 0.1103,
-          "p_semi": 0.251
+          "p_final": 0.1075,
+          "p_semi": 0.2477
         }
       ]
     },
@@ -227,6 +233,8 @@
       "actual": {
         "champion": "Argentina",
         "finalist": "France",
+        "third": "Croatia",
+        "fourth": "Morocco",
         "semifinalists": [
           "Argentina",
           "Croatia",
@@ -236,63 +244,63 @@
       },
       "model": "consenso",
       "champion_pred_rank": 2,
-      "champion_pred_prob": 0.1525,
+      "champion_pred_prob": 0.1514,
       "top": [
         {
           "team": "Brazil",
           "elo": 2217.0,
-          "p_champion": 0.2288,
+          "p_champion": 0.2286,
           "p_final": 0.3302,
-          "p_semi": 0.4874
+          "p_semi": 0.4888
         },
         {
           "team": "Argentina",
           "elo": 2153.0,
-          "p_champion": 0.1525,
-          "p_final": 0.2478,
-          "p_semi": 0.4282
+          "p_champion": 0.1514,
+          "p_final": 0.2487,
+          "p_semi": 0.4271
         },
         {
           "team": "Netherlands",
           "elo": 2069.0,
-          "p_champion": 0.0806,
-          "p_final": 0.1547,
-          "p_semi": 0.3084
+          "p_champion": 0.0805,
+          "p_final": 0.1543,
+          "p_semi": 0.3101
         },
         {
           "team": "France",
           "elo": 2039.0,
-          "p_champion": 0.0793,
-          "p_final": 0.1654,
-          "p_semi": 0.312
+          "p_champion": 0.0794,
+          "p_final": 0.164,
+          "p_semi": 0.3104
         },
         {
           "team": "Spain",
           "elo": 2084.0,
-          "p_champion": 0.0771,
-          "p_final": 0.1509,
-          "p_semi": 0.2671
-        },
-        {
-          "team": "Portugal",
-          "elo": 2040.0,
-          "p_champion": 0.0665,
-          "p_final": 0.1388,
-          "p_semi": 0.2528
-        },
-        {
-          "team": "England",
-          "elo": 1984.0,
-          "p_champion": 0.063,
-          "p_final": 0.1376,
-          "p_semi": 0.2743
+          "p_champion": 0.0767,
+          "p_final": 0.1482,
+          "p_semi": 0.2637
         },
         {
           "team": "Belgium",
           "elo": 2057.0,
-          "p_champion": 0.0626,
-          "p_final": 0.1309,
-          "p_semi": 0.2378
+          "p_champion": 0.0647,
+          "p_final": 0.1346,
+          "p_semi": 0.2407
+        },
+        {
+          "team": "Portugal",
+          "elo": 2040.0,
+          "p_champion": 0.0636,
+          "p_final": 0.1371,
+          "p_semi": 0.2487
+        },
+        {
+          "team": "England",
+          "elo": 1984.0,
+          "p_champion": 0.0622,
+          "p_final": 0.1351,
+          "p_semi": 0.2726
         }
       ]
     }

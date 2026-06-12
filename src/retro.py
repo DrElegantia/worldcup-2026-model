@@ -129,7 +129,19 @@ def reconstruct(mm, year):
         sf_tmpl.append((i, j))
 
     champ, fin = ACTUAL_FINALS[year]
-    actual = {"champion": champ, "finalist": fin, "semifinalists": sorted(sf_teams)}
+    # finalina 3o/4o posto: l'unico match knockout tra i due perdenti delle semifinali.
+    # bronzo = vincitore, legno = 4o (perdente). Storici tutti con esito netto.
+    losers = sf_teams - set(ACTUAL_FINALS[year])
+    third = fourth = None
+    for _, r in ko.iterrows():
+        if {r.home_team, r.away_team} == losers:
+            if r.home_score >= r.away_score:
+                third, fourth = r.home_team, r.away_team
+            else:
+                third, fourth = r.away_team, r.home_team
+            break
+    actual = {"champion": champ, "finalist": fin, "third": third, "fourth": fourth,
+              "semifinalists": sorted(sf_teams)}
 
     return {"year": year, "groups": groups, "group_of": group_of, "pos_of": pos_of,
             "group_fixtures": group_fixtures,

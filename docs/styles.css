@@ -191,3 +191,10 @@ svg.bk-lines{position:absolute;top:0;left:0;z-index:1;pointer-events:none;overfl
 .tr-lab{font-size:.74rem;color:var(--mut);margin-top:4px}
 .tr-pct{font-size:.8rem;font-weight:700;color:#0073e6;margin-top:3px}
 @media(max-width:560px){.track{grid-template-columns:repeat(2,1fr)}}
+
+/* podio reale verifica storica: oro/argento/bronzo/legno */
+.retro-podium{display:flex;flex-wrap:wrap;gap:6px 14px;margin:2px 0 9px;
+  padding:8px 10px;background:#f1f5f9;border-radius:9px;font-size:.84rem}
+.retro-podium .pod{white-space:nowrap}
+.retro-podium .pod-m{font-size:.95rem}
+.retro-tbl td.pz{text-align:center;font-size:.95rem;width:36px}

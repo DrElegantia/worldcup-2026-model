@@ -5,7 +5,7 @@ Modello predittivo del **Mondiale FIFA 2026** (48 squadre). Stima ogni giorno, c
 girone, qualificarsi e arrivare a ogni fase fino alla finale. Dataset, modello e
 dashboard sono aperti e si aggiornano in automatico.
 
-**Dashboard live:** vedi GitHub Pages di questo repo (cartella `docs/`).
+**Dashboard live:** [umbertobertonelli.it/macro/mondiale-2026](https://www.umbertobertonelli.it/macro/mondiale-2026/) (anche su [GitHub Pages](https://drelegantia.github.io/worldcup-2026-model/)).
 
 ## Come funziona
 

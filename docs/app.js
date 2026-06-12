@@ -360,16 +360,27 @@
       var card=el("div","retro-card");
       var a=tn.actual;
       card.appendChild(el("div","retro-head","Mondiale "+tn.year));
+      // piazzamento effettivo: oro / argento / bronzo / legno (4o)
+      var finish={}; // team -> medaglia
+      if(a.champion) finish[a.champion]="🥇";
+      if(a.finalist) finish[a.finalist]="🥈";
+      if(a.third) finish[a.third]="🥉";
+      if(a.fourth) finish[a.fourth]="🪵";
+      var pod=el("div","retro-podium");
+      var rows=[["🥇","Oro",a.champion],["🥈","Argento",a.finalist],["🥉","Bronzo",a.third],["🪵","Legno (4°)",a.fourth]];
+      pod.innerHTML=rows.filter(function(r){return r[2];}).map(function(r){
+        return "<span class='pod'><span class='pod-m'>"+r[0]+"</span> "+r[1]+": <strong>"+name(r[2])+"</strong></span>";
+      }).join("");
+      card.appendChild(pod);
       var win=el("div","retro-actual");
-      win.innerHTML="Campione reale: <strong>"+name(a.champion)+"</strong> · finalista "+name(a.finalist)+
-        "<br><span class='hl'>Il modello lo dava al posto #"+tn.champion_pred_rank+" ("+pct(tn.champion_pred_prob)+" titolo)</span>";
+      win.innerHTML="<span class='hl'>Il modello dava il campione ("+name(a.champion)+") al posto #"+tn.champion_pred_rank+" ("+pct(tn.champion_pred_prob)+" titolo)</span>";
       card.appendChild(win);
       var tbl=el("table","retro-tbl");
-      tbl.innerHTML="<tr><th>#</th><th>Favorita pre-torneo</th><th>Titolo</th></tr>";
+      tbl.innerHTML="<tr><th>#</th><th>Favorita pre-torneo</th><th>Titolo</th><th>Piazz.</th></tr>";
       tn.top.forEach(function(r,i){
-        var isChamp=r.team===a.champion;
-        var tr=el("tr",isChamp?"champ":"");
-        tr.innerHTML="<td>"+(i+1)+"</td><td class='tn'>"+name(r.team)+(isChamp?" 🏆":"")+"</td><td>"+pct(r.p_champion)+"</td>";
+        var med=finish[r.team]||"";
+        var tr=el("tr",r.team===a.champion?"champ":"");
+        tr.innerHTML="<td>"+(i+1)+"</td><td class='tn'>"+name(r.team)+"</td><td>"+pct(r.p_champion)+"</td><td class='pz'>"+med+"</td>";
         tbl.appendChild(tr);
       });
       card.appendChild(tbl);
