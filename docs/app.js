@@ -266,6 +266,22 @@
     return row;
   }
 
+  function trackRecord(ms){
+    // riepilogo su TUTTE le partite gia giocate (non solo le ultime mostrate)
+    var p=(ms||[]).filter(function(m){return m.played && m.home_score!=null;});
+    var win=0, exact=0, gd=0;
+    p.forEach(function(m){
+      if(m.hit) win++;
+      var ps=String(m.pred_score||"").split("-");
+      if(ps.length===2){
+        var ph=+ps[0], pa=+ps[1];
+        if(ph===m.home_score && pa===m.away_score) exact++;
+        if((ph-pa)===(m.home_score-m.away_score)) gd++;
+      }
+    });
+    return {played:p.length, win:win, exact:exact, gd:gd};
+  }
+
   function renderMatches(s){
     var ms=s.matches||[];
     var n48=ms.filter(function(m){return m.within_48h && !m.played;});
@@ -276,14 +292,26 @@
     if(n48.length){ n48.forEach(function(m){ b48.appendChild(matchCard(m)); }); }
     else { b48.appendChild(el("p","muted","Nessuna partita nelle prossime 48 ore.")); }
 
+    var tr=trackRecord(ms);
+    var tb=document.getElementById("trackRecord"); tb.innerHTML="";
     var bp=document.getElementById("playedBox"); bp.innerHTML="";
-    if(played.length){
-      var hit=played.filter(function(m){return m.hit;}).length;
-      document.getElementById("playedScore").textContent =
-        "Segno azzeccato in "+hit+" partite su "+played.length+" giocate finora.";
+    if(tr.played){
+      var pct=function(k){return tr.played?Math.round(100*k/tr.played):0;};
+      var cards=[
+        ["Partite giocate", tr.played, ""],
+        ["Esito (1X2) azzeccato", tr.win+"/"+tr.played, pct(tr.win)+"%"],
+        ["Differenza reti azzeccata", tr.gd+"/"+tr.played, pct(tr.gd)+"%"],
+        ["Punteggio esatto", tr.exact+"/"+tr.played, pct(tr.exact)+"%"]
+      ];
+      cards.forEach(function(c){
+        var card=el("div","tr-card","");
+        card.appendChild(el("div","tr-num",c[1]));
+        card.appendChild(el("div","tr-lab",c[0]));
+        if(c[2]) card.appendChild(el("div","tr-pct",c[2]));
+        tb.appendChild(card);
+      });
       played.forEach(function(m){ bp.appendChild(matchCard(m)); });
     } else {
-      document.getElementById("playedScore").textContent="";
       bp.appendChild(el("p","muted empty","Il torneo inizia oggi. Appena le partite vengono giocate, qui compaiono il risultato reale e la predizione del modello, con il segno ✓ (indovinato) o ✗. La sezione si aggiorna ogni giorno in automatico."));
     }
 

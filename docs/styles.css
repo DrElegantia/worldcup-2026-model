@@ -182,3 +182,12 @@ svg.bk-lines{position:absolute;top:0;left:0;z-index:1;pointer-events:none;overfl
 @media(max-width:380px){
   .groups{grid-template-columns:1fr}
 }
+
+/* track-record riepilogo partite giocate */
+.track{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 12px}
+.tr-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;box-shadow:var(--shadow);text-align:center}
+.tr-num{font-size:1.5rem;font-weight:800;color:#00355f;line-height:1.1}
+.tr-lab{font-size:.74rem;color:var(--mut);margin-top:4px}
+.tr-pct{font-size:.8rem;font-weight:700;color:#0073e6;margin-top:3px}
+@media(max-width:560px){.track{grid-template-columns:repeat(2,1fr)}}

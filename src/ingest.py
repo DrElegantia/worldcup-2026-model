@@ -27,12 +27,42 @@ def download(force=False):
     return dest
 
 
+def load_overrides():
+    """Risultati verificati inseriti a mano, stopgap finche' la fonte (martj42) non
+    pubblica i punteggi (lag del maintainer). data/results_override.csv:
+    date,home,away,home_score,away_score. Nomi normalizzati come il dataset.
+    Si applicano SOLO dove la fonte ha punteggio mancante (cedono alla fonte)."""
+    path = DATA_RAW.parent / "results_override.csv"
+    if not path.exists():
+        return {}
+    ov = pd.read_csv(path)
+    out = {}
+    for _, r in ov.iterrows():
+        key = (str(r["date"]), normalize_team(str(r["home"])), normalize_team(str(r["away"])))
+        out[key] = (int(r["home_score"]), int(r["away_score"]))
+    return out
+
+
 def load_raw():
     path = download()
     df = pd.read_csv(path)
     df["home_team"] = df["home_team"].map(normalize_team)
     df["away_team"] = df["away_team"].map(normalize_team)
     df["date"] = pd.to_datetime(df["date"])
+    # applica override su righe con punteggio mancante (la fonte ha precedenza)
+    overrides = load_overrides()
+    if overrides:
+        dstr = df["date"].dt.strftime("%Y-%m-%d")
+        na = df["home_score"].isna() | df["away_score"].isna()
+        applied = 0
+        for (d, h, a), (hs, as_) in overrides.items():
+            mask = na & (dstr == d) & (df["home_team"] == h) & (df["away_team"] == a)
+            if mask.any():
+                df.loc[mask, "home_score"] = hs
+                df.loc[mask, "away_score"] = as_
+                applied += int(mask.sum())
+        if applied:
+            print(f"[ingest] override risultati applicati: {applied}", file=sys.stderr)
     return df
 
 
