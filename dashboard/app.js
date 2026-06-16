@@ -244,8 +244,10 @@
       row.appendChild(line);
       var ok=m.hit;
       var note=el("div","mpred");
+      var predTxt=(m.pred_winner==="Pareggio")?"Pareggio":"Vince "+it(m.pred_winner);
       note.innerHTML="<span class='"+(ok?"hit":"miss")+"'>"+(ok?"✓ previsto":"✗ non previsto")+"</span> "+
-        "<span class='muted'>modello: "+m.pred_score+" ("+it(m.pred_winner)+")</span>";
+        "<span class='muted'>Previsto: "+predTxt+" · "+pctShort(m.p_home)+" / "+pctShort(m.p_draw)+" / "+pctShort(m.p_away)+
+        " <span class='small'>(risultato più probabile: "+m.pred_score+")</span></span>";
       row.appendChild(note);
     } else {
       line.innerHTML="<span class='mh'>"+name(m.home)+"</span>"+
