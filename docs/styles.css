@@ -198,3 +198,31 @@ svg.bk-lines{position:absolute;top:0;left:0;z-index:1;pointer-events:none;overfl
 .retro-podium .pod{white-space:nowrap}
 .retro-podium .pod-m{font-size:.95rem}
 .retro-tbl td.pz{text-align:center;font-size:.95rem;width:36px}
+
+/* ===== Gironi: previsto vs reale ===== */
+.gc-count{margin:6px 0 14px}
+.gc-big{background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);
+  padding:18px 20px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.gc-big.muted{display:block;color:var(--mut);font-size:.95rem}
+.gc-num{font-size:2.6rem;font-weight:800;color:#00355f;line-height:1;letter-spacing:-.02em}
+.gc-den{font-size:1.3rem;font-weight:700;color:var(--mut)}
+.gc-cap{flex:1 1 200px;color:var(--mut);font-size:.9rem}
+.gc-lists{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:6px}
+.gc-col{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;box-shadow:var(--shadow)}
+.gc-col h3{margin:0 0 8px;font-size:.86rem;font-weight:700}
+.gc-col h3.miss{color:#dc2626} .gc-col h3.surp{color:#15803d}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:999px;
+  padding:3px 9px;font-size:.78rem;white-space:nowrap}
+.gc-groups{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.gc-two{display:grid;grid-template-columns:1fr 1fr}
+.gc-mini{border-right:1px solid var(--line)}
+.gc-mini:last-child{border-right:none}
+.gc-mt{font-size:.72rem;font-weight:700;color:var(--mut);text-align:center;padding:5px 4px;background:var(--panel2);text-transform:uppercase;letter-spacing:.03em}
+.gtable td.mk{width:18px;font-weight:800}
+.gtable tr.warn{background:rgba(220,38,38,.10)}
+.gtable tr.warn td.mk{color:#dc2626}
+.gtable tr.surp{background:rgba(21,128,5,.12)}
+.gtable tr.surp td.mk{color:#15803d}
+.gtable tr.qual td.mk{color:var(--acc)}
+@media(max-width:560px){.gc-lists{grid-template-columns:1fr}}

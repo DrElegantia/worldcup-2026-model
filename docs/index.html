@@ -18,6 +18,7 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
 
   <nav class="tabs">
     <button class="tab on" data-view="vSim">Simulazione</button>
+    <button class="tab" data-view="vGroups">Gironi: previsto vs reale</button>
     <button class="tab" data-view="vTrend">Andamento giorno per giorno</button>
     <button class="tab" data-view="vRetro">Verifica storica</button>
     <button class="tab" data-view="vMethod">Nota metodologica</button>
@@ -58,6 +59,14 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
 
       <h2>Partite successive</h2>
       <div id="nextBox" class="matches"></div>
+    </section>
+
+    <section id="vGroups" class="view">
+      <p class="sub">Confronto fra la classifica che il modello prevedeva il <b>10/06/2026</b> (prima del fischio d'inizio) e come si sono <b>chiusi davvero i gironi</b>. Le qualificate sono le prime due di ogni girone più le otto migliori terze (32 su 48).</p>
+      <div id="gcCount" class="gc-count"></div>
+      <div id="gcMiss" class="gc-lists"></div>
+      <h2>Girone per girone: previsto (10/06) vs reale</h2>
+      <div id="gcGroups" class="gc-groups"></div>
     </section>
 
     <section id="vTrend" class="view">

@@ -64,6 +64,7 @@
         document.querySelectorAll(".view").forEach(function(x){x.classList.remove("on");});
         b.classList.add("on"); document.getElementById(b.dataset.view).classList.add("on");
         if(b.dataset.view==="vTrend") drawTrend();
+        if(b.dataset.view==="vGroups") renderGroupsCompare();
       });
     });
     document.getElementById("trendMetric").addEventListener("change", drawTrend);
@@ -71,6 +72,84 @@
 
   function loadSnap(date){
     return getJSON(DATA_BASE+"/"+date+".json").then(function(s){ state.snap=s; renderSim(s); });
+  }
+
+  // ===== Gironi: previsto (10/06) vs reale =====
+  var _gcDone=false;
+  function predQualifiers(snap){
+    // 32 qualificate previste = partecipanti ai Sedicesimi del tabellone previsto il 10/06
+    var set={};
+    (snap.predicted_bracket||[]).forEach(function(r){
+      if((r.round||"").toLowerCase().indexOf("sedic")===0){
+        (r.matches||[]).forEach(function(m){ if(m.home)set[m.home]=1; if(m.away)set[m.away]=1; });
+      }
+    });
+    return set;
+  }
+  function actQualifiers(snap){
+    var set={}, std=snap.predicted_standings||{};
+    Object.keys(std).forEach(function(g){ std[g].forEach(function(t){ if(t.p_advance===1) set[t.team]=1; }); });
+    return set;
+  }
+  function renderGroupsCompare(){
+    if(_gcDone) return; _gcDone=true;
+    Promise.all([getJSON(DATA_BASE+"/2026-06-10.json"), getJSON(DATA_BASE+"/latest.json")])
+      .then(function(a){ buildGroupsCompare(a[0],a[1]); })
+      .catch(function(){ _gcDone=false; document.getElementById("gcCount").innerHTML="<p class='muted'>Confronto non disponibile.</p>"; });
+  }
+  function buildGroupsCompare(pred, act){
+    var predSet=predQualifiers(pred), actSet=actQualifiers(act);
+    var complete=(act.group_matches_played||0)>=72;
+    var hit=0, missed=[], surprise=[];
+    Object.keys(predSet).forEach(function(t){ if(actSet[t]) hit++; else missed.push(t); });
+    Object.keys(actSet).forEach(function(t){ if(!predSet[t]) surprise.push(t); });
+    var nPred=Object.keys(predSet).length||32;
+    var cb=document.getElementById("gcCount");
+    if(!complete){
+      cb.innerHTML="<div class='gc-big muted'>Gironi ancora in corso ("+(act.group_matches_played||0)+"/72 partite giocate). Il confronto definitivo sarà disponibile a gironi conclusi.</div>";
+    } else {
+      cb.innerHTML="<div class='gc-big'><span class='gc-num'>"+hit+"</span><span class='gc-den'>/ "+nPred+"</span>"+
+        "<div class='gc-cap'>qualificate previste il 10/06 che sono passate davvero ("+Math.round(100*hit/nPred)+"%)</div></div>";
+    }
+    var lists=document.getElementById("gcMiss");
+    function chips(arr){ return arr.slice().sort().map(function(t){ return "<span class='chip'>"+name(t)+"</span>"; }).join(""); }
+    lists.innerHTML=
+      "<div class='gc-col'><h3 class='miss'>Previste, ma eliminate ("+missed.length+")</h3><div class='chips'>"+(chips(missed)||"<span class='muted'>nessuna</span>")+"</div></div>"+
+      "<div class='gc-col'><h3 class='surp'>Sorprese: qualificate non previste ("+surprise.length+")</h3><div class='chips'>"+(chips(surprise)||"<span class='muted'>nessuna</span>")+"</div></div>";
+    var box=document.getElementById("gcGroups"); box.innerHTML="";
+    Object.keys(pred.predicted_standings||{}).sort().forEach(function(g){
+      var card=el("div","gcard gc-card");
+      card.appendChild(el("div","ghead","Girone "+g));
+      var wrap=el("div","gc-two");
+      wrap.appendChild(miniTable(pred.predicted_standings[g], "Previsto 10/06", predSet, actSet, "pred"));
+      wrap.appendChild(miniTable((act.predicted_standings||{})[g]||[], complete?"Reale":"Attuale", predSet, actSet, "act"));
+      card.appendChild(wrap);
+      box.appendChild(card);
+    });
+  }
+  function miniTable(rows, title, predSet, actSet, side){
+    var d=el("div","gc-mini");
+    d.appendChild(el("div","gc-mt", title));
+    var tbl=el("table","gtable");
+    tbl.innerHTML="<tr><th>#</th><th></th><th>"+(side==="act"?"Pt":"Passa")+"</th><th></th></tr>";
+    (rows||[]).forEach(function(r){
+      var predQ=!!predSet[r.team], actQ=!!actSet[r.team], mark="", cls;
+      if(side==="pred"){
+        if(predQ && !actQ){ cls="warn"; mark="✗"; }
+        else if(predQ){ cls="qual"; mark="✓"; }
+        else { cls="out"; }
+      } else {
+        if(actQ && !predQ){ cls="surp"; mark="★"; }
+        else if(actQ){ cls="qual"; mark="✓"; }
+        else { cls="out"; mark="✗"; }
+      }
+      var val = side==="act" ? (r.exp_points!=null?Math.round(r.exp_points):"-") : pctShort(r.p_advance||0);
+      var tr=el("tr",cls);
+      tr.innerHTML="<td class='pos'>"+r.pos+"</td><td class='tn'>"+name(r.team)+"</td><td>"+val+"</td><td class='mk'>"+mark+"</td>";
+      tbl.appendChild(tr);
+    });
+    d.appendChild(tbl);
+    return d;
   }
 
   function renderSim(s){

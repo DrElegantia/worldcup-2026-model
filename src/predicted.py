@@ -40,8 +40,13 @@ def predicted_bracket(teams, elo, params):
     runners = {g: std[g][1]["team"] for g in GROUPS}
     thirds = {g: std[g][2]["team"] for g in GROUPS}
 
-    # migliori 8 terze per Elo
-    third_rank = sorted(GROUPS, key=lambda g: -elo[thirds[g]])
+    # Migliori 8 terze per probabilita di qualificazione (p_advance dalla simulazione,
+    # che applica i tiebreak FIFA punti -> diff.reti -> gol fatti; Elo solo come spareggio).
+    # NB: usare p_advance e non l'Elo grezzo e' cio che, a gironi giocati (p_advance in {0,1}),
+    # fa coincidere il tabellone deterministico con le terze REALMENTE qualificate; con l'Elo
+    # entravano nel bracket terze gia' eliminate.
+    third_p = {g: std[g][2].get("p_advance", 0.0) for g in GROUPS}
+    third_rank = sorted(GROUPS, key=lambda g: (-third_p[g], -elo[thirds[g]]))
     qualified = set(third_rank[:8])
     # allocazione UFFICIALE Annexe C (fallback matching se risorsa assente)
     alloc = official_allocation(qualified) or _matching(qualified) or {}
