@@ -19,6 +19,7 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
   <nav class="tabs">
     <button class="tab on" data-view="vSim">Simulazione</button>
     <button class="tab" data-view="vGroups">Gironi: previsto vs reale</button>
+    <button class="tab" data-view="vKO">Eliminazione: previsto vs reale</button>
     <button class="tab" data-view="vTrend">Andamento giorno per giorno</button>
     <button class="tab" data-view="vRetro">Verifica storica</button>
     <button class="tab" data-view="vMethod">Nota metodologica</button>
@@ -67,6 +68,11 @@ if(location.search.indexOf("embed=1")>-1){document.documentElement.classList.add
       <div id="gcMiss" class="gc-lists"></div>
       <h2>Girone per girone: previsto (10/06) vs reale</h2>
       <div id="gcGroups" class="gc-groups"></div>
+    </section>
+
+    <section id="vKO" class="view">
+      <p class="sub">Per ogni turno della fase a eliminazione, le squadre <b>previste il 10/06</b> (prima del torneo), quelle previste <b>alla vigilia di quel turno</b> (lo snapshot del giorno prima: Sedicesimi → 27/06, Ottavi → 03/07, e così via) e quelle <b>arrivate davvero</b>. La colonna "reale" si popola man mano che si giocano le partite.</p>
+      <div id="koCompare" class="ko-compare"></div>
     </section>
 
     <section id="vTrend" class="view">

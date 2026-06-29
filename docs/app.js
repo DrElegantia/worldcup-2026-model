@@ -65,6 +65,7 @@
         b.classList.add("on"); document.getElementById(b.dataset.view).classList.add("on");
         if(b.dataset.view==="vTrend") drawTrend();
         if(b.dataset.view==="vGroups") renderGroupsCompare();
+        if(b.dataset.view==="vKO") renderKnockoutCompare();
       });
     });
     document.getElementById("trendMetric").addEventListener("change", drawTrend);
@@ -150,6 +151,108 @@
     });
     d.appendChild(tbl);
     return d;
+  }
+
+  // ===== Eliminazione diretta: previsto (10/06) vs vigilia del turno vs reale =====
+  var _koDone=false;
+  var KO_ORDER=["Sedicesimi","Ottavi di finale","Quarti di finale","Semifinali","Finale"];
+  var KO_ROUNDS=[
+    {key:"Sedicesimi", label:"Sedicesimi (R32)", eve:"2026-06-27"},
+    {key:"Ottavi di finale", label:"Ottavi (R16)", eve:"2026-07-03"},
+    {key:"Quarti di finale", label:"Quarti", eve:"2026-07-08"},
+    {key:"Semifinali", label:"Semifinali", eve:"2026-07-13"},
+    {key:"Finale", label:"Finale", eve:"2026-07-18"}
+  ];
+  function itDate(s){ var p=s.split("-"); return p[2]+"/"+p[1]; }
+  function brRound(bracket, key){ if(!bracket) return null; return bracket.filter(function(x){return x.round===key;})[0]||null; }
+  function roundTeams(bracket, key){
+    var r=brRound(bracket,key); if(!r) return null;
+    var s={}; r.matches.forEach(function(m){ if(m.home)s[m.home]=1; if(m.away)s[m.away]=1; });
+    return Object.keys(s);
+  }
+  function championOf(bracket){ var f=brRound(bracket,"Finale"); return (f&&f.matches[0])?(f.matches[0].winner||null):null; }
+  // squadre che hanno EFFETTIVAMENTE raggiunto un turno: per i Sedicesimi sono i
+  // partecipanti (32 qualificate); per i turni successivi i vincitori del turno prima.
+  function actualReached(bracket, key){
+    if(!bracket) return [];
+    var i=KO_ORDER.indexOf(key);
+    if(i<=0) return roundTeams(bracket,key)||[];
+    var prev=brRound(bracket,KO_ORDER[i-1]); if(!prev) return [];
+    return prev.matches.map(function(m){return m.winner;}).filter(Boolean);
+  }
+  function renderKnockoutCompare(){
+    if(_koDone) return; _koDone=true;
+    var box=document.getElementById("koCompare");
+    box.innerHTML="<p class='muted'>Carico…</p>";
+    var dates=KO_ROUNDS.map(function(r){return r.eve;}).filter(function(v,i,a){return a.indexOf(v)===i;});
+    var jobs=[getJSON(DATA_BASE+"/2026-06-10.json"), getJSON(DATA_BASE+"/latest.json")]
+      .concat(dates.map(function(d){ return getJSON(DATA_BASE+"/"+d+".json").catch(function(){return null;}); }));
+    Promise.all(jobs).then(function(res){
+      var eve={}; dates.forEach(function(d,i){ eve[d]=res[2+i]; });
+      buildKO(box, res[0], res[1], eve);
+    }).catch(function(){ box.innerHTML="<p class='muted'>Confronto non disponibile.</p>"; });
+  }
+  function chip(t, kind){ return "<span class='chip"+(kind?" "+kind:"")+"'>"+name(t)+"</span>"; }
+  function koCol(title, teams, reachedSet){
+    var d=el("div","ko-col");
+    d.appendChild(el("div","gc-mt", title));
+    var body=el("div","ko-chips");
+    if(teams===null){ body.innerHTML="<span class='muted small'>in attesa</span>"; }
+    else if(!teams.length){ body.innerHTML="<span class='muted small'>—</span>"; }
+    else {
+      body.innerHTML=teams.slice().sort().map(function(t){
+        if(reachedSet){ return chip(t, reachedSet[t]?"ok":"ko"); }  // verde se poi è arrivato, grigio se no
+        return chip(t,null);
+      }).join("");
+    }
+    d.appendChild(body); return d;
+  }
+  function koColActual(title, teams, predSet){
+    var d=el("div","ko-col");
+    d.appendChild(el("div","gc-mt", title));
+    var body=el("div","ko-chips");
+    if(!teams || !teams.length){ body.innerHTML="<span class='muted small'>in attesa</span>"; }
+    else {
+      body.innerHTML=teams.slice().sort().map(function(t){
+        return chip(t, (predSet && !predSet[t])?"surp":"ok");  // ★ sorpresa se non prevista
+      }).join("");
+    }
+    d.appendChild(body); return d;
+  }
+  function setOf(arr){ var s={}; (arr||[]).forEach(function(t){s[t]=1;}); return s; }
+  function buildKO(box, pred10, latest, eve){
+    box.innerHTML="";
+    var actualBr=latest.actual_knockout||null;
+    KO_ROUNDS.forEach(function(rd){
+      var p10=roundTeams(pred10.predicted_bracket, rd.key)||[];
+      var snapV=eve[rd.eve];
+      var vig = snapV ? (roundTeams(snapV.predicted_bracket, rd.key)||[]) : null;
+      var reached=actualReached(actualBr, rd.key);
+      var reachedSet = reached.length ? setOf(reached) : null;
+      var p10set=setOf(p10);
+      var card=el("div","gcard ko-card");
+      var head="Eliminazione · "+rd.label;
+      if(reached.length){
+        var nHit=p10.filter(function(t){return reachedSet[t];}).length;
+        head+=" — reale noto: "+nHit+"/"+p10.length+" previsti (10/06) arrivati";
+      }
+      card.appendChild(el("div","ghead",head));
+      var wrap=el("div","ko-three");
+      wrap.appendChild(koCol("Previsto 10/06", p10, reachedSet));
+      wrap.appendChild(koCol("Vigilia "+itDate(rd.eve), vig, reachedSet));
+      wrap.appendChild(koColActual("Reale", reached, p10set));
+      card.appendChild(wrap);
+      box.appendChild(card);
+    });
+    // Campione
+    var champ=el("div","gcard ko-card");
+    champ.appendChild(el("div","ghead","Eliminazione · Campione"));
+    var cw=el("div","ko-three");
+    var fEve=eve["2026-07-18"];
+    cw.appendChild(koCol("Previsto 10/06", [championOf(pred10.predicted_bracket)].filter(Boolean), null));
+    cw.appendChild(koCol("Vigilia 18/07", fEve?[championOf(fEve.predicted_bracket)].filter(Boolean):null, null));
+    cw.appendChild(koColActual("Reale", latest.actual_champion?[latest.actual_champion]:[], null));
+    champ.appendChild(cw); box.appendChild(champ);
   }
 
   function renderSim(s){

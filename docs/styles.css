@@ -226,3 +226,15 @@ svg.bk-lines{position:absolute;top:0;left:0;z-index:1;pointer-events:none;overfl
 .gtable tr.surp td.mk{color:#15803d}
 .gtable tr.qual td.mk{color:var(--acc)}
 @media(max-width:560px){.gc-lists{grid-template-columns:1fr}}
+
+/* ===== Eliminazione: previsto vs reale ===== */
+.ko-compare{display:flex;flex-direction:column;gap:12px}
+.ko-card .ghead{font-size:.82rem}
+.ko-three{display:grid;grid-template-columns:1fr 1fr 1fr}
+.ko-col{padding:8px 10px;border-right:1px solid var(--line)}
+.ko-col:last-child{border-right:none}
+.ko-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.chip.ok{background:rgba(21,128,5,.12);border-color:rgba(21,128,5,.35)}
+.chip.ko{opacity:.5}
+.chip.surp{background:rgba(245,158,11,.16);border-color:rgba(245,158,11,.45);font-weight:700}
+@media(max-width:640px){.ko-three{grid-template-columns:1fr}.ko-col{border-right:none;border-bottom:1px solid var(--line)}.ko-col:last-child{border-bottom:none}}

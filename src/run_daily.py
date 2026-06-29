@@ -148,8 +148,18 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
 
     sim = simulate(elo, params, wc, n=n, seed=42, cons_group=cons_group, cons_ko=cons_ko)
     matches = all_match_predictions(_tl, params, wc, asof, cons_models, snap_feat)
-    from predicted import predicted_bracket
+    from predicted import predicted_bracket, actual_bracket
     pred = predicted_bracket(sim["teams"], elo, params)
+    # Tabellone REALE della fase a eliminazione: vincitori dai risultati veri.
+    # Pareggio in regolamentare (rigori) -> vincitore indeterminato finche' non
+    # disponibile, lasciato None.
+    ko_results = {}
+    for f in wc["fixtures"]:
+        if f["stage"] != "group" and f["played"] and f.get("home_score") is not None:
+            hs, as_ = f["home_score"], f["away_score"]
+            if hs != as_:
+                ko_results[frozenset((f["home"], f["away"]))] = f["home"] if hs > as_ else f["away"]
+    actual_ko = actual_bracket(sim["teams"], elo, ko_results)
 
     n_played = sum(1 for f in wc["fixtures"] if f["played"])
     snap = {
@@ -164,6 +174,8 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
         "predicted_standings": pred["standings"],
         "predicted_bracket": pred["bracket"],
         "predicted_champion": pred["champion"],
+        "actual_knockout": actual_ko["bracket"],
+        "actual_champion": actual_ko["champion"],
         "matches": matches,
     }
     return snap

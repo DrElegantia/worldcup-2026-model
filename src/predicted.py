@@ -92,3 +92,59 @@ def predicted_bracket(teams, elo, params):
     champion = slots[list(CFG["final"].keys())[0]]
     return {"standings": std, "bracket": rounds, "champion": champion,
             "qualified_thirds": sorted(qualified)}
+
+
+def actual_bracket(teams, elo, results_map):
+    """Tabellone REALE: stessa topologia ufficiale, ma i vincitori vengono dai
+    RISULTATI veri (results_map: {frozenset({a,b}): vincitore}); None dove la
+    partita non e' ancora stata giocata. R32 seminato dalle qualificate reali
+    (prime due per girone + terze con p_advance==1). Si estende automaticamente
+    man mano che escono i risultati delle fasi successive."""
+    std = predicted_standings(teams, elo)
+    winners = {g: std[g][0]["team"] for g in GROUPS}
+    runners = {g: std[g][1]["team"] for g in GROUPS}
+    thirds = {g: std[g][2]["team"] for g in GROUPS}
+    # terze REALMENTE qualificate (le 8 con p_advance==1), non per Elo
+    qualified = set(g for g in GROUPS if std[g][2].get("p_advance", 0) == 1)
+    alloc = official_allocation(qualified) or _matching(qualified) or {}
+
+    def resolve(spec):
+        if spec["type"] == "winner":
+            return winners[spec["group"]]
+        if spec["type"] == "runner":
+            return runners[spec["group"]]
+        if spec["type"] == "third":
+            g = alloc.get(spec["slot"])
+            return thirds[g] if g else None
+        return None
+
+    def real_winner(a, b):
+        if not a or not b:
+            return None
+        return results_map.get(frozenset((a, b)))
+
+    slots = {}
+    rounds = []
+    r32 = []
+    for mid, spec in CFG["r32"].items():
+        a = resolve(spec["t1"]); b = resolve(spec["t2"])
+        w = real_winner(a, b)
+        slots[mid] = w
+        r32.append({"match": mid, "home": a, "away": b, "winner": w})
+    rounds.append({"round": "Sedicesimi", "matches": r32})
+
+    def play(stage_name, mapping):
+        out = []
+        for mid, (m1, m2) in mapping.items():
+            a, b = slots.get(m1), slots.get(m2)
+            w = real_winner(a, b)
+            slots[mid] = w
+            out.append({"match": mid, "home": a, "away": b, "winner": w})
+        rounds.append({"round": stage_name, "matches": out})
+
+    play("Ottavi di finale", CFG["r16"])
+    play("Quarti di finale", CFG["qf"])
+    play("Semifinali", CFG["sf"])
+    play("Finale", CFG["final"])
+    champion = slots.get(list(CFG["final"].keys())[0])
+    return {"bracket": rounds, "champion": champion}
