@@ -195,7 +195,12 @@
   function chip(t, kind){ return "<span class='chip"+(kind?" "+kind:"")+"'>"+name(t)+"</span>"; }
   function koCol(title, teams, reachedSet){
     var d=el("div","ko-col");
-    d.appendChild(el("div","gc-mt", title));
+    var t=title;
+    if(reachedSet && teams && teams.length){
+      var hit=teams.filter(function(x){return reachedSet[x];}).length;
+      t+=" <span class='ko-frac'>"+hit+"/"+teams.length+"</span>";
+    }
+    d.appendChild(el("div","gc-mt", t));
     var body=el("div","ko-chips");
     if(teams===null){ body.innerHTML="<span class='muted small'>in attesa</span>"; }
     else if(!teams.length){ body.innerHTML="<span class='muted small'>—</span>"; }
@@ -231,12 +236,7 @@
       var reachedSet = reached.length ? setOf(reached) : null;
       var p10set=setOf(p10);
       var card=el("div","gcard ko-card");
-      var head="Eliminazione · "+rd.label;
-      if(reached.length){
-        var nHit=p10.filter(function(t){return reachedSet[t];}).length;
-        head+=" — reale noto: "+nHit+"/"+p10.length+" previsti (10/06) arrivati";
-      }
-      card.appendChild(el("div","ghead",head));
+      card.appendChild(el("div","ghead","Eliminazione · "+rd.label));
       var wrap=el("div","ko-three");
       wrap.appendChild(koCol("Previsto 10/06", p10, reachedSet));
       wrap.appendChild(koCol("Vigilia "+itDate(rd.eve), vig, reachedSet));
