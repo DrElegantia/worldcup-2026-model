@@ -150,15 +150,34 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
     matches = all_match_predictions(_tl, params, wc, asof, cons_models, snap_feat)
     from predicted import predicted_bracket, actual_bracket
     pred = predicted_bracket(sim["teams"], elo, params)
-    # Tabellone REALE della fase a eliminazione: vincitori dai risultati veri.
-    # Pareggio in regolamentare (rigori) -> vincitore indeterminato finche' non
-    # disponibile, lasciato None.
+    # Tabellone REALE della fase a eliminazione: vincitori dai risultati veri,
+    # dedotti come nel Monte Carlo (vedi simulate.py):
+    #  1) partecipazione: chi gioca un match di turno successivo ha vinto quello
+    #     precedente (risolve i pareggi ai rigori, dove il punteggio non basta);
+    #  2) fallback: punteggio decisivo.
+    # Un match senza vincitore desumibile (ultimo turno non ancora giocato) resta None.
+    ko_fx = [f for f in wc["fixtures"] if f["stage"] != "group"]
+
+    def _ko_advances(team, fdate):
+        return any(g["date"] > fdate and (g.get("home") == team or g.get("away") == team)
+                   for g in ko_fx)
+
     ko_results = {}
-    for f in wc["fixtures"]:
-        if f["stage"] != "group" and f["played"] and f.get("home_score") is not None:
-            hs, as_ = f["home_score"], f["away_score"]
-            if hs != as_:
-                ko_results[frozenset((f["home"], f["away"]))] = f["home"] if hs > as_ else f["away"]
+    for f in ko_fx:
+        h, a = f.get("home"), f.get("away")
+        if not h or not a:
+            continue
+        win = None
+        h_adv, a_adv = _ko_advances(h, f["date"]), _ko_advances(a, f["date"])
+        if h_adv and not a_adv:
+            win = h
+        elif a_adv and not h_adv:
+            win = a
+        elif (f["played"] and f.get("home_score") is not None
+              and f["home_score"] != f["away_score"]):
+            win = h if f["home_score"] > f["away_score"] else a
+        if win is not None:
+            ko_results[frozenset((h, a))] = win
     actual_ko = actual_bracket(sim["teams"], elo, ko_results)
 
     n_played = sum(1 for f in wc["fixtures"] if f["played"])

@@ -42,6 +42,36 @@ def simulate(elo: dict, params: dict, wc: dict, n: int = 100_000, seed: int = 0,
     # indice locale 0..3 dentro il girone
     local_idx = {t: groups[group_of[t]].index(t) for t in teams}
 
+    # risultati REALI della fase a eliminazione: come per i gironi, i match gia'
+    # decisi vengono forzati (il perdente non prosegue). Il vincitore e' dedotto,
+    # in ordine di robustezza, da:
+    #  1) partecipazione: chi gioca un match di turno SUCCESSIVO ha per forza vinto
+    #     (risolve anche i pareggi ai rigori, dove il punteggio non basta);
+    #  2) fallback: punteggio decisivo nei 90'/supplementari.
+    # Nessun dato inventato: entrambi i segnali vengono dai risultati/fixture reali.
+    ko_fx = [f for f in wc["fixtures"] if f["stage"] != "group"]
+
+    def _advances(team, fdate):
+        return any(g["date"] > fdate and (g.get("home") == team or g.get("away") == team)
+                   for g in ko_fx)
+
+    ko_forced = {}   # (i, j) -> indice-squadra vincitrice
+    for f in ko_fx:
+        h, a = f.get("home"), f.get("away")
+        if h not in tidx or a not in tidx:
+            continue
+        win = None
+        h_adv, a_adv = _advances(h, f["date"]), _advances(a, f["date"])
+        if h_adv and not a_adv:
+            win = h
+        elif a_adv and not h_adv:
+            win = a
+        elif (f.get("played") and f.get("home_score") is not None
+              and f["home_score"] != f["away_score"]):
+            win = h if f["home_score"] > f["away_score"] else a
+        if win is not None:
+            ko_forced[(tidx[h], tidx[a])] = tidx[win]
+
     k_alt = params.get("k_alt", 0.0)
 
     # penalita altitudine per ogni fixture dei gironi 2026 (sede nota)
@@ -170,18 +200,27 @@ def simulate(elo: dict, params: dict, wc: dict, n: int = 100_000, seed: int = 0,
     def sim_ko(a, b):
         if cons_ko is not None:
             pa = cons_ko[a, b]                          # P(a avanza) di consenso
-            return np.where(rng.random(len(a)) < pa, a, b)
-        ea, eb = elo_arr[a], elo_arr[b]
-        d = (ea - eb) / 400.0
-        la_ = np.exp(c0 + c1 * d)
-        lb = np.exp(c0 - c1 * d)
-        gha = rng.poisson(np.clip(la_, 1e-3, 12))
-        ghb = rng.poisson(np.clip(lb, 1e-3, 12))
-        tie = gha == ghb
-        pa = 1.0 / (1.0 + 10 ** ((eb - ea) / 400.0))   # rigori pesati per forza
-        coin = rng.random(len(a)) < pa
-        a_wins = (gha > ghb) | (tie & coin)
-        return np.where(a_wins, a, b)
+            w = np.where(rng.random(len(a)) < pa, a, b)
+        else:
+            ea, eb = elo_arr[a], elo_arr[b]
+            d = (ea - eb) / 400.0
+            la_ = np.exp(c0 + c1 * d)
+            lb = np.exp(c0 - c1 * d)
+            gha = rng.poisson(np.clip(la_, 1e-3, 12))
+            ghb = rng.poisson(np.clip(lb, 1e-3, 12))
+            tie = gha == ghb
+            pa = 1.0 / (1.0 + 10 ** ((eb - ea) / 400.0))   # rigori pesati per forza
+            coin = rng.random(len(a)) < pa
+            a_wins = (gha > ghb) | (tie & coin)
+            w = np.where(a_wins, a, b)
+        # forza gli esiti reali: quando le due squadre di un match gia' giocato
+        # si incontrano, il vincitore vero prosegue (in ogni iterazione)
+        if ko_forced:
+            for (i, j), win in ko_forced.items():
+                m = ((a == i) & (b == j)) | ((a == j) & (b == i))
+                if m.any():
+                    w = np.where(m, win, w)
+        return w
 
     # contatori esiti
     reach = {stage: np.zeros(48) for stage in
