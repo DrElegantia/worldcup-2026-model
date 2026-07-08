@@ -149,7 +149,6 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
     sim = simulate(elo, params, wc, n=n, seed=42, cons_group=cons_group, cons_ko=cons_ko)
     matches = all_match_predictions(_tl, params, wc, asof, cons_models, snap_feat)
     from predicted import predicted_bracket, actual_bracket
-    pred = predicted_bracket(sim["teams"], elo, params)
     # Tabellone REALE della fase a eliminazione: vincitori dai risultati veri,
     # dedotti come nel Monte Carlo (vedi simulate.py):
     #  1) partecipazione: chi gioca un match di turno successivo ha vinto quello
@@ -179,6 +178,8 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
         if win is not None:
             ko_results[frozenset((h, a))] = win
     actual_ko = actual_bracket(sim["teams"], elo, ko_results)
+    # Tabellone piu' probabile: assorbe i risultati reali gia' noti e predice il resto.
+    pred = predicted_bracket(sim["teams"], elo, params, results_map=ko_results)
 
     n_played = sum(1 for f in wc["fixtures"] if f["played"])
     snap = {

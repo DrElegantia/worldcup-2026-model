@@ -21,20 +21,46 @@ def predicted_standings(teams, elo):
     return by_group
 
 
-def _ko_winner(a, b, elo, params):
-    """Favorito e sua probabilita di passaggio (1X2 senza pareggio, campo neutro)."""
+def _ko_probs(a, b, elo, params):
+    """Probabilita di passaggio di a e b (1X2 senza pareggio, campo neutro)."""
     (p1, px, p2), _, _ = match_probs(elo[a], elo[b], True, params)
     pa = p1 + px / 2.0
     pb = p2 + px / 2.0
     s = pa + pb
-    pa, pb = pa / s, pb / s
+    return pa / s, pb / s
+
+
+def _ko_winner(a, b, elo, params, forced=None):
+    """Vincitore del confronto e sua probabilita di passaggio.
+
+    Se `forced` e' passato (risultato REALE gia' noto), il vincitore e' quello e
+    la probabilita mostrata e' quella che il modello gli assegnava prima della
+    partita; altrimenti vince il favorito Elo-Poisson.
+    """
+    pa, pb = _ko_probs(a, b, elo, params)
+    if forced is not None:
+        p = pa if forced == a else pb
+        return forced, round(p, 3)
     if pa >= pb:
         return a, round(pa, 3)
     return b, round(pb, 3)
 
 
-def predicted_bracket(teams, elo, params):
-    """Tabellone previsto deterministico R32 -> finale."""
+def predicted_bracket(teams, elo, params, results_map=None):
+    """Tabellone piu' probabile R32 -> finale.
+
+    Assorbe i risultati REALI della fase a eliminazione dove disponibili
+    (`results_map`: {frozenset({a,b}): vincitore}) e predice solo i confronti non
+    ancora giocati. Cosi' il tabellone resta coerente con la realta' man mano che
+    il torneo avanza (niente squadre gia' eliminate che continuano ad avanzare).
+    """
+    results_map = results_map or {}
+
+    def _real(a, b):
+        if not a or not b:
+            return None
+        return results_map.get(frozenset((a, b)))
+
     std = predicted_standings(teams, elo)
     winners = {g: std[g][0]["team"] for g in GROUPS}
     runners = {g: std[g][1]["team"] for g in GROUPS}
@@ -68,7 +94,7 @@ def predicted_bracket(teams, elo, params):
     for mid, spec in CFG["r32"].items():
         a = resolve(spec["t1"]); b = resolve(spec["t2"])
         if a and b:
-            w, p = _ko_winner(a, b, elo, params)
+            w, p = _ko_winner(a, b, elo, params, forced=_real(a, b))
         else:
             w, p = (a or b), 0.0
         slots[mid] = w
@@ -79,7 +105,7 @@ def predicted_bracket(teams, elo, params):
         out = []
         for mid, (m1, m2) in mapping.items():
             a, b = slots[m1], slots[m2]
-            w, p = _ko_winner(a, b, elo, params)
+            w, p = _ko_winner(a, b, elo, params, forced=_real(a, b))
             slots[mid] = w
             out.append({"match": mid, "home": a, "away": b, "winner": w, "p": p})
         rounds.append({"round": stage_name, "matches": out})
