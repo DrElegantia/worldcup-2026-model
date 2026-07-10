@@ -99,7 +99,8 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
     asof = asof or today_str()
     if refresh:
         ingest.build_matches()
-        ingest.build_wc2026()
+    # fotografia point-in-time: i risultati datati dopo l'as-of NON esistono ancora
+    ingest.build_wc2026(asof)
     m = pd.read_parquet(DATA_PROC / "matches.parquet")
     mm, _, tl = compute_elo(m)
     elo = ratings_as_of(tl, pd.Timestamp(asof) + pd.Timedelta(days=1))
@@ -158,23 +159,29 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
     ko_fx = [f for f in wc["fixtures"] if f["stage"] != "group"]
 
     def _ko_advances(team, fdate):
+        # Il team compare in un match di turno successivo => ha vinto quello a fdate.
+        # L'accoppiamento del turno dopo e' noto appena la partita a fdate e' giocata,
+        # anche se quel match successivo si disputera' in una data futura: usarlo NON
+        # e' un leak (usiamo la partecipazione, non il risultato futuro).
         return any(g["date"] > fdate and (g.get("home") == team or g.get("away") == team)
                    for g in ko_fx)
 
     ko_results = {}
     for f in ko_fx:
+        if not f["played"]:            # non ancora giocata entro l'as-of: nessun vincitore
+            continue
         h, a = f.get("home"), f.get("away")
         if not h or not a:
             continue
         win = None
-        h_adv, a_adv = _ko_advances(h, f["date"]), _ko_advances(a, f["date"])
-        if h_adv and not a_adv:
-            win = h
-        elif a_adv and not h_adv:
-            win = a
-        elif (f["played"] and f.get("home_score") is not None
-              and f["home_score"] != f["away_score"]):
-            win = h if f["home_score"] > f["away_score"] else a
+        if f.get("home_score") is not None and f["home_score"] != f["away_score"]:
+            win = h if f["home_score"] > f["away_score"] else a        # punteggio decisivo
+        else:                                                          # pareggio -> rigori
+            h_adv, a_adv = _ko_advances(h, f["date"]), _ko_advances(a, f["date"])
+            if h_adv and not a_adv:
+                win = h
+            elif a_adv and not h_adv:
+                win = a
         if win is not None:
             ko_results[frozenset((h, a))] = win
     actual_ko = actual_bracket(sim["teams"], elo, ko_results)

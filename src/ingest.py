@@ -94,8 +94,15 @@ def build_matches():
     return out
 
 
-def build_wc2026():
-    """Estrae fixture 2026 dal dataset e costruisce struttura gironi validata."""
+def build_wc2026(asof=None):
+    """Estrae fixture 2026 dal dataset e costruisce struttura gironi validata.
+
+    `asof` (YYYY-MM-DD) rende la fotografia POINT-IN-TIME: le partite datate DOPO
+    l'as-of restano nel tabellone (servono a simulare il resto del torneo) ma sono
+    trattate come NON giocate (played=False, niente punteggio). Serve a rigenerare
+    fedelmente uno snapshot passato senza far trapelare risultati futuri.
+    """
+    cutoff = pd.Timestamp(asof) if asof else None
     df = load_raw()
     wc = df[(df.tournament == "FIFA World Cup") & (df.date.dt.year == 2026)].copy()
     fixtures = []
@@ -104,14 +111,16 @@ def build_wc2026():
         g = TEAM_TO_GROUP.get(h)
         ga = TEAM_TO_GROUP.get(a)
         stage = "group" if g is not None and g == ga else "knockout"
+        future = cutoff is not None and r.date > cutoff
+        played = pd.notna(r.home_score) and not future
         fixtures.append({
             "date": r.date.strftime("%Y-%m-%d"),
             "home": h, "away": a, "city": r.city, "country": r.country,
             "group": g if stage == "group" else None,
             "stage": stage,
-            "played": pd.notna(r.home_score),
-            "home_score": int(r.home_score) if pd.notna(r.home_score) else None,
-            "away_score": int(r.away_score) if pd.notna(r.away_score) else None,
+            "played": played,
+            "home_score": int(r.home_score) if played else None,
+            "away_score": int(r.away_score) if played else None,
         })
     # validazione: ogni girone deve avere 4 team e 6 partite
     valid = True
