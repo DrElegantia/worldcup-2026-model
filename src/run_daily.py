@@ -148,7 +148,6 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
         print(f"[daily] consenso non disponibile ({e}), uso Elo-Poisson", file=sys.stderr)
 
     sim = simulate(elo, params, wc, n=n, seed=42, cons_group=cons_group, cons_ko=cons_ko)
-    matches = all_match_predictions(_tl, params, wc, asof, cons_models, snap_feat)
     from predicted import predicted_bracket, actual_bracket
     # Tabellone REALE della fase a eliminazione: vincitori dai risultati veri,
     # dedotti come nel Monte Carlo (vedi simulate.py):
@@ -187,6 +186,39 @@ def build_snapshot(asof=None, n=100_000, refresh=True):
     actual_ko = actual_bracket(sim["teams"], elo, ko_results)
     # Tabellone piu' probabile: assorbe i risultati reali gia' noti e predice il resto.
     pred = predicted_bracket(sim["teams"], elo, params, results_map=ko_results)
+
+    # Fixture del prossimo turno non ancora listato dalla fonte. martj42 pubblica le
+    # righe di semifinale/finale con ritardo (compaiono solo dopo che i contendenti
+    # sono noti): nell'intervallo la sezione "Prossime partite" resterebbe vuota anche
+    # se il tabellone reale ha gia' l'accoppiamento. Appena entrambi i contendenti sono
+    # determinati dai risultati veri, materializziamo il fixture con data/sede ufficiali
+    # (calendario FIFA) cosi' fluisce in all_match_predictions e ottiene la sua 1X2.
+    # Nessun risultato inventato: solo l'accoppiamento (gia' deciso dai risultati veri)
+    # e il calendario ufficiale. Alla comparsa della riga reale il dedup lo disattiva.
+    KO_SCHEDULE = {
+        "101": ("2026-07-14", "Arlington"),        # Semifinale 1, AT&T Stadium
+        "102": ("2026-07-15", "Atlanta"),          # Semifinale 2, Mercedes-Benz Stadium
+        "104": ("2026-07-19", "East Rutherford"),  # Finale, MetLife Stadium
+    }
+    existing_ko = {frozenset((f.get("home"), f.get("away"))) for f in wc["fixtures"]
+                   if f["stage"] != "group" and f.get("home") and f.get("away")}
+    for rnd in actual_ko["bracket"]:
+        for bm in rnd["matches"]:
+            h, a, mno = bm.get("home"), bm.get("away"), str(bm.get("match"))
+            if not h or not a or bm.get("winner") is not None:
+                continue                       # turno gia' giocato o contendenti non noti
+            if mno not in KO_SCHEDULE or frozenset((h, a)) in existing_ko:
+                continue                       # fuori calendario noto o gia' listato dalla fonte
+            fdate, city = KO_SCHEDULE[mno]
+            wc["fixtures"].append({
+                "date": fdate, "stage": "knockout", "group": None,
+                "home": h, "away": a, "city": city, "country": "United States",
+                "played": False, "home_score": None, "away_score": None,
+            })
+            existing_ko.add(frozenset((h, a)))
+
+    # Predizioni 1X2 per partita (fixture reali + prossimo turno appena materializzato).
+    matches = all_match_predictions(_tl, params, wc, asof, cons_models, snap_feat)
 
     n_played = sum(1 for f in wc["fixtures"] if f["played"])
     snap = {
